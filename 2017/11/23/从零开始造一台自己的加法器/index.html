@@ -22,11 +22,16 @@
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/relay.jpg">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/relaysign.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/not.png">
+<meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/notgate.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/and.png">
+<meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/seriesgate.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/or.png">
+<meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/parallelgate.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/nand.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/nor.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/xorsign.png">
+<meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/xor.png">
+<meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/halfadder.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/fulladder-1.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/fulladdersign.png">
 <meta property="og:image" content="//huminxi.com/2017/11/23/从零开始造一台自己的加法器/media/fourbitfulladder.png">
@@ -240,7 +245,29 @@
 </tbody>
 </table>
 <pre><code>乘法比加法还容易，比起小时候背的&quot;99乘法表&quot;不知道简单了多少。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">| x | 0 | 1 |</span><br><span class="line">|---|---|---|</span><br><span class="line">| 0 | 0 | 0 |</span><br><span class="line">| 1 | 0 | 1 |</span><br><span class="line"></span><br><span class="line">```99乘法表</span><br></pre></td></tr></table></figure>
+</code></pre><p><strong>11乘法表</strong></p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>99乘法表</strong></p>
 <table>
 <thead>
 <tr>
@@ -375,24 +402,56 @@
 <pre><code>继电器符号和电路图如下所示：
 </code></pre><p><img src="media/relaysign.png" alt="relaysign-w300"><br><br><br><br><br><br><br><br><br><br><br><br></p>
 <h2 id="三-门"><a href="#三-门" class="headerlink" title="三.门"></a>三.门</h2><h4 id="非门"><a href="#非门" class="headerlink" title="非门"></a>非门</h4><pre><code>结果与操作数相反。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">|NOT| 0 | 1 |</span><br><span class="line">|---|---|---|</span><br><span class="line">|   | 1 | 0 |</span><br><span class="line">    </span><br><span class="line">```符号</span><br></pre></td></tr></table></figure>
-<p><img src="media/not.png" alt="not"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">![notgate-w300](media/notgate.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 与门</span><br><span class="line">    两个操作数都为1时结果为1。 </span><br><span class="line">    </span><br><span class="line">```真值表```  </span><br><span class="line">  </span><br><span class="line">|AND| 0 | 1 |</span><br><span class="line">|---|---|---|</span><br><span class="line">| 0 | 0 | 0 |</span><br><span class="line">| 1 | 0 | 1 |</span><br><span class="line">     </span><br><span class="line">```符号</span><br></pre></td></tr></table></figure>
-<p><img src="media/and.png" alt="and"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">![seriesgate-w300](media/seriesgate.png)</span><br><span class="line"></span><br><span class="line">#### 或门</span><br><span class="line">    有一个操作数为1结果就为1。</span><br><span class="line">```真值表```  </span><br><span class="line"></span><br><span class="line">| OR| 0 | 1 |</span><br><span class="line">|---|---|---|</span><br><span class="line">| 0 | 0 | 1 |</span><br><span class="line">| 1 | 1 | 1 |</span><br><span class="line">```符号</span><br></pre></td></tr></table></figure>
-<p><img src="media/or.png" alt="o"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">![parallelgate-w300](media/parallelgate.png)</span><br><span class="line">  </span><br><span class="line">####与非门</span><br><span class="line">    跟与操作结果相反。</span><br><span class="line">```真值表``` </span><br><span class="line"></span><br><span class="line">|NAND| 0 | 1 |</span><br><span class="line">|---|---|---|</span><br><span class="line">| 0 | 1 | 1 |</span><br><span class="line">| 1 | 1 | 0 |</span><br><span class="line">```符号</span><br></pre></td></tr></table></figure>
-<p><img src="media/nand.png" alt="nand"></p>
-<h4 id="或非门"><a href="#或非门" class="headerlink" title="或非门"></a>或非门</h4><pre><code>跟或操作相反。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">|NOR| 0 | 1 |</span><br><span class="line">|---|---|---|</span><br><span class="line">| 0 | 1 | 0 |</span><br><span class="line">| 1 | 0 | 0 |</span><br><span class="line">```符号</span><br></pre></td></tr></table></figure>
-<p><img src="media/nor.png" alt="no"></p>
-<h4 id="异或门"><a href="#异或门" class="headerlink" title="异或门"></a>异或门</h4><pre><code>一个操作数为1，另一个操作数为0时，结果才为1。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">|XOR| 0 | 1 |</span><br><span class="line">|---|---|---|</span><br><span class="line">| 0 | 0 | 1 |</span><br><span class="line">| 1 | 1 | 0 |</span><br><span class="line">```符号</span><br></pre></td></tr></table></figure>
-<p><img src="media/xorsign.png" alt="xorsign"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">![xo](media/xor.png)</span><br><span class="line">&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;</span><br><span class="line"></span><br><span class="line">## 四.二进制加法器</span><br><span class="line">#### 半加器和全加器</span><br><span class="line"></span><br><span class="line">    加法结果可以拆成两部分，一个是加和结果，另一个是进位结果。二进制加法也可以照下面这个方式进行拆分。</span><br><span class="line">```加和表</span><br></pre></td></tr></table></figure></p>
+</code></pre><p><strong>真值表</strong>  </p>
 <table>
 <thead>
 <tr>
-<th>+加和</th>
+<th>NOT</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>符号</strong><br><img src="media/not.png" alt="not"></p>
+<p><strong>电路图</strong><br><img src="media/notgate.png" alt="notgate-w300"></p>
+<h4 id="与门"><a href="#与门" class="headerlink" title="与门"></a>与门</h4><pre><code>两个操作数都为1时结果为1。 
+</code></pre><p><strong>真值表</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>AND</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>符号</strong><br><img src="media/and.png" alt="and"></p>
+<p><strong>电路图</strong><br><img src="media/seriesgate.png" alt="seriesgate-w300"></p>
+<h4 id="或门"><a href="#或门" class="headerlink" title="或门"></a>或门</h4><pre><code>有一个操作数为1结果就为1。
+</code></pre><p><strong>真值表</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>OR</th>
 <th>0</th>
 <th>1</th>
 </tr>
@@ -406,11 +465,61 @@
 <tr>
 <td>1</td>
 <td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>符号</strong><br><img src="media/or.png" alt="o"></p>
+<p><strong>电路图</strong><br><img src="media/parallelgate.png" alt="parallelgate-w300"></p>
+<p>####与非门<br>    跟与操作结果相反。<br><strong>真值表</strong> </p>
+<table>
+<thead>
+<tr>
+<th>NAND</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
 <td>0</td>
 </tr>
 </tbody>
 </table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">|+进位| 0 | 1 |</span><br><span class="line">|---|---|---|</span><br><span class="line">| 0 | 0 | 0 |</span><br><span class="line">| 1 | 0 | 1 |</span><br><span class="line"></span><br><span class="line">    可以利用下面的两个逻辑门来实现上面的结果</span><br><span class="line">```异或门</span><br></pre></td></tr></table></figure>
+<p><strong>符号</strong><br><img src="media/nand.png" alt="nand"></p>
+<h4 id="或非门"><a href="#或非门" class="headerlink" title="或非门"></a>或非门</h4><pre><code>跟或操作相反。
+</code></pre><p><strong>真值表</strong> </p>
+<table>
+<thead>
+<tr>
+<th>NOR</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>符号</strong><br><img src="media/nor.png" alt="no"></p>
+<h4 id="异或门"><a href="#异或门" class="headerlink" title="异或门"></a>异或门</h4><pre><code>一个操作数为1，另一个操作数为0时，结果才为1。
+</code></pre><p><strong>真值表</strong> </p>
 <table>
 <thead>
 <tr>
@@ -432,18 +541,101 @@
 </tr>
 </tbody>
 </table>
-<pre><code class="与门```">
-|AND| 0 | 1 |
-|---|---|---|
-| 0 | 0 | 0 |
-| 1 | 0 | 1 |
-
-    两个二进制数相加的结果是由异或门的输出给出的，而进位位是由与门的输出给出的。
-    因此我们可以将与门和异或门连接在一起来计算两个二进制数(即A和B)的和。
-![halfadde](media/halfadder.png)
-
-```真值表
-</code></pre>
+<p><strong>符号</strong><br><img src="media/xorsign.png" alt="xorsign"><br><strong>电路图</strong><br><img src="media/xor.png" alt="xo"><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<h2 id="四-二进制加法器"><a href="#四-二进制加法器" class="headerlink" title="四.二进制加法器"></a>四.二进制加法器</h2><h4 id="半加器和全加器"><a href="#半加器和全加器" class="headerlink" title="半加器和全加器"></a>半加器和全加器</h4><pre><code>加法结果可以拆成两部分，一个是加和结果，另一个是进位结果。二进制加法也可以照下面这个方式进行拆分。
+</code></pre><p><strong>加和表</strong></p>
+<table>
+<thead>
+<tr>
+<th>+加和</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>进位表</strong></p>
+<table>
+<thead>
+<tr>
+<th>+进位</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<pre><code>可以利用下面的两个逻辑门来实现上面的结果
+</code></pre><p><strong>异或门</strong></p>
+<table>
+<thead>
+<tr>
+<th>XOR</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>与门</strong></p>
+<table>
+<thead>
+<tr>
+<th>AND</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<pre><code>两个二进制数相加的结果是由异或门的输出给出的，而进位位是由与门的输出给出的。
+因此我们可以将与门和异或门连接在一起来计算两个二进制数(即A和B)的和。
+</code></pre><p><img src="media/halfadder.png" alt="halfadde"></p>
+<p><strong>真值表</strong> </p>
 <table>
 <thead>
 <tr>
@@ -491,7 +683,7 @@
 我们只能将半加器用于最右面一列的相加：1加1等于0，进位1。对于右面算起的第二列，由于进位位的存在，实际上需要将
 三个二进制数相加，而随后的每一列的加法都是这样的。随后的每一列二进制数相加都需要将进位位算进来。为了对三个
 二进制数进行加法运算你，我们需要将两个半加器和一个或门做如下连接。
-</code></pre><p><img src="media/fulladder-1.png" alt="fulladde"><br><code>真值表</code> </p>
+</code></pre><p><img src="media/fulladder-1.png" alt="fulladde"><br><strong>真值表</strong> </p>
 <table>
 <thead>
 <tr>
