@@ -24,17 +24,17 @@
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/not.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/notgate.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/and.png">
-<meta property="og:image" content="//huminxi.com/img/hufei/112017/seriesgate%20.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/112017/seriesgate.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/or.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/parallelgate.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/nand.png">
-<meta property="og:image" content="//huminxi.com/img/hufei/112017/no.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/112017/nor.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/xorsign.png">
-<meta property="og:image" content="//huminxi.com/img/hufei/112017/xo.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/112017/xor.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/halfadder.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/fulladder.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/fulladdersig.png">
-<meta property="og:image" content="//huminxi.com/img/hufei/112017/fourbitfulladde%20.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/112017/fourbitfulladder.png">
 <meta property="og:updated_time" content="2017-11-23T07:26:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始造一台自己的加法器">
@@ -449,7 +449,7 @@
 <p><strong>符号</strong></p>
 <p><img and="" src="/img/hufei/112017/and.png" width="50%" height="50%"></p>
 <p><strong>电路图</strong></p>
-<p><img seriesgate="" src="/img/hufei/112017/seriesgate .png" width="50%" height="50%"></p>
+<p><img seriesgate="" src="/img/hufei/112017/seriesgate.png" width="50%" height="50%"></p>
 <h4 id="或门"><a href="#或门" class="headerlink" title="或门"></a>或门</h4><pre><code>有一个操作数为1结果就为1。
 </code></pre><p><strong>真值表</strong>  </p>
 <table>
@@ -525,7 +525,7 @@
 </tbody>
 </table>
 <p><strong>符号</strong></p>
-<p><img no="" src="/img/hufei/112017/no.png" width="50%" height="50%"></p>
+<p><img nor="" src="/img/hufei/112017/nor.png" width="50%" height="50%"></p>
 <h4 id="异或门"><a href="#异或门" class="headerlink" title="异或门"></a>异或门</h4><pre><code>一个操作数为1，另一个操作数为0时，结果才为1。
 </code></pre><p><strong>真值表</strong> </p>
 <table>
@@ -552,7 +552,7 @@
 <p><strong>符号</strong></p>
 <p><img xorsign="" src="/img/hufei/112017/xorsign.png" width="50%" height="50%"></p>
 <p><strong>电路图</strong></p>
-<p><img xo="" src="/img/hufei/112017/xo.png" width="50%" height="50%"></p>
+<p><img xor="" src="/img/hufei/112017/xor.png" width="50%" height="50%"></p>
 <h2 id="四-二进制加法器"><a href="#四-二进制加法器" class="headerlink" title="四.二进制加法器"></a>四.二进制加法器</h2><h4 id="半加器和全加器"><a href="#半加器和全加器" class="headerlink" title="半加器和全加器"></a>半加器和全加器</h4><pre><code>加法结果可以拆成两部分，一个是加和结果，另一个是进位结果。二进制加法也可以照下面这个方式进行拆分。
 </code></pre><p><strong>加和表</strong></p>
 <table>
@@ -772,7 +772,7 @@
 答案就是将多个全加器连接起来，组成多位加法器。假设我们将4个全加器连接起来，那么它就能做4位二进制数的加法。
 
 如下图所示：
-</code></pre><p><img fourbitfulladde="" src="/img/hufei/112017/fourbitfulladde .png" width="50%" height="50%"></p>
+</code></pre><p><img fourbitfulladder="" src="/img/hufei/112017/fourbitfulladder.png" width="50%" height="50%"></p>
 <pre><code>假设有两个4位二进制数A₃A₂A₁A₀和B₃B₂B₁B₀，只需要将它们按位相加，再逐级将低位的进位输出到高位进行计算即可。
 </code></pre><h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><p>1.<a href="https://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319" target="_blank" rel="noopener">《Code:The Hidden Language of Computer Hardware and Software》</a> 或 <a href="https://book.douban.com/subject/4822685/" target="_blank" rel="noopener">《编码》</a> –Charles Petzold </p>
 <p>2.<a href="https://book.douban.com/subject/5432475/" target="_blank" rel="noopener">《穿越计算机的迷雾》</a> –李忠</p>
