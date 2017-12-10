@@ -23,7 +23,9 @@
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/single-login-logout.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/cookie.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/login.png">
-<meta property="og:updated_time" content="2017-12-10T13:19:00.000Z">
+<meta property="og:image" content="//huminxi.com/img/hufei/122017/logout.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/122017/deployment.png">
+<meta property="og:updated_time" content="2017-12-10T13:23:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种基于前后端分离的单点登录实现方案">
 <meta name="twitter:description" content="单点登录（英语：Single sign-on，缩写为 SSO），又译为单一签入，一种对于许多相互关连，但是又是各自独立的软件系统，提供访问控制的属性。当拥有这项属性时，当用户登录时，就可以获取所有系统的访问权限，不用对每个单一系统都逐一登录。相同的，单一注销（single sign-off）就是指，只需要单一的注销动作，就可以结束对于多个系统的访问权限。">
@@ -181,7 +183,7 @@
 <li>拼接在 url 中</li>
 <li>cookie</li>
 </ul>
-<p>将会话 id 作为每一个请求的参数，服务器接收请求自然能解析参数获得会话 id，并借此判断是否来自同一会话，很明显，这种方式比较低级。那就换浏览器自己来维护这个会话 id 吧，每次发送 http 请求时浏览器自动发送会话 id，cookie 机制正好用来做这件事。cookie 是浏览器用来存储少量数据的一种机制，数据以 key/value 形式存储，浏览器发送 http 请求时自动附带 cookie 信息。<br>tomcat 会话机制当然也实现了 cookie ，访问 tomcat 服务器时，浏览器中可以看到一个名为 JSESSIONID 的 cookie，这就是 tomcat 会话机制维护的会话<br> id，使用了 cookie 的请求响应过程如下图。</p>
+<p>将会话 id 作为每一个请求的参数，服务器接收请求自然能解析参数获得会话 id，并借此判断是否来自同一会话，很明显，这种方式比较低级。那就换浏览器自己来维护这个会话 id 吧，每次发送 http 请求时浏览器自动发送会话 id，cookie 机制正好用来做这件事。cookie 是浏览器用来存储少量数据的一种机制，数据以 key/value 形式存储，浏览器发送 http 请求时自动附带 cookie 信息。tomcat 会话机制当然也实现了 cookie ，访问 tomcat 服务器时，浏览器中可以看到一个名为 JSESSIONID 的 cookie，这就是 tomcat 会话机制维护的会话id，使用了 cookie 的请求响应过程如下图。</p>
 <p><img hands="" src="/img/hufei/122017/tomcat-session.png" width="50%" height="50%"></p>
 <h3 id="3、登录状态"><a href="#3、登录状态" class="headerlink" title="3、登录状态"></a>3、登录状态</h3><p>有了会话机制，登录状态就好明白了，我们假设浏览器第一次请求服务器需要输入用户名与密码验证身份，服务器拿到用户名密码去数据库比对，正确的话说明当前持有这个会话的用户是合法用户，应该将这个会话标记为“已授权”或者“已登录”等等之类的状态，既然是会话的状态，自然要保存在会话对象中，tomcat 在会话对象中设置登录状态如下。<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession<span class="comment">;</span></span><br><span class="line">session.setAttribute(<span class="string">"isLogin"</span>, true)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
 <p>用户再次访问时，tomcat 在会话对象中查看登录状态。<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession<span class="comment">;</span></span><br><span class="line">session.getAttribute(<span class="string">"isLogin"</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
@@ -194,7 +196,7 @@
 <p><img hands="" src="/img/hufei/122017/single-login-logout.png" width="50%" height="50%"></p>
 <p>虽然单系统的登录解决方案很完美，但对于多系统应用群已经不再适用了，为什么呢？<br>单系统登录解决方案的核心是 cookie，cookie 携带会话 id 在浏览器与服务器之间维护会话状态。但 cookie 是有限制的，这个限制就是 cookie 的域（通常对应网站的域名），浏览器发送 http 请求时会自动携带与该域匹配的 cookie，而不是所有 cookie。</p>
 <p><img hands="" src="/img/hufei/122017/cookie.png" width="50%" height="50%"></p>
-<p>既然这样，为什么不将 web 应用群中所有子系统的域名统一在一个顶级域名下，例如 “*.baidu.com”，然后将它们的 cookie 域设置为 “baidu.com”，这种做法理论上是可以的，甚至早期很多多系统登录就采用这种同域名共享 cookie 的方式。<br>然而，可行并不代表好，共享 cookie 的方式存在众多局限。首先，应用群域名得统一；其次，应用群各系统使用的技术（至少是 web 服务器）要相同，不然<br> cookie 的 key  值（tomcat 为 JSESSIONID）不同，无法维持会话，共享 cookie 的方式是无法实现跨语言技术平台登录的，比如 java、php、.net<br> 系统之间；第三，cookie 本身不安全。<br>因此，我们需要一种全新的登录方式来实现多系统应用群的登录，这就是单点登录。</p>
+<p>既然这样，为什么不将 web 应用群中所有子系统的域名统一在一个顶级域名下，例如 “*.baidu.com”，然后将它们的 cookie 域设置为 “baidu.com”，这种做法理论上是可以的，甚至早期很多多系统登录就采用这种同域名共享 cookie 的方式。然而，可行并不代表好，共享 cookie 的方式存在众多局限。首先，应用群域名得统一；其次，应用群各系统使用的技术（至少是 web 服务器）要相同，不然 cookie 的 key  值（tomcat 为 JSESSIONID）不同，无法维持会话，共享 cookie 的方式是无法实现跨语言技术平台登录的，比如 java、php、.net 系统之间；第三，cookie 本身不安全。<br>因此，我们需要一种全新的登录方式来实现多系统应用群的登录，这就是单点登录。</p>
 <h2 id="三、单点登录"><a href="#三、单点登录" class="headerlink" title="三、单点登录"></a>三、单点登录</h2><p>什么是单点登录？单点登录全称 Single Sign On（以下简称SSO），是指在多系统应用群中登录一个系统，便可在其他所有系统中得到授权而无需再次登录。</p>
 <h3 id="1、登录"><a href="#1、登录" class="headerlink" title="1、登录"></a>1、登录</h3><p>相比于单系统登录，sso 需要一个独立的认证中心，只有认证中心能接受用户的用户名密码等安全信息，其他系统不提供登录入口，只接受认证中心的间接授权。间接授权通过令牌实现，先由子系统产生临时令牌，然后 sso 认证中心验证用户的用户名密码没问题，最后 sso 认证中心再通知各子系统令牌生效。之后浏览器端可以利用之前就返回的令牌进行受限资源的访问。</p>
 <p><img hands="" src="/img/hufei/122017/login.png" width="50%" height="50%"></p>
@@ -208,15 +210,29 @@
 <li>sso 认证中心跳转回用户访问的nrb系统</li>
 <li>用户利用之前就已经返回的 tokenA 来访问 nrb 的受限资源</li>
 </ul>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">-<span class="ruby"> 用户访问 hades 的受限资源，hades 发现用户未登录，hades 生成一个 tokenB，tokenB 返回给用户，然后跳转至 sso 认证中心</span></span><br><span class="line"><span class="ruby">- sso 认证中心发现用户已登录</span></span><br><span class="line"><span class="ruby">- sso 认证中心通知 hades 绑定 tokenB 和 userId 并进行保存</span></span><br><span class="line"><span class="ruby">- sso 认证中心跳转回用户访问的hades系统</span></span><br><span class="line"><span class="ruby">- 用户利用之前就已经返回的 tokenB 来访问 hades 的受限资源</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby"><span class="comment">### 2、注销</span></span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">单点登录自然也要单点注销，在一个子系统中注销，所有子系统的会话都将被销毁，用下面的图来说明。</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">&lt;img  hands src=<span class="string">"/img/hufei/122017/logout.png"</span> width=<span class="string">"50%"</span> height=<span class="string">"50%"</span>&gt;</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">sso 认证中心一直监听会话的状态，一旦会话销毁，监听器将通知所有管理系统执行注销操作。</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">- 用户向 hades 系统发起注销请求</span></span><br><span class="line"><span class="ruby">- hades 系统向 sso 认证中心发起注销请求，并将用户的 tokenA 和存储在 cookie 中的 sessionId 当做参数传递</span></span><br><span class="line"><span class="ruby">- sso 认证中心取出与 sessionId 关联的系统地址和 token</span></span><br><span class="line"><span class="ruby">- sso 认证中心向所有关联系统发起注销请求，并指定需要注销的 token</span></span><br><span class="line"><span class="ruby">- 各关联系统接收 sso 认证中心的注销请求，销毁指定 token</span></span><br><span class="line"><span class="ruby">- sso 认证中心引导用户至登录页面</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby"><span class="comment">## 四、部署图</span></span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">单点登录涉及 sso 认证中心与众子系统，子系统与 sso 认证中心需要通信以发送令牌、保存令牌及发起注销请求，因而子系统必须集成 sso 的客户端，sso 认证中心则是 sso 服务端，整个单点登录过程实质是 sso 客户端与服务端通信的过程，用下图描述。</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">&lt;img  hands src=<span class="string">"/img/hufei/122017/deployment.png"</span> width=<span class="string">"50%"</span> height=<span class="string">"50%"</span>&gt;</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">sso 认证中心与 sso 客户端通信方式有多种，这里以简单好用的 httpClient 为例，web service、rpc、restful api 都可以。</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby"><span class="comment">## 五、实现</span></span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">简要介绍下基于 java 的实现过程，sso 采用客户端/服务端架构，我们先看 sso-client 与 sso-server 要实现的功能（下面：sso 认证中心= sso-server）。</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby"><span class="string">``</span><span class="string">`sso-client</span></span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>拦截子系统未登录用户的请求，生成 token，并将 token、本地 cookie 值和子系统自身地址作为跳转 sso 认证中心的参数进行传递</li>
-<li>接收 sso 认证中心通知的 token、userId 并进行保存</li>
-<li>通过 token 与用户建立会话</li>
-<li>拦截用户注销请求，向 sso 认证中心发送注销请求</li>
-<li>接收 sso 认证中心发出的注销请求，注销指定 token</li>
+<li>用户访问 hades 的受限资源，hades 发现用户未登录，hades 生成一个 tokenB，tokenB 返回给用户，然后跳转至 sso 认证中心</li>
+<li>sso 认证中心发现用户已登录</li>
+<li>sso 认证中心通知 hades 绑定 tokenB 和 userId 并进行保存</li>
+<li>sso 认证中心跳转回用户访问的hades系统</li>
+<li>用户利用之前就已经返回的 tokenB 来访问 hades 的受限资源</li>
 </ul>
-<p><code>sso-server</code></p>
+<h3 id="2、注销"><a href="#2、注销" class="headerlink" title="2、注销"></a>2、注销</h3><p>单点登录自然也要单点注销，在一个子系统中注销，所有子系统的会话都将被销毁，用下面的图来说明。</p>
+<p><img hands="" src="/img/hufei/122017/logout.png" width="50%" height="50%"></p>
+<p>sso 认证中心一直监听会话的状态，一旦会话销毁，监听器将通知所有管理系统执行注销操作。</p>
+<ul>
+<li>用户向 hades 系统发起注销请求</li>
+<li>hades 系统向 sso 认证中心发起注销请求，并将用户的 tokenA 和存储在 cookie 中的 sessionId 当做参数传递</li>
+<li>sso 认证中心取出与 sessionId 关联的系统地址和 token</li>
+<li>sso 认证中心向所有关联系统发起注销请求，并指定需要注销的 token</li>
+<li>各关联系统接收 sso 认证中心的注销请求，销毁指定 token</li>
+<li>sso 认证中心引导用户至登录页面</li>
+</ul>
+<h2 id="四、部署图"><a href="#四、部署图" class="headerlink" title="四、部署图"></a>四、部署图</h2><p>单点登录涉及 sso 认证中心与众子系统，子系统与 sso 认证中心需要通信以发送令牌、保存令牌及发起注销请求，因而子系统必须集成 sso 的客户端，sso 认证中心则是 sso 服务端，整个单点登录过程实质是 sso 客户端与服务端通信的过程，用下图描述。</p>
+<p><img hands="" src="/img/hufei/122017/deployment.png" width="50%" height="50%"></p>
+<p>sso 认证中心与 sso 客户端通信方式有多种，这里以简单好用的 httpClient 为例，web service、rpc、restful api 都可以。</p>
+<h2 id="五、实现"><a href="#五、实现" class="headerlink" title="五、实现"></a>五、实现</h2><p>简要介绍下基于 java 的实现过程，sso 采用客户端/服务端架构，我们先看 sso-client 与 sso-server 要实现的功能（下面：sso 认证中心= sso-server）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 拦截子系统未登录用户的请求，生成 token，并将 token、本地 cookie 值和子系统自身地址作为跳转 sso 认证中心的参数进行传递</span><br><span class="line">- 接收 sso 认证中心通知的 token、userId 并进行保存</span><br><span class="line">- 通过 token 与用户建立会话</span><br><span class="line">- 拦截用户注销请求，向 sso 认证中心发送注销请求</span><br><span class="line">- 接收 sso 认证中心发出的注销请求，注销指定 token</span><br><span class="line"></span><br><span class="line">```sso-server</span><br></pre></td></tr></table></figure>
 <ul>
 <li>验证用户的账户信息</li>
 <li>创建 session</li>
