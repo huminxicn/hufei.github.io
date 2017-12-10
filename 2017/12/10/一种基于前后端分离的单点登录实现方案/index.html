@@ -25,7 +25,7 @@
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/login.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/logout.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/deployment.png">
-<meta property="og:updated_time" content="2017-12-10T13:23:20.000Z">
+<meta property="og:updated_time" content="2017-12-10T13:34:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种基于前后端分离的单点登录实现方案">
 <meta name="twitter:description" content="单点登录（英语：Single sign-on，缩写为 SSO），又译为单一签入，一种对于许多相互关连，但是又是各自独立的软件系统，提供访问控制的属性。当拥有这项属性时，当用户登录时，就可以获取所有系统的访问权限，不用对每个单一系统都逐一登录。相同的，单一注销（single sign-off）就是指，只需要单一的注销动作，就可以结束对于多个系统的访问权限。">
@@ -232,7 +232,7 @@
 <p><img hands="" src="/img/hufei/122017/deployment.png" width="50%" height="50%"></p>
 <p>sso 认证中心与 sso 客户端通信方式有多种，这里以简单好用的 httpClient 为例，web service、rpc、restful api 都可以。</p>
 <h2 id="五、实现"><a href="#五、实现" class="headerlink" title="五、实现"></a>五、实现</h2><p>简要介绍下基于 java 的实现过程，sso 采用客户端/服务端架构，我们先看 sso-client 与 sso-server 要实现的功能（下面：sso 认证中心= sso-server）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 拦截子系统未登录用户的请求，生成 token，并将 token、本地 cookie 值和子系统自身地址作为跳转 sso 认证中心的参数进行传递</span><br><span class="line">- 接收 sso 认证中心通知的 token、userId 并进行保存</span><br><span class="line">- 通过 token 与用户建立会话</span><br><span class="line">- 拦截用户注销请求，向 sso 认证中心发送注销请求</span><br><span class="line">- 接收 sso 认证中心发出的注销请求，注销指定 token</span><br><span class="line"></span><br><span class="line">```sso-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 拦截子系统未登录用户的请求，生成 token，并将 token、本地 cookie 值和子系统自身地址作为跳转 sso 认证中心的参数进行传递</span><br><span class="line">- 接收 sso 认证中心通知的 token、userId 并进行保存</span><br><span class="line">- 通过 token 与用户建立会话</span><br><span class="line">- 拦截用户注销请求，向 sso 认证中心发送注销请求</span><br><span class="line">- 接收 sso 认证中心发出的注销请求，注销指定 token</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```sso-server</span><br></pre></td></tr></table></figure>
 <ul>
 <li>验证用户的账户信息</li>
 <li>创建 session</li>
