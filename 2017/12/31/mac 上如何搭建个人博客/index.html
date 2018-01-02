@@ -99,8 +99,9 @@
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/github-setting-ssh-new.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/ssh-success.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/git-config.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/122017/git-global-config.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/122017/config-deploy.png">
-<meta property="og:updated_time" content="2018-01-02T07:54:55.000Z">
+<meta property="og:updated_time" content="2018-01-02T09:29:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac 上如何搭建个人博客">
 <meta name="twitter:description" content="最初对个人博客有印象，就是阮一峰的个人博客。当时是在搜索 互联网协议入门 这篇文章的时候，发现原来还可以这么玩。随后在和黑牛的一次谈话中，他问我:2017年就快要过去了，今年的总结写了吗？这才反应过来，2017年已经到末尾了。于是就有了想写点东西，留作以后回忆的索引，搭建个人博客也就顺理成章了。">
@@ -422,9 +423,10 @@
 <p><img github-setting-ssh-new="" src="/img/hufei/122017/github-setting-ssh-new.png" width="100%" height="50%"></p>
 <p>然后使用下面的命令测试是否可以连接上 Github 。<br><code>ssh -T git@github.com</code></p>
 <p><img ssh-success="" src="/img/hufei/122017/ssh-success.png" width="100%" height="50%"></p>
-<h3 id="将-Hexo-博客部署到-Github-Pages"><a href="#将-Hexo-博客部署到-Github-Pages" class="headerlink" title="将 Hexo 博客部署到 Github Pages"></a>将 Hexo 博客部署到 Github Pages</h3><p>先使用下面的命令对 Git 进行初始配置</p>
+<h3 id="将-Hexo-博客部署到-Github-Pages"><a href="#将-Hexo-博客部署到-Github-Pages" class="headerlink" title="将 Hexo 博客部署到 Github Pages"></a>将 Hexo 博客部署到 Github Pages</h3><p>先使用下面的命令对 Git 进行初始配置，用来跟踪提交信息</p>
 <p><code>git config --global user.name &quot;&lt;你的名字&gt;&quot;</code><br><code>git config --global user.email &quot;&lt;你常用的邮箱地址&gt;&quot;</code></p>
 <p><img git-config="" src="/img/hufei/122017/git-config.png" width="100%" height="50%"></p>
+<p><img git-global-config="" src="/img/hufei/122017/git-global-config.png" width="100%" height="50%"></p>
 <p>然后编辑 hexo 根目录下的 _config.yml 文件，设置其中的 deploy 参数，详细请查看 Hexo 官方文档中 <a href="https://hexo.io/zh-cn/docs/deployment.html" target="_blank" rel="noopener">部署</a> 部分。</p>
 <p><img config-deploy="" src="/img/hufei/122017/config-deploy.png" width="100%" height="50%"></p>
 <p>git 地址建议使用 SSH 地址。在上面的参数设置好了之后，使用下面的命令安装 hexo-deployer-git 插件，只有安装了插件之后才可以部署到 Github Pages。</p>
