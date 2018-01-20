@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="单例模式," />
+  <meta name="keywords" content="四则运算,四则,运算," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="单例模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个的全局对象，这样有利于我们协调系统整体的行为。比如在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信">
-<meta name="keywords" content="单例模式">
+<meta name="description" content="经过前面的  学习，现在我们已经可以造一台简易的二进制加法器，可以利用它做加法运算了。那减法、乘法和除法呢，难道我们也要一一构造减法器、乘法器和除法器吗？">
+<meta name="keywords" content="四则运算,四则,运算">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单例模式">
-<meta property="og:url" content="//huminxi.com/2017/11/28/单例模式/index.html">
+<meta property="og:title" content="谈谈计算机中的四则运算">
+<meta property="og:url" content="//huminxi.com/2018/01/21/谈谈计算机中的四则运算/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="单例模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个的全局对象，这样有利于我们协调系统整体的行为。比如在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。">
+<meta property="og:description" content="经过前面的  学习，现在我们已经可以造一台简易的二进制加法器，可以利用它做加法运算了。那减法、乘法和除法呢，难道我们也要一一构造减法器、乘法器和除法器吗？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-14T08:00:58.000Z">
+<meta property="og:updated_time" content="2018-01-20T16:09:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="单例模式">
-<meta name="twitter:description" content="单例模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个的全局对象，这样有利于我们协调系统整体的行为。比如在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。">
+<meta name="twitter:title" content="谈谈计算机中的四则运算">
+<meta name="twitter:description" content="经过前面的  学习，现在我们已经可以造一台简易的二进制加法器，可以利用它做加法运算了。那减法、乘法和除法呢，难道我们也要一一构造减法器、乘法器和除法器吗？">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="//huminxi.com/2017/11/28/单例模式/"/>
+  <link rel="canonical" href="//huminxi.com/2018/01/21/谈谈计算机中的四则运算/"/>
 
 
 
 
 
-  <title>单例模式 | 黄枫谷</title>
+  <title>谈谈计算机中的四则运算 | 黄枫谷</title>
   
 
 
@@ -267,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//huminxi.com/2017/11/28/单例模式/">
+    <link itemprop="mainEntityOfPage" href="//huminxi.com/2018/01/21/谈谈计算机中的四则运算/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="胡匪">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">单例模式</h1>
+          <h1 class="post-title" itemprop="name headline">谈谈计算机中的四则运算</h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-28T22:04:34+08:00">
-                2017-11-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-21T00:04:02+08:00">
+                2018-01-21
               </time>
             
 
@@ -319,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/计算机基础/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机基础</span>
                   </a>
                 </span>
 
@@ -337,9 +337,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/11/28/单例模式/#comments" itemprop="discussionUrl">
+                <a href="/2018/01/21/谈谈计算机中的四则运算/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/11/28/单例模式/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/01/21/谈谈计算机中的四则运算/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -347,7 +347,7 @@
 
           
           
-             <span id="/2017/11/28/单例模式/" class="leancloud_visitors" data-flag-title="单例模式">
+             <span id="/2018/01/21/谈谈计算机中的四则运算/" class="leancloud_visitors" data-flag-title="谈谈计算机中的四则运算">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -378,22 +378,8 @@
       
 
       
-        <p>单例模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个的全局对象，这样有利于我们协调系统整体的行为。比如在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。</p>
+        <p>经过前面的 <a href=""></a> 学习，现在我们已经可以造一台简易的二进制加法器，可以利用它做加法运算了。那减法、乘法和除法呢，难道我们也要一一构造减法器、乘法器和除法器吗？</p>
 <a id="more"></a>
-<h2 id="单线程版本"><a href="#单线程版本" class="headerlink" title="单线程版本"></a>单线程版本</h2><h3 id="“懒汉模式”-amp-“饿汉模式”"><a href="#“懒汉模式”-amp-“饿汉模式”" class="headerlink" title="“懒汉模式” &amp; “饿汉模式”"></a>“懒汉模式” &amp; “饿汉模式”</h3><p><strong>懒汉模式</strong></p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Singleton</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 定义一个空的 Singleton 对象引用 SINGLETON</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton SINGLETON = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 利用构造器私有化来限制外部使用 new 关键字，进而避免构造出多个实例</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 提供外部获取单例对象的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 如果 SINGLETON 还未指向任何一个 Singleton 对象，new 一个 Singleton 对象出来。</span></span><br><span class="line">        <span class="keyword">if</span> (SINGLETON == <span class="literal">null</span> ) &#123;</span><br><span class="line">            SINGLETON = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> SINGLETON;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对象引用一开始为 null，具体使用的时候才 new 一个对象出来，这种写法属于懒汉模式。</p>
-<p><strong>饿汉模式</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在定义时就直接 new 出单例对象 </span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton SINGLETON = <span class="keyword">new</span> Singleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SINGLETON;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>顾名思义，单例对象一开始就被 new Singleton() 主动构建，不再需要判空操作，这种写法属于饿汉模式。</p>
-<h2 id="多线程版本"><a href="#多线程版本" class="headerlink" title="多线程版本"></a>多线程版本</h2><p>如果上面”懒汉模式”的代码是运行在多线程环境中，就会出现许多问题。最明显的一个，将有可能 new 出多个 Singleton 对象实例。最简单的修复方式是在 getInstance() 方法上加 synchronize 关键字。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton SINGLETON = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 方法上加 synchronized 关键字</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (SINGLETON == <span class="keyword">null</span> ) &#123;</span><br><span class="line">            SINGLETON = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> SINGLETON;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是这样的话，在每次调用 getInstance() 方法的时候都会加锁。 使用 double-checked lock(双检锁) 可以避免在 new 出单例对象之后还对 getInstance() 方法进行加锁。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton SINGLETON = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 第一次检查 </span></span><br><span class="line">        <span class="keyword">if</span> (SINGLETON == <span class="keyword">null</span>) &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// new Singleton() 代码块才进行加锁</span></span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">                <span class="comment">// 第二次检查</span></span><br><span class="line">                <span class="keyword">if</span> (SINGLETON == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    SINGLETON = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> SINGLETON;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
-<li><a href="http://cloudate.net/?p=1228" target="_blank" rel="noopener">老生常谈双检锁（DCL）</a></li>
-<li><a href="https://book.douban.com/subject/5432475/" target="_blank" rel="noopener">The “Double-Checked Locking is Broken” Declaration</a></li>
-</ul>
 
       
     </div>
@@ -411,7 +397,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/单例模式/" rel="tag"># 单例模式</a>
+            <a href="/tags/四则运算/" rel="tag"># 四则运算</a>
+          
+            <a href="/tags/四则/" rel="tag"># 四则</a>
+          
+            <a href="/tags/运算/" rel="tag"># 运算</a>
           
         </div>
       
@@ -424,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/23/从零开始造一台自己的加法器/" rel="next" title="从零开始造一台自己的加法器">
-                <i class="fa fa-chevron-left"></i> 从零开始造一台自己的加法器
+              <a href="/2018/01/13/tomcat-servlet-jsp-开发登录页面实例/" rel="next" title="tomcat + servlet + jsp 开发登录页面实例">
+                <i class="fa fa-chevron-left"></i> tomcat + servlet + jsp 开发登录页面实例
               </a>
             
           </div>
@@ -433,10 +423,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/10/一种基于前后端分离的单点登录实现方案/" rel="prev" title="一种基于前后端分离的单点登录实现方案">
-                一种基于前后端分离的单点登录实现方案 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -498,17 +484,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -574,22 +551,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单线程版本"><span class="nav-number">1.</span> <span class="nav-text">单线程版本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#“懒汉模式”-amp-“饿汉模式”"><span class="nav-number">1.1.</span> <span class="nav-text">“懒汉模式” & “饿汉模式”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程版本"><span class="nav-number">2.</span> <span class="nav-text">多线程版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">3.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -754,8 +715,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.identifier = '2017/11/28/单例模式/';
-          this.page.title = '单例模式';
+          this.page.identifier = '2018/01/21/谈谈计算机中的四则运算/';
+          this.page.title = '谈谈计算机中的四则运算';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://huminxi.disqus.com/embed.js';
