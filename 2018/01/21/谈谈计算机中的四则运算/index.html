@@ -88,7 +88,7 @@
 <meta property="og:description" content="经过前面 从零开始造一台自己的加法器 的学习，现在我们已经能造出一台简易的二进制加法器，可以利用它来做四位二进制的加法。那么减法、乘法和除法呢，难道我们也要一一构造减法器、乘法器和除法器吗？">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.com/img/hufei/112017/fourbitfulladder.png">
-<meta property="og:updated_time" content="2018-02-01T07:36:16.000Z">
+<meta property="og:updated_time" content="2018-02-01T08:09:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈谈计算机中的四则运算">
 <meta name="twitter:description" content="经过前面 从零开始造一台自己的加法器 的学习，现在我们已经能造出一台简易的二进制加法器，可以利用它来做四位二进制的加法。那么减法、乘法和除法呢，难道我们也要一一构造减法器、乘法器和除法器吗？">
@@ -586,30 +586,31 @@
 <tr>
 <td>long</td>
 <td>64 位有符号整数</td>
-<td>-2⁶³~(2⁶³-1)</td>
+<td>-2⁶³ ~ 2⁶³-1</td>
 </tr>
 <tr>
 <td>float</td>
 <td>32 位浮点数</td>
-<td><a href="https://www.ibm.com/developerworks/cn/java/j-jtp0114/index.html" target="_blank" rel="noopener">您的小数点到哪里去了？</a></td>
+<td><a href="https://zh.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">IEEE_754</a></td>
 </tr>
 <tr>
 <td>double</td>
 <td>64 位浮点数</td>
-<td><a href="https://www.ibm.com/developerworks/cn/java/j-jtp0114/index.html" target="_blank" rel="noopener">您的小数点到哪里去了？</a></td>
+<td><a href="https://zh.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">IEEE_754</a></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
 <p>Java 中所有数值类型都有正负号，所以不要去寻找无符号的数值类型。</p>
 </blockquote>
-<p><code>负数在计算机中如何编码</code><br>所以 -2 在内存中表示应为: 00000000 00000000 00000000 11111110。</p>
+<p><code>负数在计算机中如何编码</code><br>8 位有符号数可表示数值范围：-2⁷ ~ 2⁷-1，那么 32 位有符号数可表示的范围 -2³¹ ~ 2³¹-1。所以 -2 在内存中表示应为: 11111111 11111111 11111111 11111110。</p>
+<p><code>代码验证</code><br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 负数在内存中的二进制表示</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">NegativeNumberInMemory</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">-2</span>;</span><br><span class="line">        System.<span class="keyword">out</span>.println(Integer.toBinaryString(i));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
 <li><a href="https://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319" target="_blank" rel="noopener">《Code:The Hidden Language of Computer Hardware and Software》</a> 或 <a href="https://book.douban.com/subject/4822685/" target="_blank" rel="noopener">《编码》</a></li>
 <li><a href="https://www.douban.com/note/223507364/" target="_blank" rel="noopener">原码、反码和补码</a></li>
 <li><a href="https://zh.wikibooks.org/zh-hans/Java/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B" target="_blank" rel="noopener">数据类型</a></li>
 <li><a href="https://zh.wikipedia.org/wiki/Unicode%E5%AD%97%E7%AC%A6%E5%88%97%E8%A1%A8" target="_blank" rel="noopener">Unicode 字符列表</a></li>
-<li><a href="https://www.ibm.com/developerworks/cn/java/j-jtp0114/index.html" target="_blank" rel="noopener">您的小数点到哪里去了？</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">IEEE_754</a></li>
 <li><a href="https://www.gitbook.com/book/quanke/think-in-java/details" target="_blank" rel="noopener">Think in Java</a></li>
 </ul>
 
