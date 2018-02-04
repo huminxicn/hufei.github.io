@@ -87,10 +87,26 @@
 <meta property="og:site_name" content="黄枫谷">
 <meta property="og:description" content="人如果没有记忆，那么许多事情将变得很糟糕。例如：当你走出银行大门时，你已经忘记了你的银行卡密码；当你走进考场时，你已经忘记了熬夜刷过的题；当你早晨起床时，你已经忘记了枕边人的姓名。同样的道理，如果计算机失去了记忆。可能昨天刚运行过的代码，今天又需要你手动输入一遍。那么，怎样才能使计算机变得有记忆呢，或者说，怎么才能让计算机拥有存储能力呢？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-04T06:39:27.000Z">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/flip-flop-1.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/flip-flop-2.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/flip-flop-3.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/flip-flop-4.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/flip-flop-5.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/rs-ff-1.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/rs-ff-2.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/rs-ff-3.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/rs-ff-4.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/rs-ff-5.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/rs-ff-6.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/d-ff-1.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/d-ff-2.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/d-ff-3.png">
+<meta property="og:image" content="//huminxi.com/img/hufei/022018/d-ff-4.png">
+<meta property="og:updated_time" content="2018-02-04T10:44:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机的记忆">
 <meta name="twitter:description" content="人如果没有记忆，那么许多事情将变得很糟糕。例如：当你走出银行大门时，你已经忘记了你的银行卡密码；当你走进考场时，你已经忘记了熬夜刷过的题；当你早晨起床时，你已经忘记了枕边人的姓名。同样的道理，如果计算机失去了记忆。可能昨天刚运行过的代码，今天又需要你手动输入一遍。那么，怎样才能使计算机变得有记忆呢，或者说，怎么才能让计算机拥有存储能力呢？">
+<meta name="twitter:image" content="//huminxi.com/img/hufei/022018/flip-flop-1.png">
 
 
 
@@ -379,6 +395,145 @@
 
       
         <p>人如果没有记忆，那么许多事情将变得很糟糕。例如：当你走出银行大门时，你已经忘记了你的银行卡密码；当你走进考场时，你已经忘记了熬夜刷过的题；当你早晨起床时，你已经忘记了枕边人的姓名。同样的道理，如果计算机失去了记忆。可能昨天刚运行过的代码，今天又需要你手动输入一遍。那么，怎样才能使计算机变得有记忆呢，或者说，怎么才能让计算机拥有存储能力呢？<br><a id="more"></a></p>
+<h2 id="反馈-feedback"><a href="#反馈-feedback" class="headerlink" title="反馈(feedback)"></a>反馈(feedback)</h2><blockquote>
+<p>反馈（英语：Feedback，又称回授），在台湾称为『回馈』，是控制论的基本概念，指将系统的输出返回到输入端并以某种方式改变输入，它们之间存在因果关系的回路，进而影响系统功能的过程。在这种情况下，我们可以说系统『反馈到它自身』。在讨论反馈系统时，因果关系的概念应当特别仔细对待：『对于反馈系统，很难作出简单的推理归因，因为当系统A影响到系统B，系统B又影响到系统A，形成了循环。这使得基于因果关系的分析特别艰难，需要将系统作为一个整体来看待。』反馈可分为负反馈和正反馈。前者使输出起到与输入相反的作用，使系统输出与系统目标的误差减小，系统趋于稳定；后者使输出起到与输入相似的作用，使系统偏差不断增大，使系统振荡，可以放大控制作用。</p>
+</blockquote>
+<h2 id="触发器-flip-flop"><a href="#触发器-flip-flop" class="headerlink" title="触发器(flip-flop)"></a>触发器(flip-flop)</h2><h3 id="电路图"><a href="#电路图" class="headerlink" title="电路图"></a>电路图</h3><p>我们先来看一个电路图</p>
+<p><img flip-flop-1="" src="/img/hufei/022018/flip-flop-1.png" width="50%" height="50%"></p>
+<p><code>图 7.14  两个或非门首尾相连形成两个反馈</code></p>
+<blockquote>
+<p>这个电路上下对称，分别都是一个或门连着一个非门，特别之处在于，它们各自的输出又分别是对方的输入。换句话说，在这个电路里存在着两个反馈，如图 7.14 所示。在一个电路里搞出两个反馈来，你别说，发明它的人还真是挺有想法。</p>
+</blockquote>
+<p>为了更好的分析图 7.14 电路的作用，我们不妨将开关和灯泡也加进这个电路</p>
+<p><img flip-flop-2="" src="/img/hufei/022018/flip-flop-2.png" width="50%" height="50%"></p>
+<p><code>图 7.15  用来验证或非门反馈功能的完整电路</code></p>
+<blockquote>
+<p>电路刚接好的时候，你要确保两个开关都是断开的。现在，准备好了吗？我们可要合上开关 R 了！</p>
+<p>我们知道，或门属于那种好好先生，不挑剔，只要有一个输入为 1，它就输出 1 。所以，如图 7.16 所示，闭合 R 就等于 R=1，于是不管 Q 以前是亮还是灭，它现在一定不会发光，即 Q=0。</p>
+</blockquote>
+<p><img flip-flop-3="" src="/img/hufei/022018/flip-flop-3.png" width="50%" height="50%"></p>
+<p><code>图 7.16  当 R 闭合 S 断开时，Q 不亮而 Q&#39; 亮</code></p>
+<blockquote>
+<p>这就完了吗？不会的。因为有反馈的存在，Q=0 紧接着被送到下面。同时，因为 S 也为 0，所以经过或门和非门后，灯泡 Q’ 因为被通上了电而兴奋得满面红光。也就是说，Q’=1。当然，Q’=1 又被反馈到上面。但是，因为 R 已经给或门提供了 1，所以 Q 的状态不会受到影响，整个电路就此处于稳定状态不再改变。</p>
+<p>有意思吧？断开 S，合上 R，灯泡 Q 不亮，Q’ 亮着。要我说呢，这还不算什么，更神奇的是，这个时候，即使你断开 R，灯泡 Q 依然不亮，而灯泡 Q’ 依然亮着！再合上 R，再打开、再合上…不管你怎么折腾，Q 和 Q’ 还是那样。</p>
+<p>原因很简单，还是那个 图 7.16，你看，因为 Q’=1 被反馈到上面，所以，即使 R 断开，或者再次合上，也不会改变或门的输出，整个电路的状态也不会发生改变。</p>
+<p>现在，让我们把注意力转移到电路的下半部分。这一次，我们让 R 一直处于断开状态，将 S 合上。就在一瞬间，所有的事情都颠倒了，灯泡 Q 亮着，而 Q’ 却不亮了！如图 7.17 所示。</p>
+</blockquote>
+<p><img flip-flop-4="" src="/img/hufei/022018/flip-flop-4.png" width="50%" height="50%"></p>
+<p><code>图 7.17  当 R 断开 S 闭合时，Q 亮而 Q&#39; 不亮</code></p>
+<blockquote>
+<p>由于电路是对称的，上下两部分一模一样，所以这件事情也不难理解。一旦你合上开关 S 使得 Q=1  而 Q’=0，往后再怎么摆弄 S，是闭合还是断开，都不会再影响到电路的状态。换句话说，只有最开始那一下子是最重要的。</p>
+<p>尽管我们是在讲科学，但它会让朋友们以为你具有特异功能。你可以叫你的朋友背着你合上一个开关，然后再把它拉开，这时候，你可以踱过去，观察一下哪个灯泡亮着，然后准确地说出他刚才动的是哪个开关。相信这一定会让你的朋友张大嘴巴，惊奇地看着你。</p>
+<p>上面讲的这个电路，称为『触发器』。触发器在很多英文书中被称为『Flip Flop』，简称 『FF』，差不多类似于我们汉语里的象声词，大致的意思是『噼里啪啦』或者『噼噼啪啪』。当然，这不是过年放爆竹，而是一大堆继电器在工作的时候所发出的声音。</p>
+<p>触发器的工作状态依赖于两个开关 S 和 R，闭合一个断开另一个，总是会得到两个相反的输出 Q 和 Q’；要是这两个开关都断开，那么，取决于 Q 和 Q’ 刚才处于什么状态，它们依然保持这种状态不变。这都是我们已经知道的。不过，你有没有想过，还有最后一种情况，要是 S 和 R 都闭合，会怎样呢？老实说，情况很不妙。如 图 7.18 所示，闭合两个开关，将直接导致上下两个或门的输出永久为 1，经过非门变换之后又都变成 0，于是两个灯泡都不亮。</p>
+</blockquote>
+<p><img flip-flop-5="" src="/img/hufei/022018/flip-flop-5.png" width="50%" height="50%"></p>
+<p><code>图 7.18  当 R 和 S 都闭合时，Q 和 Q&#39; 都不亮</code></p>
+<blockquote>
+<p>这是非常粗暴的做法，是暴力干涉。通常情况下，灯泡 Q 和 Q’ 是互补的，配合得挺好，互为依托，相互制约，一个亮起来，另一个就会熄灭，能自己达到合适的稳定状态。但是现在，虽然电路里依然存在反馈，但是不起作用，整个电路现在已经丧失了记忆力，差不多已经失去了理智，神经错乱了。</p>
+<p>总结一下。这里讲的触发器，一共有 4 中工作状态，参见 表 7.1。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>S</th>
+<th>R</th>
+<th>Q</th>
+<th>Q’</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>不变</td>
+<td>不变</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><code>表 7.1  触发器的输出与 S 和 R 的关系</code></p>
+<h3 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h3><p><img rs-ff-1="" src="/img/hufei/022018/rs-ff-1.png" width="50%" height="50%"></p>
+<p><code>图 7.19  R-S 触发器的符号</code></p>
+<blockquote>
+<p>这是最早的，也是最基本的一种触发器，我们一般称它为 R-S 触发器。在这里，S 和 R 不再代表开关，而 Q 的意思也和灯泡相去甚远。然而，无论是开关的通断还是灯泡的亮灭，代表的无非是电压或者电流的有无，两种不同的表示方法，它们背后的思想是一致的。Q 和 Q’ 总以相反的状态出现，Q=0 则 Q’=1；Q=1 则 Q’=0。</p>
+<p>触发器有两个截然相反的输出，不过多数情况下我们只需要一个输出就已足够。因此，一直以来就把 Q 作为触发器的输出。结合 表 7.1 还可以看出，在触发器正常工作的前提下，Q 的输出和 S 的输入总是一致的，S=0 则 Q=0；S=1 则 Q=1。这意味着可以通过设置 S 的值，使得 Q 的输出和 S 保持一致，这就是『S』的由来（在英语里，S 是单词『Set』的第一个字母，这个单词的意思是『设置』）。不管 Q 以前是什么，比如 Q=0，我们可以通过让 S=1 来使 Q 变成 1。但是，当 R=1 的话，Q 又变回 0，这等于将 Q 打回原形，这称为『恢复』或者『复位』，『R』就是这么来的（R 取自英语单词『Reset』的第一个字母，该单词的意思是『复位』）。</p>
+</blockquote>
+<h2 id="可以保存一个比特的触发器"><a href="#可以保存一个比特的触发器" class="headerlink" title="可以保存一个比特的触发器"></a>可以保存一个比特的触发器</h2><blockquote>
+<p>在埃克尔斯和乔丹的实验室里，触发器没有什么用途，它只是证明了电子管可以做成这么一样东西，就像经验丰富的厨师有一天突然想到可以用蒜苗和鸡蛋做出一样新菜肴。事实上，人类的很多发明就是这样产生的。好的东西总有用武之地，尤其是科学家和工程师们喜欢翻老底子，让那些现成的发明可以『为我所用』，触发器就是一个现成的例子。</p>
+<p>为什么这样说呢？普通的电路，以及常规的逻辑门都有一个共性，那就是输出直接依赖于输入，当输入消失的时候，输出也跟着不存在了。触发器不同，当它触发的时候，输出会发生变化。但是，当输入撤销之后，输出依然能够维持。这就是说，触发器具有记忆能力。若干年后，当工程师们想在计算机中保存一个比特时，他们想到了触发器，这是一种职业嗅觉在起作用。不过，触发器有两个输出，保存一个比特不需要这么多。</p>
+<p>如 图 8.1 所示，解决的办法是只留下一个输出 Q，而 Q’ 废弃不用（把它的引线剪掉）。这样，被保存的比特可以从 Q 端观察到，或者把它取走，引到别的地方使用。通过它，可以知道当前触发器保存的是什么，是 0 还是 1。</p>
+</blockquote>
+<p><img rs-ff-2="" src="/img/hufei/022018/rs-ff-2.png" width="50%" height="50%"></p>
+<p><code>图 8.1  通常把 Q 作为 R-S 触发器的输出</code></p>
+<blockquote>
+<p>我们的愿望是用触发器保存一个比特，一个比特只需要一根电线就可以传送，可是你瞧，它有两个输入端 S 和 R。而且，触发器要正常工作，离不开这两位仁兄的通力配合，少了谁都不成，要想使 Q=0，S 必须为 0，R 必须为 1；要想使 Q=1，必须使 S=1 而 R=0。</p>
+<p>这可如何是好呢？难不成要保存一个比特，就必须得用两个输入吗？不要悲观，解决之道是拿一个非门，按照 图 8.2 所示的方法连接起来。</p>
+</blockquote>
+<p><img rs-ff-3="" src="/img/hufei/022018/rs-ff-3.png" width="50%" height="50%"></p>
+<p><code>图 8.2  使用非门使 R 与 S 总是相反，解决用触发器保存 1 比特的问题</code></p>
+<blockquote>
+<p>很显然，因为要想使触发器保存一个比特，就必须使 S 和 R 以相反的方式出现，所以非门的作用就是创造这样的条件。不是天才，怎么也想不出这个好办法。那么，这种做法到底有没有效果呢？不试试怎么知道！为了看看它能不能保存一个 0 或者一个 1，我们在它的左边接上开关，通过闭合或者断开开关，就能得到要保存的比特（0 或者 1）。同时，触发器的输出端接了一个灯泡，它的亮灭可以验证该比特是否已经被保存。如 图 8.3 所示，电路刚接好的时候，开关是断开的。断开的时候相当于要保存一个比特 0 。这个时候，如图所示，S=0，R=1，触发器动作，Q=0，所以不要指望灯泡会亮起来。</p>
+</blockquote>
+<p><img rs-ff-4="" src="/img/hufei/022018/rs-ff-4.png" width="50%" height="50%"></p>
+<p><code>图 8.3  使用触发器保存比特&quot;0&quot;的过程</code></p>
+<blockquote>
+<p>灯泡的冷漠表明目前触发器中保存的是 0。现在，用手摁一下开关，电路被接通，相当于输入为 1。如 图 8.4 所示，这个时候，S=1，R=0，触发器保存这个比特 1，于是灯泡亮了。</p>
+</blockquote>
+<p><img rs-ff-5="" src="/img/hufei/022018/rs-ff-5.png" width="50%" height="50%"></p>
+<p><code>图 8.4  事实证明，仅仅增加一个非门，并不能使 R-S 触发器独立的保存并维持 1 个比特</code></p>
+<blockquote>
+<p>这是个按键开关，当我们一撒手，它就会自动弹起来。嗯，这的确是一个性能优良的开关，不过我不是想说这个，眼下最要紧的，是当开关弹开后，被保存的比特能够独立存在而不受外部的影响。可现实呢，你会发现，一旦按键开关弹开，灯泡马上就会变脸——不亮了！</p>
+<p>傻眼了吧？这忘恩负义的东西，阳奉阴违，人刚走茶就凉了。原因很简单，开关弹开，相当于输入的比特是 0，于是触发器又忙不迭地把这个 0 存起来，灯泡自然就又不亮了。</p>
+<p>这可是触发器呀，触发器是干什么的？连一个比特都存不住，那它和一根电线有什么区别？不要怪触发器，它只是一个电路，一些没有生命的零件，要怪只能怪我们没有把它设计好。为了把它设计好，我们给触发器安排两个门卫——如 图 8.5 所示，这是两个与门。这两个门卫都归同一个经理管辖，这就是控制端 CP。</p>
+</blockquote>
+<p><img rs-ff-6="" src="/img/hufei/022018/rs-ff-6.png" width="50%" height="50%"></p>
+<p><code>图 8.5  经过改进的触发器，增加了 1 个控制端</code></p>
+<blockquote>
+<p>我们这样来安排电路是有用意的，而且真的是很有效。如 图 8.6 所示，你看，通常情况下 CP=0，意思是现在不想保存数据。这时，因为与门的关系，不管 D 上是什么，S 和 R 都为 0，所以触发器保持原有的内容不变。</p>
+</blockquote>
+<p><img d-ff-1="" src="/img/hufei/022018/d-ff-1.png" width="50%" height="50%"></p>
+<p><code>图 8.6  当控制端为 0 时，触发器不接收 D 端的比特</code></p>
+<blockquote>
+<p>这就是说，CP=0 的另一层意思是希望触发器不被外面的数据干扰，继续保持原先保存的那个比特。在触发器前面放两个门卫（与门），不单单是保护原有的比特，它们还有更重要的任务。比如，如果 D=0，而且有经理陪同前来，即 CP=1，那么如 图 8.7 所示，S=0 而 R=1，于是 0 就会被保存到触发器里（Q=0）。</p>
+</blockquote>
+<p><img d-ff-2="" src="/img/hufei/022018/d-ff-2.png" width="50%" height="50%"></p>
+<p><code>图 8.7  当控制端为 1 时，如果 D 端为 0，触发器的 Q 端为 0</code></p>
+<blockquote>
+<p>再比如，同样是在有经理陪着的情况下（CP=1），要是 D=1，那么 S=1 而 R=0，于是 1 就被保存到触发器里（Q=1），如 图 8.8 所示。</p>
+</blockquote>
+<p><img d-ff-3="" src="/img/hufei/022018/d-ff-3.png" width="50%" height="50%"></p>
+<p><code>图 8.8  当控制端为 1 时，如果 D 端为 1，触发器的 Q 端为 1</code></p>
+<blockquote>
+<p>不管保存的是 0 还是 1，当它成功地进入触发器之后，日理万机的经理就打道回府了（CP=0），于是 S 和 R 都会一直为 0。换句话说，没有经理的陪同，负责保卫工作的人无法确定来者是不是危险分子，谁也别想再进入触发器，触发器将一直维持刚才保存的比特不变（参照 图 8.6）。最后，一个需要经理亲自护送才能保存比特的触发器称为 D 触发器，D 触发器的符号如 图 8.9 所示。</p>
+</blockquote>
+<h3 id="D-触发器"><a href="#D-触发器" class="headerlink" title="D 触发器"></a>D 触发器</h3><p><img d-ff-4="" src="/img/hufei/022018/d-ff-4.png" width="50%" height="50%"></p>
+<p><code>图 8.9  D 触发器符号</code></p>
+<blockquote>
+<p>『D』取自英语单词『Data』的首字母，而『Data』的意思是『数据』、『数字』。所以，D 触发器的名字很恰当地表明了制造它的原始目的。</p>
+</blockquote>
+<p>至此，我们终于可以保存一个比特了。</p>
+<h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
+<li><a href="https://book.douban.com/subject/5432475/" target="_blank" rel="noopener">《穿越计算机的迷雾》</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E9%A6%88" target="_blank" rel="noopener">反馈</a></li>
+</ul>
 
       
     </div>
@@ -481,8 +636,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -548,6 +712,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#反馈-feedback"><span class="nav-number">1.</span> <span class="nav-text">反馈(feedback)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触发器-flip-flop"><span class="nav-number">2.</span> <span class="nav-text">触发器(flip-flop)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#电路图"><span class="nav-number">2.1.</span> <span class="nav-text">电路图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#符号"><span class="nav-number">2.2.</span> <span class="nav-text">符号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可以保存一个比特的触发器"><span class="nav-number">3.</span> <span class="nav-text">可以保存一个比特的触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#D-触发器"><span class="nav-number">3.1.</span> <span class="nav-text">D 触发器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">4.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
