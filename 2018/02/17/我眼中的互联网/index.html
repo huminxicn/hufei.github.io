@@ -110,7 +110,7 @@
 <meta property="og:image" content="//huminxi.com/img/hufei/022018/network-udp-ip-mac.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/022018/network-message.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/022018/end-2-end.png">
-<meta property="og:updated_time" content="2018-02-23T16:02:09.000Z">
+<meta property="og:updated_time" content="2018-02-24T08:44:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我眼中的互联网">
 <meta name="twitter:description" content="我们每天都在使用的互联网，你是否好奇，它是如何实现的？全世界接入互联网的终端设备有几十亿台，为什么你的电脑能从中准确的找到小伙伴的电脑，然后相互进行通信？如果让你从零开始设计能使全球的终端设备互联互通的计算机网络，你会怎么实现？">
@@ -547,33 +547,33 @@
 <p>这就导致了『网络层』的诞生。它的作用是引进一套新的地址，使得我们能够区分不同的计算机是否属于同一个子网络。这套地址就叫做『网络地址』，简称『网址』。</p>
 <h4 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h4><p>规定网络地址的协议，叫做 IP 协议。它所定义的地址，就被称为 IP 地址。目前，广泛采用的是 IP 协议第四版，简称 IPv4。这个版本规定，网络地址由 32 个二进制位组成。</p>
 <p><code>IP 地址</code><br><img network-ip-address="" src="/img/hufei/022018/network-ip-address.png" width="50%" height="50%"></p>
-<p>习惯上，我们用分成四段的十进制数表示 IP 地址，从 0.0.0.0 一直到 255.255.255.255。互联网上的每一台计算机，都会分配到一个 IP 地址。这个地址分成两个部分，前一部分代表网络，后一部分代表主机。比如，IP 地址 172.16.254.1，这是一个 32 位的地址，假定它的网络部分是前 24 位（172.16.254），那么主机部分就是后 8 位（上图的 IP 地址的主机就是最后的那个 1）。</p>
+<p>习惯上，我们用分成四段的十进制数表示 IP 地址，从 0.0.0.0 一直到 255.255.255.255(<a href="http://www.ssbbcc.com/1248.html" target="_blank" rel="noopener">一些特殊的 IP 地址</a>)。互联网上的每一台计算机，都会分配到一个 IP 地址。这个地址分成两个部分，前一部分代表网络，后一部分代表主机。比如，IP 地址 172.16.254.1，这是一个 32 位的地址，假定它的网络部分是前 24 位（172.16.254），那么主机部分就是后 8 位（上图的 IP 地址的主机就是最后的那个 1）。</p>
 <h4 id="Subnet-Mask"><a href="#Subnet-Mask" class="headerlink" title="Subnet Mask"></a>Subnet Mask</h4><p>那么问题来了：怎样才能从 IP 地址，判断两台计算机是否属于同一个子网络呢？这就要用到另一个参数『子网掩码』（subnet mask）。</p>
 <p><img network-subnet-mask="" src="/img/hufei/022018/network-subnet-mask.png" width="50%" height="50%"></p>
-<p>所谓『子网掩码』，就是表示子网络的一个参数。它在形式上和 IP 地址类似。但它有个显著的特点（要考，记下来）</p>
+<p>所谓『子网掩码』，就是表示子网络的一个参数。它在形式上和 IP 地址类似。但它有个显著的特点（记下来，要考）</p>
 <p>『它的网络部分全部为 1，主机部分全部为 0!』</p>
-<p>比如，IP 地址 172.16.254.1，如果已知网络部分是前 24 位，主机部分是后 8 位，那么子网络掩码就是 11111111.11111111.11111111.00000000，写成十进制就是 255.255.255.0。知道『子网掩码』，我们就能判断，任意两个 IP 地址是否处在同一个子网络。方法是将两个 IP 地址与子网掩码分别按位进行 AND 运算（两个数都为 1，则运算结果为 1，否则为 0），然后比较结果是否相同，如果是的话，就表明它们在同一个子网络中，否则就不是。</p>
+<p>比如，IP 地址 172.16.254.1，如果已知网络部分是前 24 位，主机部分是后 8 位，那么『子网掩码』就是 11111111.11111111.11111111.00000000，写成十进制就是 255.255.255.0。知道了『子网掩码』，我们就能判断，任意两个 IP 地址是否处在同一个子网络。方法是将两个 IP 地址与『子网掩码』分别按位进行 AND 运算（两个数都为 1，则运算结果为 1，否则为 0），然后比较结果是否相同，如果是的话，就表明它们在同一个子网络中，否则就不是。</p>
 <ul>
 <li><p>Q </p>
 <ul>
-<li>已知 IP 地址 172.16.254.1 和 172.16.254.233 的子网掩码都是 255.255.255.0，请问它们是否在同一个子网络？</li>
+<li>已知 IP 地址 172.16.192.1 和 172.16.254.233 的子网掩码都是 255.255.192.0，请问它们是否在同一个子网络？</li>
 </ul>
 </li>
 <li><p>A </p>
 <ul>
-<li>将两者分别与子网掩码进行 AND 运算，结果都是 172.16.254.0，因此它们在同一个子网络中。</li>
+<li>将两者分别与子网掩码进行 AND 运算，结果都是 172.16.192.0，因此它们在同一个子网络中。</li>
 </ul>
 </li>
 </ul>
-<h4 id="Datagram"><a href="#Datagram" class="headerlink" title="Datagram"></a>Datagram</h4><p>IP 数据包也分为 Head 和 Data 两个部分。Head 部分主要包括版本、长度、IP 地址等信息，Data 部分则是 IP 数据包的具体内容。</p>
+<h4 id="Datagram"><a href="#Datagram" class="headerlink" title="Datagram"></a>Datagram</h4><p>IP 数据包也分为 Head 和 Data 两个部分。Head 部分主要包括协议版本、数据包长度、IP 地址等信息，Data 部分则是 IP 数据包的具体内容。</p>
 <p><img network-datagram="" src="/img/hufei/022018/network-datagram.png" width="50%" height="50%"></p>
-<p>IP 数据包中一定包含了 IP 地址。但是前面说过，以太网数据包只包含 MAC 地址，并没有 IP 地址的栏位。那么是否需要修改数据定义，再添加一个栏位来存放 IP 地址信息呢？</p>
-<p>回答是不需要，我们可以把 IP 数据包直接放进以太网数据包的 Data 部分，因此完全不用修改以太网的规格。这就是互联网分层结构的好处：『上层的变动完全不涉及下层的结构』。它放进以太网数据包后，以太网数据包就变成了下面这样。</p>
+<p>IP 数据包中一定包含了 IP 地址。但是前面说过，以太网数据包的 Head 里面只包含 MAC 地址，并没有 IP 地址的栏位。那么是否需要修改以太网数据包的 Head 定义，再添加一个栏位来存放 IP 地址信息呢？</p>
+<p>回答是不需要，我们可以把 IP 数据包直接放进以太网数据包的 Data 部分，因此完全不用修改以太网数据包的定义。这就是互联网分层结构的好处：『上层的变动完全不涉及下层的结构』。它放进以太网数据包后，以太网数据包就变成了下面这样。</p>
 <p><code>Datagram</code><br><img network-ip-mac-package="" src="/img/hufei/022018/network-ip-mac-package.png" width="50%" height="50%"></p>
 <p>IP 数据包的 Head 部分的长度为 20 到 60 字节，整个数据包的总长度最大为 65535 字节。因此，理论上，一个 IP 数据包(Datagram) 的 Data 部分，最长为 65515 字节。前面说过，以太网数据包(Frame)的 Payload 部分，最长只有 1500 字节。因此，如果一个 IP 数据包超过了 1500 字节，它就需要分割成几个以太网数据包，分开发送了。</p>
 <p>『网络层』在『链接层』的上层。它的作用主要有两个，一个是为每一台计算机分配一个网络地址；另一个是确定哪些网络地址在同一个子网络。它的数据包被称为 Datagram。</p>
 <h3 id="Transport-Layer"><a href="#Transport-Layer" class="headerlink" title="Transport Layer"></a>Transport Layer</h3><p>有了 MAC 地址和 IP 地址的情况下，我们已经可以在互联网上任意两台主机上建立通信。为什么还要传输层呢？</p>
-<p>事实上是因为在同一台主机上将会有许多程序都需要用到网络。比如，你一边浏览网页，一边与朋友在线聊天。当一个数据包从互联网上发来的时候，你怎么知道，它是表示网页的内容，还是表示在线聊天的内容？也就是说，我们还需要一个参数, 来表示这个数据包到底供哪个程序（进程）使用。</p>
+<p>这是因为在同一台主机上将会有许多程序都需要用到网络。比如，你一边浏览网页，一边与朋友在线聊天。当一个数据包从互联网上发来的时候，计算机怎么知道，它是表示网页的内容，还是表示在线聊天的内容？也就是说，我们还需要一个参数, 来表示这个数据包到底供哪个程序（进程）使用。</p>
 <h4 id="Port"><a href="#Port" class="headerlink" title="Port"></a>Port</h4><p>这个参数就叫做『端口』(port)，由 16 位二进制表示（0-65535），它其实是每一个使用网卡的程序的编号。每个数据包都发到主机的特定端口，所以不同的程序就能取到自己所需要的数据。</p>
 <p>0-1023 号端口被称为 <a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml" target="_blank" rel="noopener">知名端口</a>（well-known port）。这些知名端口号由 <a href="https://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91%E5%8F%B7%E7%A0%81%E5%88%86%E9%85%8D%E5%B1%80" target="_blank" rel="noopener">IANA</a> 分配。用户只能选用 1024-65535 之间的一个端口号。不管是浏览网页还是在线聊天，应用程序随机选用一个端口，然后与服务器的相应端口联系。</p>
 <h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>现在，我们必须在数据包中加入端口信息，这就需要新的协议。最简单的实现叫做 UDP(User Datagram Protocol) 协议，它的格式几乎就是在数据前面加上端口号。</p>
@@ -582,13 +582,13 @@
 <p>整个 UDP 数据包放入 IP 数据包的 Data 部分，而前面说过，IP 数据包又是放在以太网数据包之中的，所以整个以太网数据包现在变成了下面这样：</p>
 <p><code>Segment</code><br><img network-udp-ip-mac="" src="/img/hufei/022018/network-udp-ip-mac.png" width="50%" height="50%"></p>
 <p>UDP 数据包最长可为多少字节？</p>
-<p>UDP 数据包非常简单，Head 部分一共只有 8 个字节，总长度不超过 65,55 字节，正好放进一个 IP 数据包。</p>
+<p>UDP 数据包非常简单，Head 部分一共只有 8 个字节，总长度不超过 65515 字节，正好放进一个 IP 数据包的 Data 部分。</p>
 <h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><blockquote>
-<p>在 TCP/IP 模型中，UDP 为网络层以上和应用层以下提供了一个简单的接口。UDP 只提供数据的不可靠传递，它一旦把应用程序发给网络层的数据发送出去，就不保留数据备份（所以 UDP 有时候也被认为是不可靠的数据报协议）。UDP 在 IP 数据报的头部仅仅加入了复用和数据校验（字段）。</p>
+<p>在 TCP/IP 模型中，UDP 为网络层以上和应用层以下提供了一个简单的接口。UDP 只提供数据的不可靠传递，它一旦把应用程序包装给网络层的数据发送出去，就不保留数据备份（所以 UDP 有时候也被认为是不可靠的数据报协议）。UDP 在 IP 数据报的头部仅仅加入了复用和数据校验（字段）。</p>
 <p>为了解决这个问题，提高网络可靠性，TCP 协议就诞生了。这个协议非常复杂，但可以近似认为，它就是有确认机制的 UDP 协议，每发出一个数据包都要求确认。如果有一个数据包遗失，就收不到确认，发出方就知道有必要重发这个数据包了。TCP 数据包和 UDP 数据包一样，都是内嵌在 IP 数据包的 Data 部分。TCP 数据包没有长度限制，理论上可以无限长，但是为了<br>保证网络的效率，通常 TCP 数据包的长度不会超过 IP 数据包的长度，以确保单个 TCP 数据包不必再分割。</p>
 </blockquote>
 <h4 id="Segment"><a href="#Segment" class="headerlink" title="Segment"></a>Segment</h4><p>传输层的数据包，被称为 Segment。</p>
-<p>『传输层』的功能，就是建立『端口到端口』的通信。相比之下，『网络层』的功能是建立『主机到主机』的通信。只要确定主机和端口，我们就能实现程序之间的交流。因此，Unix 系统就把 主机 + 端口，叫做『套接字』（socket）。有了它，就可以进行网络应用程序开发了。</p>
+<p>『传输层』的功能，就是建立『端口到端口』的通信。相比之下，『网络层』的功能是建立『主机到主机』的通信。只要确定主机和端口，我们就能实现程序之间的交流。因此，Unix 系统就把 主机 + 端口，叫做『套接字』（socket）。有了它，我们就可以开发网络应用程序了。</p>
 <h3 id="Application-Layer"><a href="#Application-Layer" class="headerlink" title="Application Layer"></a>Application Layer</h3><p>应用程序成千上万，而『应用层』的作用，就是规定应用程序的数据格式。常见的应用层协议如下:</p>
 <ul>
 <li>HTTP(HyperText Transfer Protocol)<ul>
@@ -632,11 +632,11 @@
 <p>『应用层』是最高的一层，直接面对用户。它的数据包被称为 Message。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>我们最后来看一张图</p>
 <p><code>应用程序之间的消息传输过程</code><br><img end-2-end="" src="/img/hufei/022018/end-2-end.png" width="100%" height="50%"></p>
-<p>应用程序之间需要交换的 Message 由源终端的 Application Layer 层开始，层层包装，最后形成一个个 Frame。Frame 经由若干个 Link-layer switch 和 Router 的传输，送达到目的终端。再由目的终端的 Physical Layer 开始，层层解析，最终把 Message 交付给目标应用程序。至此，网络中的应用程序之间就完成了一次 Message 的传输。</p>
+<p>网络应用程序之间需要交换的 Message 由源终端的 Application Layer 开始，层层包装，最后形成一个个 Frame。Frame 经由若干个 Link-layer switch 和 Router 的传输，送达到目的终端。再由目的终端的 Physical Layer 开始，层层解析，最终把 Message 交付给目标应用程序。至此，网络应用程序之间就完成了一次 Message 的传输。</p>
 <h2 id="为什么要这样设计"><a href="#为什么要这样设计" class="headerlink" title="为什么要这样设计"></a>为什么要这样设计</h2><ul>
 <li>为什么互联网要采用分层设计</li>
 <li>网络层的作用是什么</li>
-<li>我们常常看的直播用的是哪一层的什么协议</li>
+<li>如果重头开始设计互联网，你还会分这么多层吗</li>
 </ul>
 <h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
 <li><a href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html" target="_blank" rel="noopener">互联网协议入门一</a></li>
@@ -646,6 +646,9 @@
 <li><a href="https://zh.wikipedia.org/wiki/%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">UDP</a></li>
 <li><a href="https://www.zhihu.com/question/50293200" target="_blank" rel="noopener">知乎提问：现在仍然活跃的应用层协议有哪些？</a></li>
 <li><a href="http://blog.ucloud.cn/archives/699" target="_blank" rel="noopener">直播相关</a></li>
+<li><a href="http://www.ssbbcc.com/1248.html" target="_blank" rel="noopener">一些特殊的 IP 地址</a></li>
+<li><a href="http://www.ssbbcc.com/1256.html" target="_blank" rel="noopener">ARP 地址解析协议原理及应用</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/IPv6" target="_blank" rel="noopener">IPv6</a></li>
 </ul>
 
       
