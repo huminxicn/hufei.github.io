@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet 来编写简单的登录页面。">
+<meta name="description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet + jsp 来编写简单的登录页面。">
 <meta name="keywords" content="tomcat,servlet">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tomcat + servlet + jsp 开发登录页面实例">
 <meta property="og:url" content="//huminxi.com/2018/01/13/tomcat-servlet-jsp-开发登录页面实例/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet 来编写简单的登录页面。">
+<meta property="og:description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet + jsp 来编写简单的登录页面。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.com/img/hufei/012018/tomcat-servlet-login.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/012018/project-structure.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/012018/login.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/012018/login-success.png">
 <meta property="og:image" content="//huminxi.com/img/hufei/012018/login-fail.png">
-<meta property="og:updated_time" content="2018-01-14T08:02:56.000Z">
+<meta property="og:updated_time" content="2018-02-27T13:04:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tomcat + servlet + jsp 开发登录页面实例">
-<meta name="twitter:description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet 来编写简单的登录页面。">
+<meta name="twitter:description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet + jsp 来编写简单的登录页面。">
 <meta name="twitter:image" content="//huminxi.com/img/hufei/012018/tomcat-servlet-login.png">
 
 
@@ -404,7 +404,7 @@
       
 
       
-        <p>大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet 来编写简单的登录页面。</p>
+        <p>大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet + jsp 来编写简单的登录页面。</p>
 <a id="more"></a>
 <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><blockquote>
 <p>Tomcat 是由 Apache 软件基金会下属的 Jakarta 项目开发的一个 Servlet 容器，按照 Sun MicroSystems 提供的技术规范，实现了对 Servlet 和 JavaServer Page（JSP）的支持，并提供了作为 Web 服务器的一些特有功能，如 Tomcat 管理和控制平台、安全域管理和 Tomcat 阀等。由于 Tomcat 本身也内含了一个 HTTP 服务器，它也可以被视作一个单独的 Web 服务器。但是，不能将 Tomcat 和 Apache HTTP 服务器混淆，Apache HTTP 服务器是一个用 C 语言实现的 HTTP Web server；这两个 HTTP web server 不是捆绑在一起的。Apache Tomcat 包含了一个配置管理工具，也可以通过编辑 XML 格式的配置文件来进行配置。</p>
