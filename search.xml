@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[DNS 协议]]></title>
-    <url>%2F2018%2F03%2F03%2FDNS-%E5%8D%8F%E8%AE%AE%2F</url>
-    <content type="text"><![CDATA[我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时不会使用身份证号，而是报上姓名。因特网上的主机和人类一样，也有一个可以唯一标识的 IP(由 32 位二进制数标识) 地址，同时，它们也有一个主机名(hostname)。例如，www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。我们现在知道了识别主机有两种方式，通过 IP 地址或者主机名。为了能通过主机名找到正确的 IP 地址，我们需要一种能进行主机名到 IP 地址转换的 目录服务(Directory service)。这就是域名系统(Domain Name System，DNS)。]]></content>
+    <title><![CDATA[DNS]]></title>
+    <url>%2F2018%2F03%2F03%2FDNS%2F</url>
+    <content type="text"><![CDATA[我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示) 地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一种能将主机名转换到 IP 地址的 目录服务。这就是域名系统(Domain Name System，DNS)。]]></content>
       <categories>
         <category>计算机基础</category>
       </categories>
