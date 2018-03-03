@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[DNS]]></title>
     <url>%2F2018%2F03%2F03%2FDNS%2F</url>
-    <content type="text"><![CDATA[我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示) 地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一种能将主机名转换到 IP 地址的 目录服务。这就是域名系统(Domain Name System，DNS)。]]></content>
+    <content type="text"><![CDATA[我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示)地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一种能将主机名转换到 IP 地址的 目录服务。这就是域名系统(Domain Name System，DNS)。 什么是 DNSDNS 是：一个由分层的 DNS 服务器(DNS server)实现的分布式数据库；一个使得主机能够查询分布式数据库的应用层协议。DNS 服务器通常是运行 BIND(Berkeley Internet Name Domain)软件的 UNIX 机器。DNS 协议运行在 UDP 之上，使用的端口号为 53。]]></content>
       <categories>
         <category>计算机基础</category>
       </categories>

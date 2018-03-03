@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示) 地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.uma">
+<meta name="description" content="我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示)地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umas">
 <meta name="keywords" content="DNS,协议">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DNS">
 <meta property="og:url" content="//huminxi.com/2018/03/03/DNS/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示) 地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一">
+<meta property="og:description" content="我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示)地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一种">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-03T03:07:34.000Z">
+<meta property="og:updated_time" content="2018-03-03T03:20:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS">
-<meta name="twitter:description" content="我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示) 地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一">
+<meta name="twitter:description" content="我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示)地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一种">
 
 
 
@@ -398,7 +398,9 @@
       
 
       
-        <p>我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示) 地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一种能将主机名转换到 IP 地址的 <a href="https://zh.wikipedia.org/wiki/%E7%9B%AE%E5%BD%95%E6%9C%8D%E5%8A%A1" target="_blank" rel="noopener">目录服务</a>。这就是域名系统(Domain Name System，DNS)。</p>
+        <p>我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示)地址，同时，它们也有一个主机名(hostname)，如 www.google.com、www.wikipedia.org、gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一种能将主机名转换到 IP 地址的 <a href="https://zh.wikipedia.org/wiki/%E7%9B%AE%E5%BD%95%E6%9C%8D%E5%8A%A1" target="_blank" rel="noopener">目录服务</a>。这就是域名系统(Domain Name System，DNS)。</p>
+<a id="more"></a>
+<h2 id="什么是-DNS"><a href="#什么是-DNS" class="headerlink" title="什么是 DNS"></a>什么是 DNS</h2><p>DNS 是：一个由分层的 DNS 服务器(DNS server)实现的分布式数据库；一个使得主机能够查询分布式数据库的应用层协议。DNS 服务器通常是运行 BIND(Berkeley Internet Name Domain)软件的 UNIX 机器。DNS 协议运行在 UDP 之上，使用的端口号为 53。</p>
 
       
     </div>
@@ -501,8 +503,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -582,6 +593,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-DNS"><span class="nav-number">1.</span> <span class="nav-text">什么是 DNS</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
