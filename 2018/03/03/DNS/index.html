@@ -90,7 +90,11 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/gethostbyname.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/dns-layer.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/root-dns-server-ip.png">
-<meta property="og:updated_time" content="2018-03-03T07:58:32.000Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/default-dns-server-ip.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-and-iteration-query.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-query.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/dns-rr.png">
+<meta property="og:updated_time" content="2018-03-03T09:54:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS">
 <meta name="twitter:description" content="我们知道，身份证号可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP(由 32 位二进制数表示)地址，同时，它们也有一个主机名(hostname)，如 www.google.com www.wikipedia.org gaia.cs.umass.edu 等。因为人们喜欢的是便于于记忆的『主机名标识』方式，所以我们需要一种">
@@ -436,7 +440,7 @@
 <p><img gethostbyname="" src="/img/hufei/032018/gethostbyname.png" width="100%" height="50%"></p>
 <h2 id="DNS-的原理"><a href="#DNS-的原理" class="headerlink" title="DNS 的原理"></a>DNS 的原理</h2><h3 id="DNS-工作过程概述"><a href="#DNS-工作过程概述" class="headerlink" title="DNS 工作过程概述"></a>DNS 工作过程概述</h3><p>假设运行在用户主机上的某些应用程序需要将主机名转换为 IP 地址。这些应用程序将调用 DNS 的客户端，并指明需要转换的主机名。用户主机上的 DNS 接受到后，向网络中发送一个 DNS 查询报文。所有的 DNS 请求和回答报文使用 UDP 数据报经端口 53 发送。经过若干毫秒的时延后，用户主机上的 DNS 接受到一个提供映射结果的 DNS 回答报文。这个映射结果被传递到调用 DNS 的应用程序。</p>
 <p>因此，从调用 DNS 服务的应用程序角度看，DNS 是一个提供简单、直接的转换服务的黑盒子。但事实上，实现这个服务的黑盒子非常复杂，它由分布于全球的大量 DNS 服务器以及定义了 DNS 服务器与查询主机通信方式的应用层协议组成。</p>
-<h3 id="DNS-实现"><a href="#DNS-实现" class="headerlink" title="DNS 实现"></a>DNS 实现</h3><h4 id="集中式"><a href="#集中式" class="headerlink" title="集中式"></a>集中式</h4><p>DNS 的一种简单实现是在因特网上只使用一个 DNS 服务器，该服务器包含所有的映射。在这种集中式设计中，客户直接将所有查询发往单一的 DNS 服务器，同时该 DNS 服务器直接对所有的查询客户做出响应。尽管这种设计的简单性非常具有吸引力，但它不适用与当今的因特网，因为因特网有着数量巨大(并且持续增长)的主机。这种集中式设计的问题包括</p>
+<h3 id="DNS-的实现方式"><a href="#DNS-的实现方式" class="headerlink" title="DNS 的实现方式"></a>DNS 的实现方式</h3><h4 id="集中式"><a href="#集中式" class="headerlink" title="集中式"></a>集中式</h4><p>DNS 的一种简单实现是在因特网上只使用一个 DNS 服务器，该服务器包含所有的映射。在这种集中式设计中，客户直接将所有查询发往单一的 DNS 服务器，同时该 DNS 服务器直接对所有的查询客户做出响应。尽管这种设计的简单性非常具有吸引力，但它不适用与当今的因特网，因为因特网有着数量巨大(并且持续增长)的主机。这种集中式设计的问题包括</p>
 <ul>
 <li>单点故障(a single point of failure)<ul>
 <li>如果该 DNS 服务器崩溃，整个因特网随之瘫痪！</li>
@@ -456,12 +460,12 @@
 </li>
 </ul>
 <p>总的来说，在单一 DNS 服务器上运行集中式数据库完全没有可扩展能力。因此，DNS 采用了分布式的设计方案。事实上，DNS 是一个在因特网上实现分布式数据库的优秀示例。</p>
-<h4 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h4><h5 id="分层"><a href="#分层" class="headerlink" title="分层"></a>分层</h5><p>为了处理扩展性问题，DNS 使用了大量的 DNS 服务器，它们以层次方式组织，并且分布在全世界范围内。大致来说，有 3 种类型的 DNS 服务器：根服务器、顶级域(Top-Level Domain，TLD) DNS 服务器和权威 DNS 服务器。这些服务器以下图所示的层次结构组织起来。</p>
+<h4 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h4><h5 id="层次结构"><a href="#层次结构" class="headerlink" title="层次结构"></a>层次结构</h5><p>为了处理扩展性问题，DNS 使用了大量的 DNS 服务器，它们以层次方式组织，并且分布在全世界范围内。大致来说，有 3 种类型的 DNS 服务器：根服务器、顶级域(Top-Level Domain，TLD) DNS 服务器和权威 DNS 服务器。这些服务器以下图所示的层次结构组织起来。</p>
 <p><code>DNS 服务器的层次结构</code><br><img dns-layer="" src="/img/hufei/032018/dns-layer.png" width="100%" height="50%"></p>
 <p>为了理解这 3 种类型的 DNS 服务器交互的方式，我们来举个栗子。假定一个 DNS 客户要查询主机名为 www.amazon.com 的 IP 地址。客户首先与根服务器之一联系，它将返回顶级域名 com 的 TLD 服务器的 IP 地址。该客户则与这些 TLD 服务器之一联系，它将为 amazon.com 返回权威服务器的 IP 地址。最后，客户与 amazon.com 权威服务器之一联系，它为主机名 www.amazon.com 返回其 IP 地址。</p>
 <h5 id="各种类型的-DNS-服务器介绍"><a href="#各种类型的-DNS-服务器介绍" class="headerlink" title="各种类型的 DNS 服务器介绍"></a>各种类型的 DNS 服务器介绍</h5><ul>
 <li>根 DNS 服务器<ul>
-<li>在因特网上有 13 个根 DNS 服务器(标号为 A-M，名字格式为 字母.root-servers.net)。<a href="https://zh.wikipedia.org/wiki/%E6%A0%B9%E7%B6%B2%E5%9F%9F%E5%90%8D%E7%A8%B1%E4%BC%BA%E6%9C%8D%E5%99%A8" target="_blank" rel="noopener">13 个根域名服务器 IP 列表</a></li>
+<li>在因特网上有 13 个根 DNS 服务器(标号为 a-m，主机名格式为 字母.root-servers.net)。<a href="https://zh.wikipedia.org/wiki/%E6%A0%B9%E7%B6%B2%E5%9F%9F%E5%90%8D%E7%A8%B1%E4%BC%BA%E6%9C%8D%E5%99%A8" target="_blank" rel="noopener">13 个根域名服务器 IP 列表</a></li>
 </ul>
 </li>
 <li>顶级域 DNS 服务器<ul>
@@ -469,11 +473,35 @@
 </ul>
 </li>
 <li>权威 DNS 服务器<ul>
-<li>在因特网上具有公共可访问主机(如 Web 服务器和邮件服务器)的每个组织机构必须提供公共可访问的 DNS 记录，这些记录将这些主机的名字映射为 IP 地址。一个组织机构能够选择实现它自己的权威 DNS 服务器以保持这些记录；另一种方法是，该组织能够支付费用，让这些记录存储在某个服务提供商的一个权威 DNS 服务器中。多数大学和大公司实现和维护他们自己基本和备份的权威 DNS 服务器。</li>
+<li>在因特网上具有公共可访问主机(如 Web 服务器和邮件服务器)的每个组织机构必须提供公共可访问的 DNS 记录，这些记录将这些主机的名字映射为 IP 地址。一个组织机构能够选择实现它自己的权威 DNS 服务器以保持这些记录；或者该组织能够支付费用，让这些记录存储在某个服务提供商(如阿里)的一个权威 DNS 服务器中。多数大学和大公司实现和维护他们自己的权威 DNS 服务器。</li>
 </ul>
 </li>
 </ul>
-<p><code>验证服务器的 IP 地址</code><br><img root-dns-server-ip="" src="/img/hufei/032018/root-dns-server-ip.png" width="100%" height="50%"></p>
+<p><code>验证根 DNS 服务器的 IP 地址</code><br><img root-dns-server-ip="" src="/img/hufei/032018/root-dns-server-ip.png" width="100%" height="50%"></p>
+<h4 id="本地-DNS-服务器"><a href="#本地-DNS-服务器" class="headerlink" title="本地 DNS 服务器"></a>本地 DNS 服务器</h4><p>根、TLD 和权威 DNS 服务器都处在上述 DNS 服务器的层次结构中。还有另一类重要的 DNS，称为本地 DNS 服务器(local DNS server)。一个本地 DNS 服务器严格来说并不属于 DNS 服务器的层次结构，但它对 DNS 层次结构是重要的。每个 ISP(如一个大学、一个系、一个公司或一个居民区的 ISP)都有一台本地 DNS 服务器(也叫默认 DNS 服务器)。</p>
+<p><code>mac 上使用 cat /etc/resolv.conf 命令查看默认的 DNS 服务器地址</code><br><img default-dns-server-ip="" src="/img/hufei/032018/default-dns-server-ip.png" width="100%" height="50%"></p>
+<p>一般来说，主机的本地 DNS 服务器通常『临近』本主机。对于某机构 IPS 而言，本地 DNS 服务器可能就与主机在同一个局域网中；对于某居民区 ISP 来说，本地 DNS 服务器通常与主机相隔不超过几台路由器。当主机发出 DNS 请求时，该请求被发往本地 DNS 服务器，它起着代理的作用，并将该请求发送到 DNS 服务器层次结构中。怎么理解这段话，我们来看一个简单的栗子。</p>
+<p>假设主机 cis.poly.edu 想知道 gaia.cs.umass.edu 的 IP 地址。同时假设主机 cis.poly.edu 的本地 DNS 服务器为 dns.poly.edu，并且 gaia.cs.umass.edu 的权威 DNS 服务器为 dns.umass.edu。</p>
+<p><code>图 2-21  各种 DNS 服务器的交互</code><br><img recursive-and-iteration-query="" src="/img/hufei/032018/recursive-and-iteration-query.png" width="50%" height="50%"></p>
+<p>如图 2-21 所示，主机 cis.poly.edu 首先向它的本地 DNS 服务器 dns.poly.edu 发送一个 DNS 查询报文。该查询报文中含有被转换的主机名 gaia.cs.umass.edu。本地 DNS 服务器将该报文转发到根 DNS 服务器。该根 DNS 服务器注意到其 edu 前缀并向本地 DNS 服务器返回负责 edu 的 TLD 的 IP 地址列表。该本地 DNS 服务器则再次向这些 TLD 服务器之一发送查询报文。该 TLD 服务器注意到 umass.edu 前缀，并用权威 DNS 服务器的 IP 地址进行响应。最后，本地 DNS 服务器直接向 dns.emass.edu 重发查询报文， dns.umass.eud 用 gaia.cs.umass.edu 的 IP 地址进行响应(注意：在本例中，为了获得一台主机名的映射，共发送了 8 份 DNS 报文：4 份查询报文和 4 份回答报文)。</p>
+<p>上面的例子中假设了 TLD 服务器知道用于主机的权威 DNS 服务器的 IP 地址。一般而言，这种假设并不正确。相反，TLD 服务器只是知道中间的某个 DNS 服务器，该中间的 DNS 服务器依次才能知道用于该主机的权威 DNS 服务器。所以正常情况下，我们将发生不止 8 份的 DNS 报文！</p>
+<p>图 2-21 所示的例子利用了递归查询(recursive query)和迭代查询(iterative query)。从 cis.poly.edu 到 dns.poly.edu 发出的查询时递归查询，而后继的 3 个查询是迭代查询。从理论上讲，任何 DNS 查询既可以是迭代的也可能是递归的。例如，下图 2-22 显示了一条 DNS 查询链，其中的所有查询都是递归的。实际中，一般都是遵循图 2-21 中的模式。从请求主机到本地 DNS 服务器的查询时递归的，其余的查询时迭代的。</p>
+<p><code>图 2-22  DNS 中的递归查询</code><br><img recursive-query="" src="/img/hufei/032018/recursive-query.png" width="50%" height="50%"></p>
+<h4 id="DNS-缓存"><a href="#DNS-缓存" class="headerlink" title="DNS 缓存"></a>DNS 缓存</h4><p>在图 2-21 的例子中，我们注意到：为了获得一台主机名的映射，我们共发送了 8 份报文，效率实在太低!实际上，为了改善时延性能并减少因特网上到处传输的 DNS 报文数量， DNS 技术广泛使用了缓存技术。</p>
+<p>DNS 缓存的原理非常简单。在一个请求链中，当某 DNS 服务器接收到一个 DNS 回答(例如，包含主机名到 IP 地址的映射)时，它能将该回答中的信息缓存在自己的存储器中。这样下次再有相同的 DNS 请求时，可以直接将缓存的内容作为 DNS 回答发送过去，即使它不是该主机名的权威服务器。由于主机和主机名与 IP 地址间的映射并不是永久的，DNS 服务器在一段时间后(通常设置为两天)将丢去缓存的信息。<strong>这也是本地 DNS 服务器为什么如此重要的原因。</strong></p>
+<h4 id="DNS-记录"><a href="#DNS-记录" class="headerlink" title="DNS 记录"></a>DNS 记录</h4><p>实现 DNS 分布式数据库的所有 DNS 服务器存储了资源记录(Resource Record，RR)，RR 提供了主机名到 IP 地址的映射。每个 DNS 回答报文包含了一条或多条资源记录。资源记录是一个包含了下列字段的 4 元组:<br>[Name, Value, Type, TTL]<br>TTL 是该记录的生存时间，它决定了资源记录应当从缓存中删除的时间。Name 和 Value 的值取决于 Type:</p>
+<ul>
+<li>Type = A，则 Name 是个主机名，Value 是该主机名对应的 IP 地址。因此，一条类型为 A 的资源记录提供了标准的主机名到 IP 地址的映射。例如(relay1.bar.foo.com, 145.37.93.126, A)就是一条类型 A 记录。</li>
+<li>Type = NS，则 Name 是个域(如 foo.com)，而 Value 是个知道如何获得该域中主机 IP 的权威 DNS 服务器的主机名。这个记录用于沿着查询链来路由 DNS 查询。例如(foo.com, dns.foo.com, NS)就是一条类型为 NS 的记录。</li>
+<li>Type = CNAME，则 Value 是别名为 Name 的主机对应的规范主机名。该记录能够向查询的主机提供一个主机名对应的规范主机名。例如(foo.com, relay1.bar.foo.com, CNAME)就是一条 CNAME 类型的记录。</li>
+<li>Type = MX，则 Value 是个别名为 Name 的邮件服务器的规范主机名。例如(foo.com, mail.bar.foo.com, MX)就是一条 MX 记录。</li>
+</ul>
+<p><code>DNS 记录</code><br><img dns-rr="" src="/img/hufei/032018/dns-rr.png" width="100%" height="50%"></p>
+<p>现在，大家应该对 DNS 这三个字不陌生了吧。 </p>
+<h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
+<li><a href="https://book.douban.com/subject/26176870/" target="_blank" rel="noopener">《计算机网络:自定向下方法》</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%A0%B9%E7%B6%B2%E5%9F%9F%E5%90%8D%E7%A8%B1%E4%BC%BA%E6%9C%8D%E5%99%A8" target="_blank" rel="noopener">根域名服务器</a></li>
+</ul>
 
       
     </div>
@@ -676,7 +704,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-DNS"><span class="nav-number">1.</span> <span class="nav-text">什么是 DNS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">1.2.</span> <span class="nav-text">使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-的原理"><span class="nav-number">2.</span> <span class="nav-text">DNS 的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-工作过程概述"><span class="nav-number">2.1.</span> <span class="nav-text">DNS 工作过程概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-实现"><span class="nav-number">2.2.</span> <span class="nav-text">DNS 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#集中式"><span class="nav-number">2.2.1.</span> <span class="nav-text">集中式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式"><span class="nav-number">2.2.2.</span> <span class="nav-text">分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分层"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">分层</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#各种类型的-DNS-服务器介绍"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">各种类型的 DNS 服务器介绍</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-DNS"><span class="nav-number">1.</span> <span class="nav-text">什么是 DNS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">1.2.</span> <span class="nav-text">使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-的原理"><span class="nav-number">2.</span> <span class="nav-text">DNS 的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-工作过程概述"><span class="nav-number">2.1.</span> <span class="nav-text">DNS 工作过程概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-的实现方式"><span class="nav-number">2.2.</span> <span class="nav-text">DNS 的实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#集中式"><span class="nav-number">2.2.1.</span> <span class="nav-text">集中式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式"><span class="nav-number">2.2.2.</span> <span class="nav-text">分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#层次结构"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">层次结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#各种类型的-DNS-服务器介绍"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">各种类型的 DNS 服务器介绍</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地-DNS-服务器"><span class="nav-number">2.2.3.</span> <span class="nav-text">本地 DNS 服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS-缓存"><span class="nav-number">2.2.4.</span> <span class="nav-text">DNS 缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS-记录"><span class="nav-number">2.2.5.</span> <span class="nav-text">DNS 记录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">3.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
             
 
           </div>
