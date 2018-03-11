@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="tomcat,servlet," />
+  <meta name="keywords" content="钉钉,dingtalk," />
 
 
 
@@ -79,24 +79,18 @@
 
 
 
-<meta name="description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet 和一点点的 jsp 来编写简单的登录页面。">
-<meta name="keywords" content="tomcat,servlet">
+<meta name="description" content="文章的内容是介绍怎么『利用钉钉的自定义机器人来达到预告技术部今日分享的效果』。主要想给大家提供一种『利用钉钉的「自定义机器人」实现「定时」通知「固定格式消息」的实现思路』。">
+<meta name="keywords" content="钉钉,dingtalk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tomcat + servlet + jsp 开发登录页面实例">
-<meta property="og:url" content="//huminxi.netlify.com/2018/01/13/tomcat-servlet-jsp-开发登录页面实例/index.html">
+<meta property="og:title" content="钉钉自定义机器人的一种用法">
+<meta property="og:url" content="//huminxi.netlify.com/2018/03/11/钉钉自定义机器人的一种用法/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet 和一点点的 jsp 来编写简单的登录页面。">
+<meta property="og:description" content="文章的内容是介绍怎么『利用钉钉的自定义机器人来达到预告技术部今日分享的效果』。主要想给大家提供一种『利用钉钉的「自定义机器人」实现「定时」通知「固定格式消息」的实现思路』。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/012018/tomcat-servlet-login.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/012018/project-structure.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/012018/login.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/012018/login-success.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/012018/login-fail.png">
-<meta property="og:updated_time" content="2018-03-01T00:00:46.000Z">
+<meta property="og:updated_time" content="2018-03-11T07:09:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tomcat + servlet + jsp 开发登录页面实例">
-<meta name="twitter:description" content="大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet 和一点点的 jsp 来编写简单的登录页面。">
-<meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/012018/tomcat-servlet-login.png">
+<meta name="twitter:title" content="钉钉自定义机器人的一种用法">
+<meta name="twitter:description" content="文章的内容是介绍怎么『利用钉钉的自定义机器人来达到预告技术部今日分享的效果』。主要想给大家提供一种『利用钉钉的「自定义机器人」实现「定时」通知「固定格式消息」的实现思路』。">
 
 
 
@@ -126,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="//huminxi.netlify.com/2018/01/13/tomcat-servlet-jsp-开发登录页面实例/"/>
+  <link rel="canonical" href="//huminxi.netlify.com/2018/03/11/钉钉自定义机器人的一种用法/"/>
 
 
 
 
 
-  <title>tomcat + servlet + jsp 开发登录页面实例 | 黄枫谷</title>
+  <title>钉钉自定义机器人的一种用法 | 黄枫谷</title>
   
 
 
@@ -293,7 +287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2018/01/13/tomcat-servlet-jsp-开发登录页面实例/">
+    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2018/03/11/钉钉自定义机器人的一种用法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="胡匪">
@@ -310,7 +304,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">tomcat + servlet + jsp 开发登录页面实例</h1>
+          <h1 class="post-title" itemprop="name headline">钉钉自定义机器人的一种用法</h1>
         
 
         <div class="post-meta">
@@ -322,8 +316,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T16:46:41+08:00">
-                2018-01-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-11T13:24:04+08:00">
+                2018-03-11
               </time>
             
 
@@ -363,9 +357,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/13/tomcat-servlet-jsp-开发登录页面实例/#comments" itemprop="discussionUrl">
+                <a href="/2018/03/11/钉钉自定义机器人的一种用法/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/01/13/tomcat-servlet-jsp-开发登录页面实例/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/03/11/钉钉自定义机器人的一种用法/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -373,7 +367,7 @@
 
           
           
-             <span id="/2018/01/13/tomcat-servlet-jsp-开发登录页面实例/" class="leancloud_visitors" data-flag-title="tomcat + servlet + jsp 开发登录页面实例">
+             <span id="/2018/03/11/钉钉自定义机器人的一种用法/" class="leancloud_visitors" data-flag-title="钉钉自定义机器人的一种用法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -404,31 +398,40 @@
       
 
       
-        <p>大家在浏览网站时，都遇到过需要输入用户名和密码的情况，然后网站会对你的输入信息进行校验。如果用户名密码正确，接下来你就可以正常访问受限资源了。反之，网站就会给你相应的错误提示。今天我们就用 tomcat + servlet 和一点点的 jsp 来编写简单的登录页面。</p>
+        <p>文章的内容是介绍怎么『利用钉钉的自定义机器人来达到预告技术部今日分享的效果』。主要想给大家提供一种『利用钉钉的「自定义机器人」实现「定时」通知「固定格式消息」的实现思路』。</p>
 <a id="more"></a>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><blockquote>
-<p>Tomcat 是由 Apache 软件基金会下属的 Jakarta 项目开发的一个 Servlet 容器，按照 Sun MicroSystems 提供的技术规范，实现了对 Servlet 和 JavaServer Page（JSP）的支持，并提供了作为 Web 服务器的一些特有功能，如 Tomcat 管理和控制平台、安全域管理和 Tomcat 阀等。由于 Tomcat 本身也内含了一个 HTTP 服务器，它也可以被视作一个单独的 Web 服务器。但是，不能将 Tomcat 和 Apache HTTP 服务器混淆，Apache HTTP 服务器是一个用 C 语言实现的 HTTP Web server；这两个 HTTP web server 不是捆绑在一起的。Apache Tomcat 包含了一个配置管理工具，也可以通过编辑 XML 格式的配置文件来进行配置。</p>
-<p>Servlet 是一个在 Web 服务器中运行的小型 Java 程序。Servlet 的接收和响应来自Web客户端的请求，通常通过 HTTP(超文本传输协议)。</p>
-<p>JSP（全称 Java Server Pages）是由 Sun MicroSystems 公司倡导和许多公司参与共同创建的一种使软件开发者可以响应客户端请求，而动态生成 HTML、XML 或其他格式文档的 Web 网页的技术标准。JSP 技术是以 Java 语言作为脚本语言的，JSP 网页为整个服务器端的 Java 库单元提供了一个接口来服务于 HTTP 的应用程序。JSP 使 Java 代码和特定的预定义动作可以嵌入到静态页面中。JSP 句法增加了被称为 JSP 动作的 XML 标签，它们用来调用内建功能。另外，可以创建 JSP 标签库，然后像使用标准 HTML 或 XML 标签一样使用它们。标签库提供了一种和平台无关的扩展服务器性能的方法。JSP 被 JSP 编译器编译成 Java Servlets。一个 JSP 编译器可以把 JSP 编译成 Java 代码写的 servlet 然后再由 Java 编译器来编译成机器码，也可以直接编译成二进制码。</p>
-</blockquote>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="登录流程图"><a href="#登录流程图" class="headerlink" title="登录流程图"></a>登录流程图</h3><p><img tomcat-servlet-login="" src="/img/hufei/012018/tomcat-servlet-login.png" width="100%" height="50%"></p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h4><p><img project-structure="" src="/img/hufei/012018/project-structure.png" width="50%" height="30%"></p>
-<h4 id="LoginInfo"><a href="#LoginInfo" class="headerlink" title="LoginInfo"></a>LoginInfo</h4><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> entity;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 登录信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginInfo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> username;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> getUsername() &#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> void setUsername(<span class="keyword">String</span> username) &#123;</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> getPassword() &#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> void setPassword(<span class="keyword">String</span> password) &#123;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="LoginServlet"><a href="#LoginServlet" class="headerlink" title="LoginServlet"></a>LoginServlet</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> entity.<span class="type">LoginInfo</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.<span class="type">ServletException</span>;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.<span class="type">HttpServlet</span>;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.<span class="type">HttpServletRequest</span>;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.<span class="type">HttpServletResponse</span>;</span><br><span class="line"><span class="keyword">import</span> java.io.<span class="type">IOException</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 登录servlet</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">LoginServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> static <span class="keyword">final</span> <span class="type">String</span> <span class="type">USERNAME</span> = <span class="string">"admin"</span>;</span><br><span class="line">    <span class="keyword">private</span> static <span class="keyword">final</span> <span class="type">String</span> <span class="type">PASSWORD</span> = <span class="string">"admin"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void doGet(<span class="type">HttpServletRequest</span> req, <span class="type">HttpServletResponse</span> resp) <span class="keyword">throws</span> <span class="type">ServletException</span>, <span class="type">IOException</span> &#123;</span><br><span class="line">        <span class="comment">//让doGet执行与doPost相同操作</span></span><br><span class="line">        <span class="type">System</span>.out.println(<span class="string">"doGet方法被执行.."</span>);</span><br><span class="line">        doPost(req, resp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void doPost(<span class="type">HttpServletRequest</span> req, <span class="type">HttpServletResponse</span> resp) <span class="keyword">throws</span> <span class="type">ServletException</span>, <span class="type">IOException</span> &#123;</span><br><span class="line">        <span class="type">System</span>.out.println(<span class="string">"doPost方法被执行.."</span>);</span><br><span class="line">        <span class="type">LoginInfo</span> loginInfo = <span class="keyword">new</span> <span class="type">LoginInfo</span>();</span><br><span class="line">        <span class="type">String</span> username = req.getParameter(<span class="string">"username"</span>);</span><br><span class="line">        <span class="type">String</span> password = req.getParameter(<span class="string">"password"</span>);</span><br><span class="line">        loginInfo.setUsername(username);</span><br><span class="line">        loginInfo.setPassword(password);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//判断用户名和密码是否正确</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="type">USERNAME</span>.equals(loginInfo.getUsername()) &amp;&amp; <span class="type">PASSWORD</span>.equals(loginInfo.getPassword())) &#123;</span><br><span class="line">            resp.sendRedirect(req.getContextPath() + <span class="string">"/login_success.jsp"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resp.sendRedirect(req.getContextPath() + <span class="string">"/login_fail.jsp"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="web-xml"><a href="#web-xml" class="headerlink" title="web.xml"></a>web.xml</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">"3.1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>login.jsp<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>LoginServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>servlet.LoginServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>LoginServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/servlet/LoginServlet<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="login-jsp"><a href="#login-jsp" class="headerlink" title="login.jsp"></a>login.jsp</h4><figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> </span><span class="xml"><span class="tag">%&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/servlet/LoginServlet"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    用户名: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml">    密码: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"登录"</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h4 id="login-fail-jsp"><a href="#login-fail-jsp" class="headerlink" title="login_fail.jsp"></a>login_fail.jsp</h4><figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> </span><span class="xml"><span class="tag">%&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>登录失败<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>登录失败，请检查用户名和密码!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h4 id="login-success-jsp"><a href="#login-success-jsp" class="headerlink" title="login_success.jsp"></a>login_success.jsp</h4><figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> </span><span class="xml"><span class="tag">%&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>登录成功<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>恭喜你，登录成功!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="登录界面"><a href="#登录界面" class="headerlink" title="登录界面"></a>登录界面</h3><p><img login="" src="/img/hufei/012018/login.png" width="100%" height="50%"></p>
-<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><p><img login-success="" src="/img/hufei/012018/login-success.png" width="100%" height="50%"><br><img login-fail="" src="/img/hufei/012018/login-fail.png" width="100%" height="50%"></p>
-<h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
-<li><a href="http://www.imooc.com/learn/269" target="_blank" rel="noopener">JAVA遇见HTML——Servlet篇</a></li>
-<li><a href="https://www.kancloud.cn/shx_ky/java/109714" target="_blank" rel="noopener">java 学习总结</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/Apache_Tomcat" target="_blank" rel="noopener">Apache Tomcat</a></li>
-<li><a href="https://zh.wikipedia.org/zh-hans/Java_Servlet" target="_blank" rel="noopener">Java Servlet</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/JSP" target="_blank" rel="noopener">JSP</a></li>
+<h2 id="需求来源"><a href="#需求来源" class="headerlink" title="需求来源"></a>需求来源</h2><p>背景</p>
+<ul>
+<li>公司使用钉钉作为聊天软件</li>
+<li>钉钉存在对外开放的接口，例如『自定义机器人』</li>
 </ul>
-
+<p>起因</p>
+<p>技术部一直有分享的氛围。有分享者自然也要有听众，这样分享者才有动力。目前我们都是提前把分享内容告知给郭大侠，然后由郭大侠统一在分享开始的时间之前，『手动』在技术部的钉钉群里通知即将要分享的相关内容。但这样做存在两个问题:</p>
+<ul>
+<li>告知郭大侠分享内容之后，必须再一次通知郭大侠才能修改之前定的分享日期，不能实现自主修改</li>
+<li>郭大侠有时候会忘记发分享通知</li>
+</ul>
+<p>因为『郭大侠手动通知分享内容』的现行方式存在以上两个问题，于是就有了想写一个程序来实现自动通知分享内容的想法。Let’s do it.</p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><ul>
+<li>先写一个 python 脚本。将公司内部专门用来记录分享内容的 <a href="http://wiki.dev.nongfenqi.com/%E5%8C%A0%E4%BA%BA%E6%96%87%E5%8C%96:%E5%A4%A7%E7%89%9B%E6%88%90%E9%95%BF%E8%90%A5" target="_blank" rel="noopener">wiki 页面</a> 爬下来，然后进行解析，并输出分享内容。然后利用钉钉提供的 <a href="https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7629140.0.0.0omL8L&amp;treeId=257&amp;articleId=105735&amp;docType=1" target="_blank" rel="noopener">自定义机器人</a> 将分享内容通知到技术部群中</li>
+<li>再写一个定时任务，每天固定时间运行这个 python 脚本</li>
+</ul>
+<h3 id="先写一个-python-脚本"><a href="#先写一个-python-脚本" class="headerlink" title="先写一个 python 脚本"></a>先写一个 python 脚本</h3><p>工欲善其事，必先利其器。下面介绍几个省了我几周工作时间的 python 类库。</p>
+<h5 id="BeautifulSoup"><a href="#BeautifulSoup" class="headerlink" title="BeautifulSoup"></a>BeautifulSoup</h5><blockquote>
+<p><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html" target="_blank" rel="noopener">Beautiful Soup</a> 是一个可以从 HTML 或 XML 文件中提取数据的 Python 库。它能够通过你喜欢的转换器实现惯用的文档导航，查找，修改文档的方式。Beautiful Soup 会帮你节省数小时甚至数天的工作时间。</p>
+</blockquote>
+<h5 id="Requests"><a href="#Requests" class="headerlink" title="Requests"></a>Requests</h5><blockquote>
+<p><a href="http://docs.python-requests.org/zh_CN/latest/user/quickstart.html" target="_blank" rel="noopener">Requests</a> is the only Non-GMO HTTP library for Python, safe for human consumption.</p>
+</blockquote>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><p>代码中有两个注意点:</p>
+<ul>
+<li><p>doc_url 需要替换成自己要解析的网页地址(更换的网页地址之后记得重新定义网页的解析规则)</p>
+</li>
+<li><p>dingding_url 需要替换成自己群的钉钉机器人的 webhook 地址</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> re <span class="comment">#正则包</span></span><br><span class="line"><span class="keyword">import</span> urllib.request <span class="comment">#标准的请求 http 网页包</span></span><br><span class="line"><span class="keyword">import</span> requests <span class="comment">#封装了 http 请求的包</span></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup <span class="comment">#html 解析包</span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime <span class="comment">#时间包</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#1. 将 wiki 上记录分享的网页下载下来，并进行解析</span></span><br><span class="line"><span class="comment">#注意点 1: 这里需要换成你自己想要解析的相应网页的 url</span></span><br><span class="line">doc_url=<span class="string">'需要解析的网页 url'</span></span><br><span class="line">html_doc = urllib.request.urlopen(doc_url)</span><br><span class="line">soup = BeautifulSoup(html_doc, <span class="string">'html.parser'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2. 利用正则找出所有的分享日期，并判断今日有无分享</span></span><br><span class="line">date_list=soup.find_all(string=re.compile(<span class="string">"分享日期"</span>))</span><br><span class="line">today = datetime.now().strftime(<span class="string">"%Y-%m-%d"</span>)</span><br><span class="line"><span class="comment">#这里可以设置一个永远不会有的分享日期值，例如 1995-02-14</span></span><br><span class="line">next_share_date=<span class="string">'1995-02-14'</span></span><br><span class="line"><span class="keyword">for</span> ele <span class="keyword">in</span> date_list:</span><br><span class="line">        ele=ele[<span class="number">5</span>:]</span><br><span class="line">        <span class="keyword">if</span> ele==today:</span><br><span class="line">                next_share_date=ele</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#3. 利用 BeautifulSoup 找出所有的分享内容</span></span><br><span class="line">share_record=soup.find_all(string=re.compile(<span class="string">"分享\w\w\s.*|分享\w\s.*|《.*》"</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#4. 因为分享记录的格式固定，所以分享日期之后的 6 个元素就包括了一次分享的所有记录</span></span><br><span class="line">next_share_content=[]</span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range(len(share_record)):</span><br><span class="line">        <span class="keyword">if</span> next_share_date <span class="keyword">in</span> share_record[index]:</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">                        next_share_content.append(share_record[index])</span><br><span class="line">                        index+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#5. if 今日无分享，do nothing；else 通过钉钉的自定义机器人推送消息</span></span><br><span class="line"><span class="keyword">if</span> next_share_content == []:</span><br><span class="line">        print(<span class="string">'next_share_content is null'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">        print(next_share_content)</span><br><span class="line">        date=next_share_content[<span class="number">0</span>]</span><br><span class="line">        time=next_share_content[<span class="number">1</span>]</span><br><span class="line">        range=next_share_content[<span class="number">2</span>]</span><br><span class="line">        title=next_share_content[<span class="number">4</span>]</span><br><span class="line">        author=next_share_content[<span class="number">5</span>]</span><br><span class="line">        str_list=[<span class="string">'&#123;"msgtype":"markdown","markdown":&#123;"title":"今日分享","text":"#### **分享主题**  **'</span>,title,<span class="string">'**'</span>, <span class="string">'\n'</span>,<span class="string">'##### '</span>,date,<span class="string">'\n'</span>,<span class="string">'##### '</span>,time,<span class="string">'\n'</span>,<span class="string">'##### '</span>,range,<span class="string">'\n'</span>,<span class="string">'##### '</span>,author,<span class="string">'"'</span>,<span class="string">'&#125;'</span>,<span class="string">',"at":&#123;"atMobiles":[],"isAtAll":false&#125;'</span>,<span class="string">'&#125;'</span>]</span><br><span class="line">        message=<span class="string">''</span>.join(str_list)</span><br><span class="line">        print(message)</span><br><span class="line">        <span class="comment">#注意点 2:dingding_url 需要替换成你自己钉钉机器人的 webhook 地址</span></span><br><span class="line">        dingding_url=<span class="string">'webhook 地址'</span></span><br><span class="line">        headers=&#123;<span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>&#125;</span><br><span class="line">        r = requests.post(dingding_url, data=message.encode(<span class="string">'utf-8'</span>),headers=headers)</span><br></pre></td></tr></table></figure>
+<h3 id="接着写一个定时任务"><a href="#接着写一个定时任务" class="headerlink" title="接着写一个定时任务"></a>接着写一个定时任务</h3>
       
     </div>
     
@@ -445,9 +448,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+            <a href="/tags/钉钉/" rel="tag"># 钉钉</a>
           
-            <a href="/tags/servlet/" rel="tag"># servlet</a>
+            <a href="/tags/dingtalk/" rel="tag"># dingtalk</a>
           
         </div>
       
@@ -460,8 +463,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/08/年会街舞纪实/" rel="next" title="年会街舞纪实">
-                <i class="fa fa-chevron-left"></i> 年会街舞纪实
+              <a href="/2018/03/03/DNS/" rel="next" title="DNS">
+                <i class="fa fa-chevron-left"></i> DNS
               </a>
             
           </div>
@@ -469,10 +472,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/21/谈谈计算机中的四则运算/" rel="prev" title="谈谈计算机中的四则运算">
-                谈谈计算机中的四则运算 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -634,7 +633,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录流程图"><span class="nav-number">2.1.</span> <span class="nav-text">登录流程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">2.2.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#项目结构"><span class="nav-number">2.2.1.</span> <span class="nav-text">项目结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LoginInfo"><span class="nav-number">2.2.2.</span> <span class="nav-text">LoginInfo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LoginServlet"><span class="nav-number">2.2.3.</span> <span class="nav-text">LoginServlet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#web-xml"><span class="nav-number">2.2.4.</span> <span class="nav-text">web.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#login-jsp"><span class="nav-number">2.2.5.</span> <span class="nav-text">login.jsp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#login-fail-jsp"><span class="nav-number">2.2.6.</span> <span class="nav-text">login_fail.jsp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#login-success-jsp"><span class="nav-number">2.2.7.</span> <span class="nav-text">login_success.jsp</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#登录界面"><span class="nav-number">2.3.</span> <span class="nav-text">登录界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行结果"><span class="nav-number">2.4.</span> <span class="nav-text">运行结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">3.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求来源"><span class="nav-number">1.</span> <span class="nav-text">需求来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现思路"><span class="nav-number">2.</span> <span class="nav-text">实现思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先写一个-python-脚本"><span class="nav-number">2.1.</span> <span class="nav-text">先写一个 python 脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#BeautifulSoup"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">BeautifulSoup</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Requests"><span class="nav-number">2.1.0.2.</span> <span class="nav-text">Requests</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码"><span class="nav-number">2.1.0.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接着写一个定时任务"><span class="nav-number">2.2.</span> <span class="nav-text">接着写一个定时任务</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -804,8 +803,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.identifier = '2018/01/13/tomcat-servlet-jsp-开发登录页面实例/';
-          this.page.title = 'tomcat + servlet + jsp 开发登录页面实例';
+          this.page.identifier = '2018/03/11/钉钉自定义机器人的一种用法/';
+          this.page.title = '钉钉自定义机器人的一种用法';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://huminxi.disqus.com/embed.js';
