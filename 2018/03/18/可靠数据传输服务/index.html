@@ -96,7 +96,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-2-receiver.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-3-sender.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-2-receiver.png">
-<meta property="og:updated_time" content="2018-03-18T10:26:47.000Z">
+<meta property="og:updated_time" content="2018-03-18T15:24:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可靠数据传输服务">
 <meta name="twitter:description" content="我们知道，传输层有两个协议，分别是 UDP 和 TCP。其中 UDP 提供的是无连接的、不可靠的数据传输服务。而 TCP 则提供面向连接、带拥塞控制的可靠数据传输服务。今天，我们就来聊一聊该怎么实现可靠数据传输服务(reliable data transmission service)。">
@@ -410,7 +410,7 @@
       
         <p>我们知道，传输层有两个协议，分别是 UDP 和 TCP。其中 UDP 提供的是无连接的、不可靠的数据传输服务。而 TCP 则提供面向连接、带拥塞控制的可靠数据传输服务。今天，我们就来聊一聊该怎么实现可靠数据传输服务(reliable data transmission service)。</p>
 <a id="more"></a>
-<h2 id="我们的目标是"><a href="#我们的目标是" class="headerlink" title="我们的目标是"></a>我们的目标是</h2><p>先来看一张图。</p>
+<h2 id="我们的目标是什么"><a href="#我们的目标是什么" class="headerlink" title="我们的目标是什么"></a>我们的目标是什么</h2><p>先来看一张图。</p>
 <p><code>图 3-8 可靠数据传输服务的模型与实现</code><br><img reliable-data-transfer="" src="/img/hufei/032018/reliable-data-transfer.png" width="100%" height="50%"></p>
 <p>名词解释:</p>
 <ul>
@@ -462,13 +462,13 @@
 <h3 id="rdt-2-0"><a href="#rdt-2-0" class="headerlink" title="rdt 2.0"></a>rdt 2.0</h3><p>经具有比特差错信道的可靠数据传输协议</p>
 <h4 id="停等协议-stop-and-wait"><a href="#停等协议-stop-and-wait" class="headerlink" title="停等协议(stop-and-wait)"></a>停等协议(stop-and-wait)</h4><blockquote>
 <p>底层信道更为实际的模型是分组中的比特可能受损。在分组的传输、传播或缓存的过程中，这种比特差错通常会出现在网络的物理部件中。我们眼下还将继续假定所有发送的分组（虽然有些比特可能受损）将按其发送的顺序被接收。</p>
-<p>在开始研究能通过这种信道进行可靠通信的协议之前，首先考虑一下人们会怎样处理这类情形。考虑一下你自己是怎样通过电话口述一条长消息的。在通常情况下，报文接收者在听到、理解并记下每句话后可能会说『OK』。如果报文接收者听到一句含糊不清的话时，他可能要求你重复刚才那句话。这种口述报文协议使用了肯定确认(positive acknowledgement)『OK』与否定确认(negative acknowledgment) 『请重复一遍』。这些控制报文使得接收方可以让发送方知道哪些内容被正确接收，哪些内容接收有误并因此需要重复。在计算机网络环境中，基于这样重传机制的可靠数据传输协议称为自动重传请求(Automatic Repeat reQuest, ARQ)协议。</p>
+<p>在开始研究能通过这种信道进行可靠通信的协议之前，首先考虑一下人们会怎样处理这类情形。考虑一下你自己是怎样通过电话口述一条长消息的(如电话号码)。在通常情况下，报文接收者在听到、理解并记下每句话后可能会说『OK』。如果报文接收者听到一句含糊不清的话时，他可能要求你重复刚才那句话。这种口述报文协议使用了肯定确认(positive acknowledgement)『OK』与否定确认(negative acknowledgment) 『请重复一遍』。这些控制报文使得接收方可以让发送方知道哪些内容被正确接收，哪些内容接收有误并因此需要重复。在计算机网络环境中，基于这样重传机制的可靠数据传输协议称为自动重传请求(Automatic Repeat reQuest, ARQ)协议。</p>
 </blockquote>
 <p>基本上，ARQ 协议中需要包括下列三种功能来处理存在比特差错的情况</p>
 <ul>
-<li>差错检测。首先，需要一种机制以使接收方检测到何时出现了比特差错。实现这个机制的技术要求有额外的比特（不是原始数据中的比特）从发送方发送到接收方。这些比特将存在于 rdt2.0 数据分组的分组检验和字段当中。</li>
+<li>差错检测。首先，需要一种机制以使接收方检测到何时出现了比特差错。实现这个机制的技术要求有额外的比特（非原始数据中的比特）从发送方发送到接收方。这些比特将存在于 rdt2.0 数据分组的分组检验和字段当中。</li>
 <li>接收方反馈。因为发送方和接收方通常在不同端系统上执行，可能相隔数千英里，发送方要了解接收方情况（这里为分组是否被正确接收）的唯一途径就是让接收方提供明确的反馈信息给发送方。在口述报文情况下回答的『肯定确认』(ACK)和『否定确认』(NAK)就是这种反馈的例子。类似地，我们的 rdt2.0 协议将从接收方向发送方回送 ACK 与 NAK 分组。理论上，这些分组只需要一个比特长，如用 0 表示 NAK，用 1 表示 ACK。</li>
-<li>重传。接收方收到有差错的分组时，发送方将重传该分组文。</li>
+<li>重传。接收方收到有差错的分组时，发送方将重传该分组。</li>
 </ul>
 <p>图 3-10 说明了表示 rdt2.0 的 FSM，该数据传输协议采用了差错检测、肯定确认与否定确认。</p>
 <p><code>图 3-10 rdt2.0 用于具有比特差错信道的协议</code><br><img rdt-version-2="" src="/img/hufei/032018/rdt-version-2.png" width="100%" height="50%"></p>
@@ -476,16 +476,16 @@
 <p>注意到下列事实很重要：当发送方处于等待 ACK 或 NAK 的状态时，它不能从上层获得更多的数据。这就是说，rdt_send() 事件不可能出现，仅当接收到 ACK 并离开该状态时才能发生这样的事件。因此，发送方将不会发送一块新数据除非发送方确信接收方已正确接收当前分组。由于这种行为，rdt2.0 这样的协议被称为停等(stop-and-wait)协议。</p>
 </blockquote>
 <h4 id="ACK-NAK-受损"><a href="#ACK-NAK-受损" class="headerlink" title="ACK/NAK 受损"></a>ACK/NAK 受损</h4><blockquote>
-<p>rdt2.0 协议看起来似乎可以运行了，但遗憾的是，它存在一个致命的缺陷。尤其是我们没有考虑到 ACK 或 NAK 分组受损的可能性！（在继续研究之前，你应该考虑怎样解决该问题。）遗憾的是，我们细小的疏忽并非像它看起来那么无关紧要。至少，我们需要在 ACK/NAK 分组中添加检验和比特以检测这样的差错。更难的问题是协议应该怎样纠正这样的差错。这里的难点在于，如果一个 ACK/NAK 分组受损，发送方无法知道接收方是否正确接收了上一块发送的数据。</p>
+<p>rdt2.0 协议看起来似乎可以运行了，但遗憾的是，它存在一个致命的缺陷。我们没有考虑到 ACK 或 NAK 分组受损的可能性！（在继续研究之前，你应该考虑怎样解决该问题。）遗憾的是，我们细小的疏忽并非像它看起来那么无关紧要。至少，我们需要在 ACK/NAK 分组中添加检验和比特以检测这样的差错。更难的问题是协议应该怎样纠正这样的差错。这里的难点在于，如果一个 ACK/NAK 分组受损，发送方无法知道接收方是否正确接收了上一块发送的数据。</p>
 </blockquote>
 <p>我们考虑处理受损 ACK 和 NAK 的 3 种可能情况:</p>
 <ul>
-<li>第一种，考虑在口述报文情况下人可能的做法。如果说话者不理解来自接收方回答的『OK』或『请重复一遍』，说话者将可能问 『你说什么？』（这样就在我们的协议中引入了一种新的发送方到接收方的分组类型），接收方则将复述其回答。但是如果说话者的『你说什么？』产生了差错，情况又会怎样呢？由于接收者不明白那句混淆的话是口述内容的一部分还是一个要求重复上次回答的请求，很可能也回一句『你说什么？』。于是，越回答越乱。显然，我们走上了一条困难重重之路。</li>
+<li>第一种，在口述报文情况下人们通常的做法。如果说话者不理解来自接收方回答的『OK』或『请重复一遍』，说话者将可能问 『你说什么？』（这样就在我们的协议中引入了一种新的发送方到接收方的分组类型），接收方则将复述其回答。但是如果说话者的『你说什么？』产生了差错，情况又会怎样呢？由于接收者不明白那句混淆的话是口述内容的一部分还是一个要求重复上次回答的请求，很可能也回一句『你说什么？』。于是，越回答越乱。显然，我们走上了一条困难重重之路。</li>
 <li>第二种，增加足够长度的检验和比特，使收到受损 ACK/NAK 的发送方不仅可以检测出差错，还可恢复差错。对于会产生差错但不丢失分组的信道，这就可以直接解决问题。</li>
-<li>第三种，当发送方收到含糊不清的 ACK/NAK 分组时，只需重传当前数据分组即可。然而，这种方法在发送方到接收方的信道中引人了冗余分组(duplicate packet)。冗余分组的根本困难在于接收方不知道它上次所发送的 ACK/NAK 是否被发送方正确地收到。因此它就无法知道这一次接收到的分组是新的还是一次重传！</li>
+<li>第三种，当发送方收到含糊不清的 ACK/NAK 分组时，只需重传当前数据分组即可。然而，这种方法在发送方到接收方的信道中引人了冗余分组(duplicate packet)。冗余分组的根本困难在于接收方不知道它上次所发送的 ACK/NAK 是否被发送方正确地收到，这就导致它无法确认这一次接收到的分组是新的还是一次重传！</li>
 </ul>
 <blockquote>
-<p>解决这个新问题的一个简单方法（几乎所有现有的数据传输协议中，包括 TCP，都采用了这种方法）是在数据分组中添加一新字段，让发送方对其数据分组进行编号，即将发送数据分组的序号(sequence number)放在该字段。于是，接收方只需要检查序号即可确定收到的分组是否来自重传。对于停等协议这种简单情况，1 比特序号就足够了，因为它可让接收方知道发送方是否正在重传前一个发送分组（接收到的分组序号与最近收到的分组序号相同），或是一个新分组（序号变化了）。因为目前我们假定信道不丢分组。ACK 和 NAK 分组本身不需要指明它们要确认的分组序号。发送方知道所接收到的 ACK 和 NAK 分组（无论是否是含糊不清的）是为响应其最近发送的数据分组而生成的。</p>
+<p>解决这个新问题的一个简单方法（几乎所有现有的数据传输协议中，包括 TCP，都采用了这种方法）是在数据分组中添加一新字段，让发送方对其数据分组进行编号，将数据分组的序号(sequence number)放在该字段。于是，接收方只需要检查序号即可确定收到的分组是否来自重传。对于停等协议这种简单情况，1 比特序号就足够了，因为它可让接收方知道发送方是否正在重传前一个发送分组（接收到的分组序号与最近收到的分组序号相同），或是一个新分组（序号变化了）。因为目前我们假定信道不丢失分组。ACK 和 NAK 分组本身不需要指明它们要确认的分组序号。发送方知道所接收到的 ACK 和 NAK 分组（无论是否是含糊不清的）是为响应其最近发送的数据分组而生成的。</p>
 <p>图 3-11 和图 3-12 给出了对 rdt2.1 的 FSM 描述，这是 rdt2.0 的修订版。rdt2.1 的发送方和接收方 FSM 的状态数都是以前的两倍。这是因为协议状态此时必须反映出目前（由发送方）正发送的分组或（在接收方）希望接收的分组的序号是 0 还是 1。值得注意的是，发送或期望接收 0 号分组的状态中的动作与发送或期望接收 1 号分组的状态中的动作是相似的；唯一的不同是序号处理的方法不同。</p>
 </blockquote>
 <p><code>图 3-11 rdt2.1 发送方</code><br><img rdt-version-2-1-sender="" src="/img/hufei/032018/rdt-version-2-1-sender.png" width="100%" height="50%"></p>
@@ -497,12 +497,12 @@
 <p><code>图 3-14 rdt2.2 接收方</code><br><img rdt-version-2-2-receiver="" src="/img/hufei/032018/rdt-version-2-2-receiver.png" width="100%" height="50%"></p>
 <h3 id="rdt-3-0"><a href="#rdt-3-0" class="headerlink" title="rdt 3.0"></a>rdt 3.0</h3><p>经具有比特差错的丢包信道的可靠数据传输协议</p>
 <h4 id="丢包检测和恢复"><a href="#丢包检测和恢复" class="headerlink" title="丢包检测和恢复"></a>丢包检测和恢复</h4><blockquote>
-<p>现在假定除了比特受损外，底层信道还会丢包，这在今天的计算机网络（包括因特网）中很常见。协议现在必须解决另外两个关注的问题：怎样检测丢包以及发生丢包后该做些什么。在 rdt2.2 中已经研发的技术，如使用检验和、序号、ACK 分组和重传等，使我们能给出后一个问题的答案。为解决第一个关注的问题，还需增加一种新的协议机制。</p>
-<p>有很多可能的方法用于解决丢包问题，在这里，我们让发送方负责检测和恢复丢包工作。假定发送方传输一个数据分组，该分组或者接收方对该分组的 ACK 发生了丢失。在这两种情况下，发送方都收不到来自接收方的响应。如果发送方愿意等待足够长的时间以便确定分组已丢失，则它只需重传该数据分组即可。</p>
-<p>但是发送方需要等待多久才能确定已丢失了某些东西呢？很明显发送方至少需要等待这样长的时间：即发送方与接收方之间的一个往返时延（可能会包括在中间路由器的缓冲时延）加上接收方处理一个分组所需的时间。在很多网络中，最坏情况下的最大时延是很难估算的，确定的因素非常少。此外，理想的协议应尽可能快地从丢包中恢复出来。等待一个最坏情况的时延可能意味着要等待一段较长的时间，直到启动差错恢复为止。因此实践中采取的方法是发送方『明智』地选择一个时间值，以判定可能发生了丢包（尽管不能确保）。如果在这个时间内没有收到 ACK，则重传该分组(注意到如果一个分组经历了一个特别大的时延，发送方可能会重传该分组，即使该数据分组及其 ACK 都没有丢失。)这就在发送方到接收方的信道中引入了冗余数据分组(duplicate data packet)的可能性。幸运的是，rdt2.2 协议已经有足够的功能（即序号）来处理冗余分组情况。</p>
+<p>现在假定除了比特受损外，底层信道还会丢包，这在今天的计算机网络（包括因特网）中很常见。协议现在必须解决另外两个关注的问题：怎样检测丢包以及发生丢包后该做些什么。在 rdt2.2 中已经研发的技术，如使用检验和、序号、ACK 分组和重传等，使我们能给出后一个问题的答案。为解决第一个的问题，还需增加一种新的协议机制。</p>
+<p>有很多可能的方法用于解决丢包问题，在这里，我们让发送方负责检测和恢复丢包工作。假定发送方传输一个数据分组，该分组或者接收方对该分组的 ACK 发生了丢失。在这两种情况下，发送方都收不到来自接收方的响应。如果发送方愿意等待足够长的时间以便确定分组已经丢失，则它只需重传该数据分组即可。</p>
+<p>但是发送方需要等待多久才能确定已丢失了某些东西呢？很明显发送方至少需要等待这样长的时间：即发送方与接收方之间的一个往返时延（可能会包括在中间路由器的缓冲时延）加上接收方处理一个分组所需的时间。在很多网络中，最坏情况下的最大时延是很难估算的，确定的因素非常少。此外，理想的协议应该能尽快地从丢包中恢复出来。等待一个最坏情况的时延可能意味着要等待一段较长的时间，直到启动差错恢复为止。因此实践中采取的方法是发送方『明智』地选择一个时间值，以判定可能发生了丢包（尽管不能确保）。如果在这个时间内没有收到 ACK，则重传该分组(注意到如果一个分组经历了一个特别大的时延，发送方可能会重传该分组，即使该数据分组及其 ACK 都没有丢失)。这就在发送方到接收方的信道中引入了冗余数据分组(duplicate data packet)的可能性。幸运的是，rdt2.2 协议已经有足够的功能（即序号）来处理冗余分组的情况。</p>
 </blockquote>
 <h4 id="定时重传"><a href="#定时重传" class="headerlink" title="定时重传"></a>定时重传</h4><blockquote>
-<p>从发送方的观点来看，重传是一种万能灵药。发送方不知道是一个数据分组丢失，还是一个 ACK 丢失，或者只是该分组或 ACK 过度延时。在所有这些情况下，动作是同样的：重传。为了实现基于时间的重传机制，需要一个倒计时器(countdown timer)，在一个给定的时间量过期后，可中断发送方。因此，发送方需要能做到:</p>
+<p>从发送方的观点来看，重传是一种万能灵药(重启也是!)。发送方不知道是一个数据分组丢失，还是一个 ACK 丢失，或者只是该分组或 ACK 过度延时。在所有这些情况下，动作是同样的：重传。为了实现基于时间的重传机制，需要一个倒计时器(countdown timer)，在一个给定的时间量过期后，可中断发送方。因此，发送方需要能做到:</p>
 </blockquote>
 <ul>
 <li>每次发送一个分组(包括新分组和重传分组)时，便启动一个定时器</li>
@@ -723,7 +723,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#我们的目标是"><span class="nav-number">1.</span> <span class="nav-text">我们的目标是</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么实现"><span class="nav-number">2.</span> <span class="nav-text">怎么实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-1-0"><span class="nav-number">2.1.</span> <span class="nav-text">rdt 1.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有限状态机-finite-state-machine"><span class="nav-number">2.1.1.</span> <span class="nav-text">有限状态机(finite-state-machine)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-2-0"><span class="nav-number">2.2.</span> <span class="nav-text">rdt 2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#停等协议-stop-and-wait"><span class="nav-number">2.2.1.</span> <span class="nav-text">停等协议(stop-and-wait)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ACK-NAK-受损"><span class="nav-number">2.2.2.</span> <span class="nav-text">ACK/NAK 受损</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#去掉-NAK"><span class="nav-number">2.2.3.</span> <span class="nav-text">去掉 NAK</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-3-0"><span class="nav-number">2.3.</span> <span class="nav-text">rdt 3.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#丢包检测和恢复"><span class="nav-number">2.3.1.</span> <span class="nav-text">丢包检测和恢复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定时重传"><span class="nav-number">2.3.2.</span> <span class="nav-text">定时重传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rdt3-0-接收方"><span class="nav-number">2.3.3.</span> <span class="nav-text">rdt3.0 接收方</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rdt3-0-的性能问题"><span class="nav-number">2.3.4.</span> <span class="nav-text">rdt3.0 的性能问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">3.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#我们的目标是什么"><span class="nav-number">1.</span> <span class="nav-text">我们的目标是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么实现"><span class="nav-number">2.</span> <span class="nav-text">怎么实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-1-0"><span class="nav-number">2.1.</span> <span class="nav-text">rdt 1.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有限状态机-finite-state-machine"><span class="nav-number">2.1.1.</span> <span class="nav-text">有限状态机(finite-state-machine)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-2-0"><span class="nav-number">2.2.</span> <span class="nav-text">rdt 2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#停等协议-stop-and-wait"><span class="nav-number">2.2.1.</span> <span class="nav-text">停等协议(stop-and-wait)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ACK-NAK-受损"><span class="nav-number">2.2.2.</span> <span class="nav-text">ACK/NAK 受损</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#去掉-NAK"><span class="nav-number">2.2.3.</span> <span class="nav-text">去掉 NAK</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-3-0"><span class="nav-number">2.3.</span> <span class="nav-text">rdt 3.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#丢包检测和恢复"><span class="nav-number">2.3.1.</span> <span class="nav-text">丢包检测和恢复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定时重传"><span class="nav-number">2.3.2.</span> <span class="nav-text">定时重传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rdt3-0-接收方"><span class="nav-number">2.3.3.</span> <span class="nav-text">rdt3.0 接收方</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rdt3-0-的性能问题"><span class="nav-number">2.3.4.</span> <span class="nav-text">rdt3.0 的性能问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">3.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
             
 
           </div>
