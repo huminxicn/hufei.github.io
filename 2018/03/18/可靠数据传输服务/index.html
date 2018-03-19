@@ -96,7 +96,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-2-receiver.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-3-sender.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-2-receiver.png">
-<meta property="og:updated_time" content="2018-03-18T15:34:29.000Z">
+<meta property="og:updated_time" content="2018-03-19T09:28:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可靠数据传输服务">
 <meta name="twitter:description" content="我们知道，传输层有两个协议，分别是 UDP 和 TCP。其中 UDP 提供的是无连接的、不可靠的数据传输服务。而 TCP 则提供面向连接、带拥塞控制的可靠数据传输服务。今天，我们就来聊一聊该怎么实现可靠数据传输服务(reliable data transmission service)。">
@@ -443,7 +443,7 @@
 </blockquote>
 <ul>
 <li>发送方和接收方有各自的 FSM 。图 3-9 中发送方和接收方的 FSM 每个都只有一个状态。</li>
-<li>FSM 描述图中的箭头指示了协议从一个状态变迁到另一个状态。（因为 图 3-9 中的每个 FSM 都只有一个状态，因此变迁必定是从一个状态返回到自身；我们很快将看到更复杂的状态图。）</li>
+<li>FSM 描述图中的箭头指示了协议从一个状态变迁到另一个状态。（因为 图 3-9 中的每个 FSM 都只有一个状态，因此变迁必定是从一个状态返回到自身。）</li>
 <li>引起变迁的事件显示在表示变迁的横线上方，事件发生时所采取的动作显示在横线下方。如果对一个事件没有动作，或没有事件就发生了动作，我们将在横线下方或上方使用符号 𐌡，以明确地表示缺少动作或事件。</li>
 <li>FSM 的初始状态用虚线表示。尽管图 3-9 中的 FSM 只有一个状态但马上我们就将看到多状态的 FSM，因此标识每个 FSM 的初始状态是非常重要的。</li>
 </ul>
