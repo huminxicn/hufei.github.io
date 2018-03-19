@@ -89,11 +89,11 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/doc-url.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/dingding-robot.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/parse-script.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/crontab-format.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/crontab-schedule.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/share-record.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/markdown-message.png">
-<meta property="og:updated_time" content="2018-03-12T10:10:54.000Z">
+<meta property="og:updated_time" content="2018-03-19T01:56:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="钉钉自定义机器人的一种用法">
 <meta name="twitter:description" content="文章的主要内容是介绍怎么利用钉钉的自定义机器人来自动通知技术部的今日分享。目的是想给大家提供一种『利用钉钉的「自定义机器人」实现「定时」通知「固定格式消息」的实现思路』。">
@@ -446,11 +446,20 @@
 </li>
 </ul>
 <h3 id="再写一个定时任务"><a href="#再写一个定时任务" class="headerlink" title="再写一个定时任务"></a>再写一个定时任务</h3><p>linux 机器有一个 <a href="http://www.cnblogs.com/peida/archive/2013/01/08/2850483.html" target="_blank" rel="noopener">crontab</a> 命令，这个是 linux 系统提供的实现自定义系统计划的命令。</p>
-<h4 id="编辑系统计划"><a href="#编辑系统计划" class="headerlink" title="编辑系统计划"></a>编辑系统计划</h4><p>crontab -e </p>
-<h4 id="查看系统计划"><a href="#查看系统计划" class="headerlink" title="查看系统计划"></a>查看系统计划</h4><p>crontab -l </p>
-<h4 id="自定义一个系统计划"><a href="#自定义一个系统计划" class="headerlink" title="自定义一个系统计划"></a>自定义一个系统计划</h4><p><code>每天的 8:30 和 17:30 执行一下 /home/hufei 这个绝对路径下的 parse.py 脚本。</code></p>
-<p><img parse-script="" src="/img/hufei/032018/parse-script.png" width="100%" height="50%"></p>
-<p><code>crontab 格式说明</code><br><img crontab-format="" src="/img/hufei/032018/crontab-format.png" width="70%" height="50%"></p>
+<h4 id="编辑系统计划"><a href="#编辑系统计划" class="headerlink" title="编辑系统计划"></a>编辑系统计划</h4><p><code>crontab -e</code></p>
+<h4 id="查看系统计划"><a href="#查看系统计划" class="headerlink" title="查看系统计划"></a>查看系统计划</h4><p><code>crontab -l</code></p>
+<h4 id="自定义一个系统计划"><a href="#自定义一个系统计划" class="headerlink" title="自定义一个系统计划"></a>自定义一个系统计划</h4><p>crontab 格式说明<br><img crontab-format="" src="/img/hufei/032018/crontab-format.png" width="70%" height="50%"></p>
+<p>crontab 命令示例<br><code>40 8 * * * /home/hufei/parse-all.py &gt;&gt; /home/hufei/out-all.file 2&gt;&amp;1</code></p>
+<ul>
+<li><code>40 8 * * *</code> 每天的 8 点 40 分</li>
+<li><code>&gt;</code> 表示覆盖</li>
+<li><code>&gt;&gt;</code> 表示追加</li>
+<li><code>1</code> 表示 stdout 标准输出，系统默认值是 1</li>
+<li><code>2</code> 表示 stderr 标准错误</li>
+<li><code>&amp;</code> 表示等同于的意思</li>
+<li><code>2&gt;&amp;1</code> 表示 2 的输出重定向等同于 1</li>
+</ul>
+<p><img crontab-schedule="" src="/img/hufei/032018/crontab-schedule.png" width="100%" height="50%"></p>
 <h2 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h2><p><code>分享内容的格式</code><br><img share-record="" src="/img/hufei/032018/share-record.png" width="100%" height="50%"></p>
 <p><code>钉钉通知消息的格式</code><br><img markdown-message="" src="/img/hufei/032018/markdown-message.png" width="100%" height="50%"></p>
 <h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
@@ -459,6 +468,7 @@
 <li><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html" target="_blank" rel="noopener">BeautifulSoup</a></li>
 <li><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000" target="_blank" rel="noopener">python 入门教程</a></li>
 <li><a href="http://www.cnblogs.com/peida/archive/2013/01/08/2850483.html" target="_blank" rel="noopener">每天一个 linux 命令：crontab 命令</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_605f5b4f010154mn.html" target="_blank" rel="noopener">linux 往文件末追加行</a></li>
 </ul>
 
       
