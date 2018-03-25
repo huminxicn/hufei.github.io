@@ -96,7 +96,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-sender-and-receiver.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-operation.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-receiver-dilemma.png">
-<meta property="og:updated_time" content="2018-03-25T02:49:59.000Z">
+<meta property="og:updated_time" content="2018-03-25T02:54:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可靠数据传输服务续">
 <meta name="twitter:description" content="经过 前文 的介绍，我们现在已经有了一个可以在『存在比特差错的丢包信道』上进行可靠数据传输(reliable data transfer)的协议——rdt3.0。但同时我们也发现了 rdt3.0 其实并不完善，因为它是一个停等(stop-and-wait)协议，所以还存在性能方面的问题待优化。今天我们就一起来看看具体是怎么优化的吧！">
@@ -416,12 +416,12 @@
 <p>为了评价该停等行为对性能的影响，可考虑一种具有两台主机的理想化场合，一台主机位于美国西海岸，另一台位于美国东海岸，如图 3-17 所示。在这两个端系统之间的光速往返传播时延 RTT 大约为 30 毫秒。假定彼此通过一条发送速率 R 为 1Gbps (每秒 10⁹ 比特）的信道相连。包括首部字段和数据的分组长 L 为 1000 字节(8000 比特），发送一个分组进入 1Gbps 链路实际所需时间是:</p>
 </blockquote>
 <p>$$T𝗍𝗋𝖺𝗇𝗌=\frac{L}{R}=\frac{8000 bit/pkt}{10⁹ bit/s}=8µs/pkt$$</p>
-<p><code>图 3-17 停等协议与流水线协议</code><br><img stop-and-wait-versus-pipelined-protocol="" src="/img/hufei/032018/stop-and-wait-versus-pipelined-protocol.png" width="100%" height="50%"></p>
+<p><code>图 3-17 停等协议与流水线协议</code><br><img stop-and-wait-versus-pipelined-protocol="" src="/img/hufei/032018/stop-and-wait-versus-pipelined-protocol.png" width="100%" height="100%"></p>
 <blockquote>
 <p>图 3-18a 显示了对于该停等协议，如果发送方在 t=0 时刻开始发送分组，则在 t=L/R=8µs 后，最后 1 比特数据进入了发送端信道。该分组经过 15ms 后到达接收端，该分组的最后 1 比特在时刻 T=RTT/2 + L/R= 15.008ms 时到达接收方。为了简化起见，假设 ACK 分组很小（以便我们可以忽略其发送时间），接收方一旦收到一个数据分组的最后 1 比特后立即发送 ACK，ACK 在时刻 t = RTT + L/R =30.008ms 时在发送方出现。此时，发送方可以发送下一个报文。因此，在 30.008ms 内，发送方的发送只用了 0.008ms。如果我们定义发送方（或信道）的利用率 (utilization) 为：发送方实际忙于将发送比特送进信道的那部分时间与发送时间之比，图 3-18a 中的分析表明了停等协议有着非常低的发送方利用率 U𝗌𝚎𝗇𝚍𝚎𝚛:</p>
 </blockquote>
 <p>$$U𝗌𝚎𝚗𝚍𝚎𝚛=\frac{L/R}{RTT+L/R}=\frac{0.008}{30.008}=0.00027$$</p>
-<p><code>图 3-18 停等和流水线发送</code><br><img stop-and-wait-and-pipelined-sending="" src="/img/hufei/032018/stop-and-wait-and-pipelined-sending.png" width="100%" height="50%"></p>
+<p><code>图 3-18 停等和流水线发送</code><br><img stop-and-wait-and-pipelined-sending="" src="/img/hufei/032018/stop-and-wait-and-pipelined-sending.png" width="100%" height="100%"></p>
 <blockquote>
 <p>这就是说，发送方只有万分之 2.7 时间是忙的。从其他角度来看，发送方在 30. 008m 内只能发送 1000 字节，有效的吞吐量仅为 267kbps，即使有 1Gbps 的链路可用！想象一个不幸的网络经理购买了一条千兆比容量的链路，但他仅能得到 267kbps 吞吐量的情况！这是一个形象的网络协议限制底层网络硬件所提供的能力的示例。而且，我们还忽略了在发送方和接收方的底层协议处理时间，以及可能出现在发送方与接收方之间的任何中间路由器上的处理与排队时延。考虑到这些因素，将进一步增加时延，使其性能更糟糕。</p>
 <p>解决这种特殊的性能问题的一个简单方法是：不使用停等方式运行，允许发送方发送多个分组而无需等待确认，如在图 3-17b 图示的那样。图 3-18b 显示了如果发送方可以在等待确认之前发送 3 个报文，其利用率也基本上提高 3 倍。因为许多从发送方向接收方输送的分组可以被看成是填充到一条流水线中，故这种技术被称为流水线(pipelining)。流水线技术对可靠数据传输协议带来如下影响:</p>
@@ -435,13 +435,13 @@
 <p>在回退 N 步(GBN)协议中，允许发送方发送多个分组（当有多个分组可用时）而不需等待确认，但它也受限于在流水线中未确认的分组数不能超过某个最大允许数 N。</p>
 <p>图 3-19 显示了发送方看到的 GBN 协议的序号范围。如果我们将基序号(base)定义为最早的未确认分组的序号，将下一个序号(nextseqnum)定义为最小的未使用序号（即下一个待发分组的序号），则可将序号范围分割成 4 段。在 [0, base-1] 段内的序号对应于已经发送而且被确认的分组。[base, nextseqnum - 1] 段内对应已经发送但未被确认的分组。[nextseqnum, base + N - 1] 段内的序号能用于那些要被立即发送的分组，如果有数据来自上层的话。最后，大于或等于 base + N 的序号是不能使用的，直到当前流水线中未被确认的分组（特别是序号为 base 的分组）已得到确认为止。</p>
 </blockquote>
-<p><code>图 3-19 在 GBN 中发送方看到的序号</code><br><img go-back-n="" src="/img/hufei/032018/go-back-n.png" width="100%" height="50%"></p>
+<p><code>图 3-19 在 GBN 中发送方看到的序号</code><br><img go-back-n="" src="/img/hufei/032018/go-back-n.png" width="100%" height="100%"></p>
 <blockquote>
 <p>如图 3-19 所示的那样，那些已被发送但还未被确认的分组的许可序号范围可以被看成是一个在序号范围内长度为 N 的窗口。随着协议的运行，该窗口在序号空间向前滑动。因此，N 常被称为窗口长度(window size)，GBN 协议也常被称为滑动窗口协议 (sliding-window protocol)。</p>
-<p>你也许想知道，我们为什么先要限制这些被发送的、未被确认的分组的数目为 N 呢？为什么不允许这些分组为无限制的数目呢？流量控制是对发送方施加限制的原因之一。</p>
+<p>你也许想知道，我们为什么要限制这些被发送的、未被确认的分组的数目为 N 呢？为什么不允许这些分组为无限制的数目呢？流量控制是对发送方施加限制的原因之一。</p>
 <p>在实践中，一个分组的序号承载在分组首部的一个固定长度的字段中。如果分组序号字段的比特数是 k，则该序号范围是 [0, 2ᵏ - 1] 。在一个有限的序号范围内，所有涉及序号的运算必须使用模 2ᵏ 运算(序号空间可被看作是一个长度为 2ᵏ 的环，其中序号 2ᵏ - 1 紧挨着序号 0)。前面讲过，rdt3.0 有一个比特的序号，其序号范围是 [0, 1] (而 TCP 有 32 比特的序号范围)。</p>
 </blockquote>
-<h3 id="发送方-FSM"><a href="#发送方-FSM" class="headerlink" title="发送方 FSM"></a>发送方 FSM</h3><p><code>图 3-20 GBN 发送方的扩展 FSM 描述</code><br><img extended-gbn-sender="" src="/img/hufei/032018/extended-gbn-sender.png" width="100%" height="50%"></p>
+<h3 id="发送方-FSM"><a href="#发送方-FSM" class="headerlink" title="发送方 FSM"></a>发送方 FSM</h3><p><code>图 3-20 GBN 发送方的扩展 FSM 描述</code><br><img extended-gbn-sender="" src="/img/hufei/032018/extended-gbn-sender.png" width="100%" height="100%"></p>
 <blockquote>
 <p>GBN 发送方必须响应三种类型的事件:</p>
 </blockquote>
@@ -450,7 +450,7 @@
 <li>收到一个 ACK。在 GBN 协议中，对序号为 n 的分组的确认采取累积确认(cumulative acknowledgment)的方式，表明接收方已正确接收到序号为 n 的之前且包括 n 在内的所有分组。稍后讨论 GBN 接收方时，我们将再次研究这个主题。</li>
 <li>超时事件。协议的名字『回退 N 步』来源于出现丢失和时延过长的分组时发送方的行为。就像在停等协议中那样，定时器将再次用于恢复数据或确认分组的丢失。如果出现超时，发送方重传所有已发送但还未被确认过的分组。图 3-20 中的发送方仅使用一个定时器，它可被当作是最早的已发送但未被确认的分组所使用的定时器。如果收到一个 ACK，但仍有已发送但未被确认的分组，则定时器被重新启动。如果没有已经发送但未被确认的分组，该定时器被终止。</li>
 </ul>
-<h3 id="接收方-FSM"><a href="#接收方-FSM" class="headerlink" title="接收方 FSM"></a>接收方 FSM</h3><p><code>图 3-21 GBN 接收方的扩展 FSM 描述</code><br><img extended-gbn-receiver="" src="/img/hufei/032018/extended-gbn-receiver.png" width="100%" height="50%"></p>
+<h3 id="接收方-FSM"><a href="#接收方-FSM" class="headerlink" title="接收方 FSM"></a>接收方 FSM</h3><p><code>图 3-21 GBN 接收方的扩展 FSM 描述</code><br><img extended-gbn-receiver="" src="/img/hufei/032018/extended-gbn-receiver.png" width="100%" height="100%"></p>
 <blockquote>
 <p>在 GBN 中，接收方的动作也很简单。如果一个序号为 n 的分组被正确接收到，并且按序（即上次交付给上层的数据是序号为 n-1 的分组），则接收方为分组 n 发送一个 ACK，并将该分组中的数据交付到上层。在所有其他情况下，接收方丢弃该分组，并为最近按序接收的分组重新发送 ACK。注意到因为一次交付给上层一个分组，如果分组 k 已接收并交付，则所有比 k 小的分组也已经交付。因此，使用累积确认是 GBN 的一个自然选择。</p>
 <p>在 GBN 协议中，接收方丢弃所有失序分组。尽管丢弃一个正确接收(但失序)的分组有点愚蠢和浪费，但这样做是有理由的。前面讲过，接收方必须按序将数据交付给上层。假定现在期望接收分组 n，而分组 n+1 却到了。因为数据必须按序交付，接收方可能缓存分组 n+1，然后，在它收到并交付分组 n 后，再将该分组交付到上层。然而，如果分组 n 丢失，则该分组及分组 n+1 最终将在发送方根据 GBN 重传规则而被重传。因此，接收方只需丢弃分组 n+1 即可。 这种方法的优点是接收缓存简单，即接收方不需要缓存任何失序分组。因此，虽然发送方必须维护窗口的上下边界及 nextseqnum 在该窗口中的位置，但是接收方只需要维护下一个按序接收的分组的序号即可。该值保存在 expectedseqnum 变量中，如图 3-21 中接收方 FSM 所示。当然，丢弃一个正确接收的分组的缺点是随后对该分组的重传也许会丢失或出错，因此可能需要更多的重传。                                  </p>
@@ -458,12 +458,12 @@
 <h3 id="运行中的-GBN"><a href="#运行中的-GBN" class="headerlink" title="运行中的 GBN"></a>运行中的 GBN</h3><blockquote>
 <p>图 3-22 给出了窗口长度为 4 个分组的 GBN 协议的运行情况。因为该窗口长度的限制，发送方发送分组 0-3，然后在继续发送之前，必须等待直到一个或多个分组被确认。当接收到每一个连续的 ACK(例如 ACK 0 和 ACK 1)时，该窗口便向前滑动，发送方就可以发送新的分组(分别是分组 4 和分组 5)。在接收方，分组 2 丢失，因此分组 3、4 和 5 被发现是失序分组并被丢弃。</p>
 </blockquote>
-<p><code>图 3-22 运行中的 GBN</code><br><img gbn-in-operation="" src="/img/hufei/032018/gbn-in-operation.png" width="100%" height="50%"></p>
+<p><code>图 3-22 运行中的 GBN</code><br><img gbn-in-operation="" src="/img/hufei/032018/gbn-in-operation.png" width="100%" height="100%"></p>
 <h2 id="Selective-Repeat"><a href="#Selective-Repeat" class="headerlink" title="Selective Repeat"></a>Selective Repeat</h2><h3 id="GBN-大批量重传的问题"><a href="#GBN-大批量重传的问题" class="headerlink" title="GBN 大批量重传的问题"></a>GBN 大批量重传的问题</h3><blockquote>
 <p>在图 3-17 中，GBN 协议潜在地允许发送方用多个分组『填充流水线』，因此缓解了停等协议中所提到的信道利用率问题。然而，GBN 本身也有一些情况存在着性能问题。尤其是当窗口长度和带宽时延的乘积很大时，在流水线(分组更多)中更为严重。单个分组的差错就能够引起 GBN 重传大批分组，许多分组根本没有必要重传。随着信道差错率的增加，流水线可能会被这些不必要重传的分组所充斥。想象一下，在我们口述消息的例子中，如果每次有一个单词含糊不清，其前后 1000 个单词(假设窗口长度为 1000 个单词)不得不被重传的情况。此次口述将会由于这些反复述说的单词而变慢。</p>
 <p>顾名思义，选择重传(SR)协议通过让发送方仅重传那些它怀疑在接收方出错(即丢失或受损)的分组而避免了不必要的重传。这种个别的、按需的重传要求接收方逐个地确认正确接收的分组。再次用窗口长度 N 来限制流水线中未完成、未被确认的分组数。然而，与 GBN 不同的是，发送方已经收到了对窗口中某些分组的 ACK。图 3-23 显示了 SR 发送方和接收方看到的序号空间。</p>
 </blockquote>
-<p><code>图 3-23 SR 发送方与接收方的序号空间</code><br><img sr-sender-and-receiver="" src="/img/hufei/032018/sr-sender-and-receiver.png" width="100%" height="50%"></p>
+<p><code>图 3-23 SR 发送方与接收方的序号空间</code><br><img sr-sender-and-receiver="" src="/img/hufei/032018/sr-sender-and-receiver.png" width="100%" height="100%"></p>
 <h3 id="SR-sender"><a href="#SR-sender" class="headerlink" title="SR sender"></a>SR sender</h3><p>SR 发送方的事件与动作</p>
 <ul>
 <li>从上层收到数据。当从上层接收到数据后，SR 发送方检查下一个可用于该分组的序号。如果序号位于发送方的窗口内，则将数据打包并发送；否则就像在 GBN 中一样，要么将数据缓存，要么将其返回给上层以便以后传输。</li>
@@ -476,7 +476,7 @@
 <li>序号在 [rev_base - N, rev_base - 1] 内的分组被正确收到。在此情况下，必须产生一个 ACK，即使该分组是接收方以前已确认过的分组。</li>
 <li>其它情况。忽略该分组。</li>
 </ul>
-<p><code>图 3-26 SR 操作</code><br><img sr-operation="" src="/img/hufei/032018/sr-operation.png" width="100%" height="50%"></p>
+<p><code>图 3-26 SR 操作</code><br><img sr-operation="" src="/img/hufei/032018/sr-operation.png" width="100%" height="100%"></p>
 <h3 id="SR-窗口不一致的问题"><a href="#SR-窗口不一致的问题" class="headerlink" title="SR 窗口不一致的问题"></a>SR 窗口不一致的问题</h3><blockquote>
 <p>注意到 SR receiver 中的第二步很重要，接收方重新确认(而不是忽略)已收到过的那些序号小于当前窗口基序号的分组。你应该理解这种重新确认确实是需要的。例如，给定在图 3-23 中所示的发送方和接收方的序号空间，如果分组 send_base 的 ACK 没有从接收方传播回发送方，则发送方最终将重传分组 send_base，即使接收方已经收到了该分组。如果接收方不确认该分组，则发送方窗口将永远不能向前滑动！这个例子说明了 SR 协议的一个重要方面。对于哪些分组已经被正确接收，哪些没有，发送方和接收方并不总是能看到相同的结果。对 SR 协议而言，这就意味着发送方和接收方的窗口并不总是一致。</p>
 <p>当我们面对有限序号范围的情况时，发送方和接收方窗口间缺乏同步会产生严重的后果。考虑下面例子中可能发生的情况，例子中有包括 4 个分组序号 0、1、2、3 的有限序号范围且窗口长度为 3。假定发送了分组 0 至 2，并在接收方被正确接收且确认了。此时，接收方窗口落在第 4、5、6 个分组上，其序号分别为 3、0、1。现在考虑两种情况:</p>
@@ -485,7 +485,7 @@
 <li>在第一种情况下，如图 3-27a 所示，对前 3 个分组的 ACK 丢失，因此发送方重传这些分组。因此，接收方下一步要接收序号为 0 的分组，即第一个发送分组的副本。</li>
 <li>在第二种情况下，如图 3-27b 所示，对前 3 个分组的 ACK 都被正确交付。因此发送方向前移动窗口并发送第 4、5、6 个分组，其序号分别为 3、0、1。序号为 3 的分组丢失，但序号为 0 的分组到达(一个包含新数据的分组)。</li>
 </ul>
-<p><code>图 3-27 SR 接收方窗口太大的困境：是一个新分组还是一次重传</code><br><img sr-receiver-dilemma="" src="/img/hufei/032018/sr-receiver-dilemma.png" width="100%" height="50%"></p>
+<p><code>图 3-27 SR 接收方窗口太大的困境：是一个新分组还是一次重传</code><br><img sr-receiver-dilemma="" src="/img/hufei/032018/sr-receiver-dilemma.png" width="100%" height="100%"></p>
 <blockquote>
 <p>现在考虑一下图 3-27 中接收方的观点，在发送方和接收方之间有一副假想的帘子，因为接收方不能『看见』发送方采取的动作。接收方所能观察到的是它从信道中收到的以及它向信道中发出报文序列。就其所关注的而言，图 3-27 中的两种情况是等同的。没有办法区分是第 1 个分组的重传还是第 5 个分组的初次传输。显然，窗口长度比序号空间小 1 时协议无法工作。</p>
 <p>但窗口必须多小呢？窗口长度比须小千或等于序号空间大小的一半。</p>
