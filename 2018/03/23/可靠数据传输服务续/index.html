@@ -96,7 +96,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-sender-and-receiver.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-operation.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-receiver-dilemma.png">
-<meta property="og:updated_time" content="2018-03-25T02:54:11.000Z">
+<meta property="og:updated_time" content="2018-03-25T14:50:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可靠数据传输服务续">
 <meta name="twitter:description" content="经过 前文 的介绍，我们现在已经有了一个可以在『存在比特差错的丢包信道』上进行可靠数据传输(reliable data transfer)的协议——rdt3.0。但同时我们也发现了 rdt3.0 其实并不完善，因为它是一个停等(stop-and-wait)协议，所以还存在性能方面的问题待优化。今天我们就一起来看看具体是怎么优化的吧！">
@@ -488,7 +488,7 @@
 <p><code>图 3-27 SR 接收方窗口太大的困境：是一个新分组还是一次重传</code><br><img sr-receiver-dilemma="" src="/img/hufei/032018/sr-receiver-dilemma.png" width="100%" height="100%"></p>
 <blockquote>
 <p>现在考虑一下图 3-27 中接收方的观点，在发送方和接收方之间有一副假想的帘子，因为接收方不能『看见』发送方采取的动作。接收方所能观察到的是它从信道中收到的以及它向信道中发出报文序列。就其所关注的而言，图 3-27 中的两种情况是等同的。没有办法区分是第 1 个分组的重传还是第 5 个分组的初次传输。显然，窗口长度比序号空间小 1 时协议无法工作。</p>
-<p>但窗口必须多小呢？窗口长度比须小千或等于序号空间大小的一半。</p>
+<p>但窗口必须多小呢？窗口长度比须小于或等于序号空间大小的一半。</p>
 </blockquote>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="可靠数据传输机制及其用途"><a href="#可靠数据传输机制及其用途" class="headerlink" title="可靠数据传输机制及其用途"></a>可靠数据传输机制及其用途</h3><table>
 <thead>
