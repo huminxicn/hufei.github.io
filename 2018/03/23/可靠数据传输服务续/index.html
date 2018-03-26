@@ -96,7 +96,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-sender-and-receiver.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-operation.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-receiver-dilemma.png">
-<meta property="og:updated_time" content="2018-03-26T07:01:11.000Z">
+<meta property="og:updated_time" content="2018-03-26T07:05:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可靠数据传输服务续">
 <meta name="twitter:description" content="经过 前文 的介绍，我们现在已经有了一个可以在『存在比特差错的丢包信道』上进行可靠数据传输(reliable data transfer)的协议——rdt3.0。但同时我们也发现了 rdt3.0 其实并不完善，因为它是一个停等(stop-and-wait)协议，所以还存在性能方面的问题待优化。今天我们就一起来看看具体是怎么优化的吧！">
@@ -420,7 +420,7 @@
 <blockquote>
 <p>图 3-18a 显示了对于该停等协议，如果发送方在 t=0 时刻开始发送分组，则在 t=L/R=8µs 后，最后 1 比特数据进入了发送端信道。该分组经过 15ms 后到达接收端，该分组的最后 1 比特在时刻 T=RTT/2 + L/R= 15.008ms 时到达接收方。为了简化起见，假设 ACK 分组很小（以便我们可以忽略其发送时间），接收方一旦收到一个数据分组的最后 1 比特后立即发送 ACK，ACK 在时刻 t = RTT + L/R =30.008ms 时在发送方出现。此时，发送方可以发送下一个报文。因此，在 30.008ms 内，发送方的发送只用了 0.008ms。如果我们定义发送方（或信道）的利用率 (utilization) 为：发送方实际忙于将发送比特送进信道的那部分时间与发送时间之比，图 3-18a 中的分析表明了停等协议有着非常低的发送方利用率 U𝗌𝚎𝗇𝚍𝚎𝚛:</p>
 </blockquote>
-<p>$$U𝗌𝚎𝚗𝚍𝚎𝚛=\frac{L/R}{RTT+L/R}=\frac{0.008}{30.008}=0.00027$$</p>
+<p>$$U𝗌𝚎𝚗𝚍𝚎𝚛=\frac{L/R}{RTT+L/R}=\frac{0.008 ms}{30.008 ms}=0.00027$$</p>
 <p><code>图 3-18 停等和流水线发送</code><br><img stop-and-wait-and-pipelined-sending="" src="/img/hufei/032018/stop-and-wait-and-pipelined-sending.png" width="100%" height="100%"></p>
 <blockquote>
 <p>这就是说，发送方只有万分之 2.7 时间是忙的。从其他角度来看，发送方在 30. 008m 内只能发送 1000 字节，有效的吞吐量仅为 267kbps，即使有 1Gbps 的链路可用！想象一个不幸的网络经理购买了一条千兆比容量的链路，但他仅能得到 267kbps 吞吐量的情况！这是一个形象的网络协议限制底层网络硬件所提供的能力的示例。而且，我们还忽略了在发送方和接收方的底层协议处理时间，以及可能出现在发送方与接收方之间的任何中间路由器上的处理与排队时延。考虑到这些因素，将进一步增加时延，使其性能更糟糕。</p>
