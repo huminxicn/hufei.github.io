@@ -96,7 +96,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-sender-and-receiver.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-operation.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-receiver-dilemma.png">
-<meta property="og:updated_time" content="2018-03-26T07:05:15.000Z">
+<meta property="og:updated_time" content="2018-03-26T07:21:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可靠数据传输服务续">
 <meta name="twitter:description" content="经过 前文 的介绍，我们现在已经有了一个可以在『存在比特差错的丢包信道』上进行可靠数据传输(reliable data transfer)的协议——rdt3.0。但同时我们也发现了 rdt3.0 其实并不完善，因为它是一个停等(stop-and-wait)协议，所以还存在性能方面的问题待优化。今天我们就一起来看看具体是怎么优化的吧！">
@@ -423,8 +423,9 @@
 <p>$$U𝗌𝚎𝚗𝚍𝚎𝚛=\frac{L/R}{RTT+L/R}=\frac{0.008 ms}{30.008 ms}=0.00027$$</p>
 <p><code>图 3-18 停等和流水线发送</code><br><img stop-and-wait-and-pipelined-sending="" src="/img/hufei/032018/stop-and-wait-and-pipelined-sending.png" width="100%" height="100%"></p>
 <blockquote>
-<p>这就是说，发送方只有万分之 2.7 时间是忙的。从其他角度来看，发送方在 30. 008m 内只能发送 1000 字节，有效的吞吐量仅为 267kbps，即使有 1Gbps 的链路可用！想象一个不幸的网络经理购买了一条千兆比容量的链路，但他仅能得到 267kbps 吞吐量的情况！这是一个形象的网络协议限制底层网络硬件所提供的能力的示例。而且，我们还忽略了在发送方和接收方的底层协议处理时间，以及可能出现在发送方与接收方之间的任何中间路由器上的处理与排队时延。考虑到这些因素，将进一步增加时延，使其性能更糟糕。</p>
-<p>解决这种特殊的性能问题的一个简单方法是：不使用停等方式运行，允许发送方发送多个分组而无需等待确认，如在图 3-17b 图示的那样。图 3-18b 显示了如果发送方可以在等待确认之前发送 3 个报文，其利用率也基本上提高 3 倍。因为许多从发送方向接收方输送的分组可以被看成是填充到一条流水线中，故这种技术被称为流水线(pipelining)。流水线技术对可靠数据传输协议带来如下影响:</p>
+<p>这就是说，发送方只有万分之 2.7 的时间是忙的。</p>
+<p>从其他角度来看，发送方在 30.008m 内只能发送 1000 字节，有效的吞吐量仅为 267kbps，即使有 1Gbps 的链路可用！想象一个不幸的网络经理购买了一条千兆比特率的链路，但他仅能得到 267kbps 吞吐量的情况！这是一个形象的网络协议限制底层网络硬件所提供的能力的示例。而且，我们还忽略了在发送方和接收方的底层协议处理时间，以及可能出现在发送方与接收方之间的任何中间路由器上的处理与排队时延。考虑到这些因素，将进一步增加时延，使其性能更糟糕。</p>
+<p>解决这种特殊的性能问题的一个简单方法是：不使用停等方式运行，允许发送方发送多个分组而无需等待确认，如在图 3-17b 图示的那样。图 3-18b 显示了如果发送方可以在等待确认之前发送 3 个报文，其利用率也基本上提高 3 倍。因为许多从发送方向接收方输送的分组可以被看成是填充到一条流水线中，故这种技术被称为流水线(pipelining)。流水线技术对可靠数据传输协议可能带来如下影响:</p>
 </blockquote>
 <ul>
 <li>必须增加序号范围，因为每个输送中的分组（不计算重传的）必须有一个唯一的序号，而且也许有多个在输送中未确认的报文。</li>
@@ -533,6 +534,7 @@
 <li><a href="https://book.douban.com/subject/26176870/" target="_blank" rel="noopener">《计算机网络:自定向下方法》</a></li>
 <li><a href="https://blog.csdn.net/xiahouzuoxin/article/details/26478179" target="_blank" rel="noopener">Markdown 中插入数学公式的方法</a></li>
 <li><a href="https://www.cnblogs.com/houkai/p/3399646.html" target="_blank" rel="noopener">LATEX 数学公式基本语法</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%AF%94%E7%89%B9%E7%8E%87" target="_blank" rel="noopener">比特率</a></li>
 </ul>
 
       
