@@ -96,7 +96,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-sender-and-receiver.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-operation.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-receiver-dilemma.png">
-<meta property="og:updated_time" content="2018-03-26T07:21:01.000Z">
+<meta property="og:updated_time" content="2018-03-26T07:33:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可靠数据传输服务续">
 <meta name="twitter:description" content="经过 前文 的介绍，我们现在已经有了一个可以在『存在比特差错的丢包信道』上进行可靠数据传输(reliable data transfer)的协议——rdt3.0。但同时我们也发现了 rdt3.0 其实并不完善，因为它是一个停等(stop-and-wait)协议，所以还存在性能方面的问题待优化。今天我们就一起来看看具体是怎么优化的吧！">
@@ -439,8 +439,8 @@
 <p><code>图 3-19 在 GBN 中发送方看到的序号</code><br><img go-back-n="" src="/img/hufei/032018/go-back-n.png" width="100%" height="100%"></p>
 <blockquote>
 <p>如图 3-19 所示的那样，那些已被发送但还未被确认的分组的许可序号范围可以被看成是一个在序号范围内长度为 N 的窗口。随着协议的运行，该窗口在序号空间向前滑动。因此，N 常被称为窗口长度(window size)，GBN 协议也常被称为滑动窗口协议 (sliding-window protocol)。</p>
-<p>你也许想知道，我们为什么要限制这些被发送的、未被确认的分组的数目为 N 呢？为什么不允许这些分组为无限制的数目呢？流量控制是对发送方施加限制的原因之一。</p>
-<p>在实践中，一个分组的序号承载在分组首部的一个固定长度的字段中。如果分组序号字段的比特数是 k，则该序号范围是 [0, 2ᵏ - 1] 。在一个有限的序号范围内，所有涉及序号的运算必须使用模 2ᵏ 运算(序号空间可被看作是一个长度为 2ᵏ 的环，其中序号 2ᵏ - 1 紧挨着序号 0)。前面讲过，rdt3.0 有一个比特的序号，其序号范围是 [0, 1] (而 TCP 有 32 比特的序号范围)。</p>
+<p>你也许想知道，我们为什么要限制这些被发送的、未被确认的分组的数目为 N 呢？为什么不允许这些分组为无限制的数目呢？流量控制是对发送方施加限制的原因之一。当然还有其它的原因在里面，我们这里不展开讨论。</p>
+<p>在实践中，一个分组的序号是放在分组首部的一个固定长度的字段中。如果分组序号字段的比特数是 k，则该序号范围是 [0, 2ᵏ - 1] 。在一个有限的序号范围内，所有涉及序号的运算必须使用模 2ᵏ 运算(可将序号空间看作是一个长度为 2ᵏ 的环，其中序号 2ᵏ - 1 紧挨着序号 0)。前面讲过，rdt3.0 有一个比特的序号，其序号范围是 [0, 1] (而 TCP 的序号字段有 32 比特)。</p>
 </blockquote>
 <h3 id="发送方-FSM"><a href="#发送方-FSM" class="headerlink" title="发送方 FSM"></a>发送方 FSM</h3><p><code>图 3-20 GBN 发送方的扩展 FSM 描述</code><br><img extended-gbn-sender="" src="/img/hufei/032018/extended-gbn-sender.png" width="100%" height="100%"></p>
 <blockquote>
@@ -578,6 +578,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/04/01/初识 Maven/" rel="prev" title="初识 Maven">
+                初识 Maven <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -667,7 +671,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -689,7 +693,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
