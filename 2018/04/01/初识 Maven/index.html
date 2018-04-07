@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="maven," />
+  <meta name="keywords" content="Maven," />
 
 
 
@@ -79,19 +79,25 @@
 
 
 
-<meta name="description" content="相信从事 java 开发的小伙伴们对 maven 这个词都不陌生。目前来说，只要存在外部依赖的 java 项目基本上都是 maven 项目，而每个 maven 项目都有一个明显的特征——pom.xml 文件。  今天，我们就一起来学习一下什么是 maven 项目。">
-<meta name="keywords" content="maven">
+<meta name="description" content="相信从事 java 开发的小伙伴们对 Maven 这个词都不陌生。目前来说，只要存在外部依赖的 java 项目基本上都是 Maven 项目，而每个 Maven 项目都有一个明显的特征——pom.xml 文件。  今天，我们就一起来学习一下什么是 Maven 项目。">
+<meta name="keywords" content="Maven">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初识 Maven">
 <meta property="og:url" content="//huminxi.netlify.com/2018/04/01/初识 Maven/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="相信从事 java 开发的小伙伴们对 maven 这个词都不陌生。目前来说，只要存在外部依赖的 java 项目基本上都是 maven 项目，而每个 maven 项目都有一个明显的特征——pom.xml 文件。  今天，我们就一起来学习一下什么是 maven 项目。">
+<meta property="og:description" content="相信从事 java 开发的小伙伴们对 Maven 这个词都不陌生。目前来说，只要存在外部依赖的 java 项目基本上都是 Maven 项目，而每个 Maven 项目都有一个明显的特征——pom.xml 文件。  今天，我们就一起来学习一下什么是 Maven 项目。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/042018/pom.png">
-<meta property="og:updated_time" content="2018-04-06T03:16:23.000Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/042018/install-maven.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/042018/creating-a-project.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/042018/build-total-time.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/042018/my-app.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/042018/idea-open-project.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/042018/mvn-package.png">
+<meta property="og:updated_time" content="2018-04-07T09:56:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识 Maven">
-<meta name="twitter:description" content="相信从事 java 开发的小伙伴们对 maven 这个词都不陌生。目前来说，只要存在外部依赖的 java 项目基本上都是 maven 项目，而每个 maven 项目都有一个明显的特征——pom.xml 文件。  今天，我们就一起来学习一下什么是 maven 项目。">
+<meta name="twitter:description" content="相信从事 java 开发的小伙伴们对 Maven 这个词都不陌生。目前来说，只要存在外部依赖的 java 项目基本上都是 Maven 项目，而每个 Maven 项目都有一个明显的特征——pom.xml 文件。  今天，我们就一起来学习一下什么是 Maven 项目。">
 <meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/042018/pom.png">
 
 
@@ -400,10 +406,37 @@
       
 
       
-        <p>相信从事 java 开发的小伙伴们对 maven 这个词都不陌生。目前来说，只要存在外部依赖的 java 项目基本上都是 maven 项目，而每个 maven 项目都有一个明显的特征——pom.xml 文件。</p>
+        <p>相信从事 java 开发的小伙伴们对 Maven 这个词都不陌生。目前来说，只要存在外部依赖的 java 项目基本上都是 Maven 项目，而每个 Maven 项目都有一个明显的特征——pom.xml 文件。</p>
 <p><img pom="" src="/img/hufei/042018/pom.png" width="100%" height="50%"></p>
-<p>今天，我们就一起来学习一下什么是 maven 项目。</p>
+<p>今天，我们就一起来学习一下什么是 Maven 项目。</p>
 <a id="more"></a>
+<h2 id="新建一个-Maven-项目"><a href="#新建一个-Maven-项目" class="headerlink" title="新建一个 Maven 项目"></a>新建一个 Maven 项目</h2><h3 id="安装-JDK"><a href="#安装-JDK" class="headerlink" title="安装 JDK"></a>安装 JDK</h3><p>Maven 是一个 Java 工具，因此必须先 <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">安装 Java 开发环境</a> 之后才能继续。</p>
+<h3 id="安装-Maven"><a href="#安装-Maven" class="headerlink" title="安装 Maven"></a>安装 Maven</h3><p>首先，<a href="http://Maven.apache.org/download.cgi#Installation" target="_blank" rel="noopener">下载 Maven</a> 并按照 <a href="http://Maven.apache.org/install.html" target="_blank" rel="noopener">安装说明</a> 进行操作。之后，在终端输入以下命令:</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mvn </span>-v</span><br></pre></td></tr></table></figure>
+<p>它会打印出你刚才安装的 Maven 版本，如下图所示:</p>
+<p><code>Maven 版本</code><br><img install-maven="" src="/img/hufei/042018/install-maven.png" width="100%" height="50%"></p>
+<h3 id="创建一个项目"><a href="#创建一个项目" class="headerlink" title="创建一个项目"></a>创建一个项目</h3><h4 id="mkdir-maven"><a href="#mkdir-maven" class="headerlink" title="mkdir maven"></a>mkdir maven</h4><p>创建一个新目录来存放 Maven 项目。</p>
+<h4 id="creating-a-project"><a href="#creating-a-project" class="headerlink" title="creating a project"></a>creating a project</h4><p>执行下列命令创建一个新的 Maven 项目:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate <span class="attribute">-DgroupId</span>=com.mycompany.app <span class="attribute">-DartifactId</span>=my-app <span class="attribute">-DarchetypeArtifactId</span>=Maven-archetype-quickstart <span class="attribute">-DinteractiveMode</span>=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p><code>creating a project</code><br><img creating-a-project="" src="/img/hufei/042018/creating-a-project.png" width="100%" height="50%"></p>
+<p>如果是刚刚安装了 Maven，则第一次运行可能需要一段时间。这是因为 Maven 正在将插件的 jar 包以及其它的文件下载到本地存储库中。</p>
+<p><code>total time</code><br><img build-total-time="" src="/img/hufei/042018/build-total-time.png" width="100%" height="50%"></p>
+<p>再次查看该目录，多了一个 my-app 目录。进入 my-app 目录，并查看其目录结构，发现它果然也包含了 pom.xml 文件。</p>
+<p><code>my-app</code><br><img my-app="" src="/img/hufei/042018/my-app.png" width="100%" height="50%"></p>
+<h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><p>接下来用你惯用的 IDE 打开 my-app 项目，这里使用的是 IDEA。</p>
+<p><code>利用 IDEA 打开 my-app 项目</code><br><img idea-open-project="" src="/img/hufei/042018/idea-open-project.png" width="100%" height="50%"></p>
+<p>目录结构如下</p>
+<ul>
+<li>src/main/java 项目源码</li>
+<li>src/main/test 测试代码</li>
+<li>pom.xml 项目对象模型(Project Object Model)</li>
+</ul>
+<h4 id="POM-文件"><a href="#POM-文件" class="headerlink" title="POM 文件"></a>POM 文件</h4><p>pom.xml 文件是 Maven 项目配置的核心。它是一个单独的配置文件，其中包含以您想要的方式构建项目所需的大部分信息。my-app 项目的 pom.xml 如下:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://Maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://Maven.apache.org/POM/4.0.0 http://Maven.apache.org/Maven-v4_0_0.xsd"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.mycompany.app<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>my-app<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>my-app<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://Maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h4><p>执行下列命令</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn <span class="class"><span class="keyword">package</span></span></span><br></pre></td></tr></table></figure>
+<p><img mvn-package="" src="/img/hufei/042018/mvn-package.png" width="100%" height="50%"></p>
+
       
     </div>
     
@@ -420,7 +453,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/maven/" rel="tag"># maven</a>
+            <a href="/tags/Maven/" rel="tag"># Maven</a>
           
         </div>
       
@@ -503,8 +536,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -584,6 +626,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#新建一个-Maven-项目"><span class="nav-number">1.</span> <span class="nav-text">新建一个 Maven 项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-JDK"><span class="nav-number">1.1.</span> <span class="nav-text">安装 JDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Maven"><span class="nav-number">1.2.</span> <span class="nav-text">安装 Maven</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个项目"><span class="nav-number">1.3.</span> <span class="nav-text">创建一个项目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mkdir-maven"><span class="nav-number">1.3.1.</span> <span class="nav-text">mkdir maven</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#creating-a-project"><span class="nav-number">1.3.2.</span> <span class="nav-text">creating a project</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目录结构"><span class="nav-number">1.3.3.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#POM-文件"><span class="nav-number">1.3.4.</span> <span class="nav-text">POM 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包"><span class="nav-number">1.3.5.</span> <span class="nav-text">打包</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
