@@ -88,7 +88,9 @@
 <meta property="og:description" content="一提起统计学，大家脑海中浮现的第一印象是什么？就我而言，我第一时间想到的就是那个著名的 抛硬币 实验。最近看了一本书，叫《赤裸裸的统计学》，在里面发现了几个有趣的小故事，想在这里与大家分享一下。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/three-door.png">
-<meta property="og:updated_time" content="2018-05-05T23:39:28.000Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/gdp.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/avg.png">
+<meta property="og:updated_time" content="2018-05-06T08:07:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="统计学与生活">
 <meta name="twitter:description" content="一提起统计学，大家脑海中浮现的第一印象是什么？就我而言，我第一时间想到的就是那个著名的 抛硬币 实验。最近看了一本书，叫《赤裸裸的统计学》，在里面发现了几个有趣的小故事，想在这里与大家分享一下。">
@@ -400,8 +402,21 @@
       
 
       
-        <p>一提起统计学，大家脑海中浮现的第一印象是什么？就我而言，我第一时间想到的就是那个著名的 <a href="http://blog.codinglabs.org/articles/basis-of-probability-and-statistics.html" target="_blank" rel="noopener">抛硬币</a> 实验。最近看了一本书，叫《赤裸裸的统计学》，在里面发现了几个有趣的小故事，想在这里与大家分享一下。</p>
+        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+<p>一提起统计学，大家脑海中浮现的第一印象是什么？就我而言，我第一时间想到的就是那个著名的 <a href="http://blog.codinglabs.org/articles/basis-of-probability-and-statistics.html" target="_blank" rel="noopener">抛硬币</a> 实验。最近看了一本书，叫《赤裸裸的统计学》，在里面发现了几个有趣的小故事，想在这里与大家分享一下。</p>
 <a id="more"></a>
+<h2 id="什么是概率"><a href="#什么是概率" class="headerlink" title="什么是概率"></a>什么是概率</h2><p>概率是事件发生的可能性。</p>
+<p>先来做两道判断题:</p>
+<ul>
+<li>天气预报说，明天有 99.9% 的概率会下雨，所以明天一定下雨。对吗？</li>
+<li>中国的 LOL 战队在 S8 赛季有 0.1% 的概率会夺冠，所以中国队在 S8 赛季不可能夺冠。对吗？</li>
+</ul>
+<p>总结:</p>
+<ul>
+<li>再大概率的事件也有可能不发生</li>
+<li>再小概率的事件也有可能发生</li>
+</ul>
 <h2 id="蒙提霍尔问题"><a href="#蒙提霍尔问题" class="headerlink" title="蒙提霍尔问题"></a>蒙提霍尔问题</h2><h3 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h3><blockquote>
 <p>在上个世纪的美国，有一个电视节目叫 “Let’s Make a Deal”，由当时极受欢迎的蒙提霍尔主持。在每天节目快要结束时，胜出的选手和蒙提霍尔都会站在 3 扇大门的前面。蒙提霍尔或告诉观众和选手，在其中一扇大门的门后会有一项大奖，如一辆小轿车，而另外两扇门的后面则各站着一头山羊。玩法很简单：选手选择一扇门，然后就会得到这扇门后面的奖品。</p>
 <p>当选手和蒙提霍尔站在这 3 扇门的前面时，这位选手中大奖的概率为 1/3。但是，这档节目却有其微妙之处。当参赛者选定了一扇门，但未去开启它的时候，知道门后情形的蒙提霍尔会开启剩下两扇门的其中一扇，露出其中一只山羊。主持人随后会问参赛者要不要更换为另一扇关着的门？</p>
@@ -414,18 +429,89 @@
 <blockquote>
 <p>三门问题是多门问题里最难的情况。如果把三门变成千门，参赛者第一次就选中的概率就是 1/1000，参赛者就会清楚自己是在猜，而不是如同三门的时候 1/3 的概率认为自己是对的。这样，当主持人打开剩下 999 扇门中的 998 扇时，该如何选择，认真思考就会比三门的时候清晰很多。</p>
 </blockquote>
+<h2 id="人均收入"><a href="#人均收入" class="headerlink" title="人均收入"></a>人均收入</h2><p><code>GDP</code><br><img gdp="" src="/img/hufei/052018/gdp.png" width="100%" height="50%"></p>
+<p><code>人均收入</code><br><img avg="" src="/img/hufei/052018/avg.png" width="100%" height="50%"></p>
+<blockquote>
+<p>其实用所谓的平均数、平均值来衡量中产水平的收入是有问题的，即它们容易受到远离中心区域的『异常值』的干扰而出现失真。为了能够让大家更好地理解，我来举个例子。</p>
+<p>在西雅图的一家中档酒吧的吧台前，坐着 10 个人，他们每年的平均收入都是 3.5万 美元，也就是说，这组人的人均年收入为 3.5 万美元。这时候，比尔•盖茨走进了这家酒吧，假设他在这个案例中的年收入为 10 亿美元。当比尔·盖茨在吧台前的第 11 把発子上坐下后，这组人的平均年收入便迅速上升到了将近 9100 万美元。很显然，之前的那 10 个人丝毫没有变得更富有(尽管比尔•盖茨很有可能会帮他们付一两次酒账，但仅此而已)。如果我说吧台前的这群人平均年收入为 9100 万美元，这句话在数据上是正确的，但同时也相当具有误导性。这里不是一个亿万富翁会经常光顾的酒吧，只不过正好有一群收入不高的普通人坐在了比尔•盖茨的旁边。平均数必须对『异常值』有足够的敏感性，这也是为什么我们不应该用人均收入来衡量美国中产阶级的经济健康状况。因为在收入分配的顶端，有着一群收入暴涨的美国人——公司高管、对冲基金经理，以及像德瑞克•基特这样的运动员，普通美国人的收入会被这些巨富们的光环掩盖，就像一群失意的普通人坐在比尔·盖茨身边一样。</p>
+<p>出于这个原因，我们还有一个数据可以用来表示分配的『中间位置』，但与平均数有所不同，这个中间位置就是中位数。中位数正好将一组数字一分为二，1/2 位于中位数之前，另外 1/2 位于中位数之后(如果遇上一组数字的数量为偶数，那么中位数就是中间两个数的平均值)。回到刚刚酒吧的那个例子，原先坐在吧台前的 10 个人的年均收入中位数为 3.5 万美元。当比尔•盖茨入座之后，这 11 个人的年收入中位数依然为 3.5 万美元。如果你将他们按照收入多少来排座的话，那么坐在第6把発子上的人的收入就代表了整组人收入的中位数。假如此时沃伦•巴菲特走了进来并坐在了比尔·盖茨的身边，他们的中位数还是不会改变。</p>
+</blockquote>
 <h2 id="施利茨啤酒广告"><a href="#施利茨啤酒广告" class="headerlink" title="施利茨啤酒广告"></a>施利茨啤酒广告</h2><blockquote>
 <p>1981 年，美国约瑟夫·施利茨酿酒公司斥 170 万美元巨资为该公司旗下的旗舰品牌——施利茨啤酒开展了一场大胆而冒险的市场营销活动。当美国橄榄球超级杯大赛(即『超级碗』)的中场休息时间一到，施利茨公司就会当着全球亿万电视观众的面，现场直播一场别开生面的啤酒品鉴会，而挑选的对手不是别人，正是施利茨的死对头——米切罗啤酒。更让人大跌眼镜的是，参加品鉴会的不是别人，正是 100 名米切罗啤酒的忠实用户。这样的广告从始至终出现在季后赛的每一场比赛当中。类似的电视直播啤酒品鉴会总共有 5 场，每场都会邀请 100 名某品牌啤酒的『拥趸』，包括百威、米勒、米切罗等，让这些啤酒爱好者在自己最钟爱的啤酒和施利茨啤酒之间进行『盲品』。</p>
 <p>广告噱头很明确：即使是那些自认为喜欢另一种品牌的啤酒爱好者，在盲品时也会发现自己更偏爱施利茨啤酒。啤酒公司甚至还请了一位橄榄球职业联赛的前裁判来监督整个活动过程。考虑到在数量众多的电视观众面前举办这样一场充满风险的啤酒品鉴会，你肯定会觉得施利茨啤酒的口感一定特别好，否则哪会有勇气搞这样的宣传，是吗？</p>
-<p>让我们假设，要让施利茨公司满意，100 位盲品者中至少要有 40 位选择施利茨啤酒。这是一个非常可观的数字，因为所有参加盲品直播的人都曾信誓旦旦地声明自己是米切罗的忠实用户。而要达到这样的效果，其实一点儿都不难。如果盲品会果真如抛硬币一样，那么运用概率学的基本知识，就能得出至少有 40 人选择施利茨的概率为 98%，至少有 45 人选择施利茨的概率为 86%。从理论上来看，这场电视营销活动其实并没有很大的风险。</p>
 </blockquote>
-<p>那可不一定。施利茨只需要保证以下两点，那么他的计谋很大概率上就能成功</p>
+<p>让我们假设，要让施利茨公司满意，100 位盲品者中至少要有 40 位选择施利茨啤酒。这是一个非常可观的数字，因为所有参加盲品直播的人都曾信誓旦旦地声明自己是米切罗的忠实用户。而要达到这样的效果，其实一点儿都不难。施利茨只需要保证以下两点，那么他的计谋很大概率上就能成功：</p>
 <ul>
 <li>施利茨生产出的啤酒与其它品牌的啤酒在盲品时没有明显区别</li>
-<li>每场选择盲品的用户数量较多</li>
+<li>每场盲品的用户数量较多</li>
 </ul>
-<p>很神奇，不是吗？</p>
-<h2 id="人均收入"><a href="#人均收入" class="headerlink" title="人均收入"></a>人均收入</h2>
+<p>这样一来，盲品结果就如抛硬币实验的结果一样，运用概率学的基本知识，就能得出至少有 40 人选择施利茨的概率为 98%，至少有 45 人选择施利茨的概率为 86%。从理论上来看，这场电视营销活动其实并没有很大的风险。</p>
+<p>那么这 98% 和 86% 的概率是怎么计算出来的呢？不要着急，我们接着往下看。</p>
+<h3 id="相关事件和独立事件"><a href="#相关事件和独立事件" class="headerlink" title="相关事件和独立事件"></a>相关事件和独立事件</h3><p>我们在生活中时常会遇到随机事件。抛硬币、掷骰子、刮奖彩票等都是随机事件。你要学会区分哪些随机事件是属于独立事件，哪些随机事件是属于相关事件。</p>
+<ul>
+<li>相关事件，上一个事件会影响到下一个事件<ul>
+<li>例，从布袋里不放回地拿玻璃球。每拿走一颗玻璃球，袋子里就少一颗玻璃球，概率也随之改变。</li>
+</ul>
+</li>
+<li>独立事件，不受过去事件的影响<ul>
+<li>例，抛硬币。硬币不知道它曾经是正面向上还是反面向上。所以每一次抛掷硬币的结果都是独立事件。</li>
+</ul>
+</li>
+</ul>
+<h3 id="赌徒谬误"><a href="#赌徒谬误" class="headerlink" title="赌徒谬误"></a>赌徒谬误</h3><p>我们先来看一下抛硬币的例子。抛掷一枚硬币，出现正面和反面的概率各 0.5，抛掷第 1 次，结果为正面的概率为 0.5。那么抛掷第 2 次和抛掷第 3 次，结果为正面的概率是多少呢？还是 0.5。</p>
+<p>有些人可能想：『已经三次正面了，这一次应该轮到反面了吧』。其实不然，下一次抛掷为正面的概率依然是 0.5。</p>
+<h3 id="独立事件的概率"><a href="#独立事件的概率" class="headerlink" title="独立事件的概率"></a>独立事件的概率</h3><p>两个或多个独立事件同时发生的概率是每个事件概率的乘积。</p>
+<p>掷 1 次可能出现的结果有 2 个，正、反。因为 p=0.5，所以每个结果出现的概率是 0.5，那么正面出现 1 次、0 次的概率为 0.5、0.5。</p>
+<p>掷 2 次可能出现的结果有 4 个，正正、正反、反正、反反。每个结果出现的概率是 0.5×0.5=0.25，那正面出现 2 次、1 次、0 次的概率分别是 0.25、0.5、0.25。</p>
+<p>掷 3 次可能出现的结果有 8 个，正正正、正正反、正反正、正反反、反正正、反正反、反反正、反反反。每个结果出现的概率是 0.5×0.5×0.5=0.125，那正面出现 3 次、2 次、1 次、0 次的概率分别是 0.125、0.375、0.375、0.125。</p>
+<p>但如果我们抛了 100 次硬币，这个时候又该如何计算每个结果出现的概率呢，难道要一一列举出来吗。结果的概率计算有规律吗?有的。</p>
+<p>假设</p>
+<ul>
+<li>p 是我们预期事件发生的概率(正面向上)</li>
+<li>k 是我们预期事件发生的次数(0≤k≤n)</li>
+<li>总共进行了 n 次实验</li>
+</ul>
+<p>所以，每个结果出现的概率就是 $$ p^k(1-p)^{n-k} $$</p>
+<h3 id="排列与组合"><a href="#排列与组合" class="headerlink" title="排列与组合"></a>排列与组合</h3><ul>
+<li>排列，对选出来元素的顺序有要求<ul>
+<li>例，从 3 到 9 共计 7 个号码球，从中选三个号码球用来组成一个三位数，请问可以组成多少个三位数？百位数有 7 种可能，十位数有 (7-1) 种可能，个位数有 (7-1-1) 种可能，共计有 <code>210=7*6*5</code> 种排列。即 $$ A_7^3 = \frac{7!}{(7-3)!} $$ </li>
+</ul>
+</li>
+<li>组合，对选出来元素的顺序无要求<ul>
+<li>例，从 3 到 9 共计 7 个号码球，从中选三个号码球用来炸金花，请问有多少种组合？假设你扎金花的时候拿到了三张牌 345，那么无论你排成 345 354 435 453 534 543，大家都会认为它是同一个顺子。所以这里计算的话需要多一个去重的步骤。共计有 <code>35=7*6*5/3*2*1</code> 种组合。即 $$ C_7^3 = \frac{7!}{(7-3)!3!} $$</li>
+</ul>
+</li>
+</ul>
+<h3 id="二项分布"><a href="#二项分布" class="headerlink" title="二项分布"></a>二项分布</h3><p>什么是二项分布</p>
+<ul>
+<li>每次试验是独立事件</li>
+<li>每次试验只有两个可能结果</li>
+<li>每次试验中的成功概率是不变的</li>
+</ul>
+<p>二项分布的概率计算公式</p>
+<p>$$P(n取k)=\frac{n!}{(n-k)!k!}p^k(1-p)^{n-k}$$</p>
+<p>举个例子</p>
+<ul>
+<li>求抛掷 3 次硬币时，存在两个正面向上的硬币的概率为多大？<ul>
+<li>将 n=3，p=0.5，k=2，带入得到每个结果的发生的概率为 $$p=0.5^2(1-0.5)^{3-2}=0.0125$$</li>
+<li>那么该结果出现的次数是 $$ C_3^2=\frac{3!}{(3-2)!2!}=3$$</li>
+</ul>
+</li>
+</ul>
+<p>所以，P(3取2)=3×0.0125=0.375 </p>
+<p>再回到我们的施利茨啤酒广告，$$P(至少要有40位选择施利茨啤酒)=P(40)+P(41)+…+P(100)\approx 0.982$$ $$P(至少要有45位选择施利茨啤酒)=P(40)+P(41)+…+P(100)\approx 0.864$$</p>
+<h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
+<li><a href="https://book.douban.com/subject/25717380/" target="_blank" rel="noopener">《赤裸裸的统计学》</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%92%99%E6%8F%90%E9%9C%8D%E7%88%BE%E5%95%8F%E9%A1%8C" target="_blank" rel="noopener">蒙提霍尔问题</a></li>
+<li><a href="https://zh.wikipedia.org/zh/%E8%B3%AD%E5%BE%92%E8%AC%AC%E8%AA%A4" target="_blank" rel="noopener">赌徒谬误</a></li>
+<li><a href="https://www.shuxuele.com/data/probability-events-independent.html" target="_blank" rel="noopener">概率：独立事件</a></li>
+<li><a href="https://www.shuxuele.com/data/binomial-distribution.html" target="_blank" rel="noopener">二项分布</a></li>
+<li><a href="https://blog.csdn.net/mad1989/article/details/9150157" target="_blank" rel="noopener">数学和算法之—排列组合</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/24692791" target="_blank" rel="noopener">统计基础篇之十：怎么理解二项分布</a></li>
+<li><a href="http://liuchengxu.org/blog-cn/posts/quick-latex/" target="_blank" rel="noopener">从零开始 LaTeX 快速入门</a></li>
+<li><a href="http://mathjax-chinese-doc.readthedocs.io/en/latest/start.html" target="_blank" rel="noopener">MathJax 入门指南</a></li>
+</ul>
+
       
     </div>
     
@@ -627,7 +713,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#蒙提霍尔问题"><span class="nav-number">1.</span> <span class="nav-text">蒙提霍尔问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q"><span class="nav-number">1.1.</span> <span class="nav-text">Q</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A"><span class="nav-number">1.2.</span> <span class="nav-text">A</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#施利茨啤酒广告"><span class="nav-number">2.</span> <span class="nav-text">施利茨啤酒广告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#人均收入"><span class="nav-number">3.</span> <span class="nav-text">人均收入</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是概率"><span class="nav-number">1.</span> <span class="nav-text">什么是概率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蒙提霍尔问题"><span class="nav-number">2.</span> <span class="nav-text">蒙提霍尔问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q"><span class="nav-number">2.1.</span> <span class="nav-text">Q</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A"><span class="nav-number">2.2.</span> <span class="nav-text">A</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#人均收入"><span class="nav-number">3.</span> <span class="nav-text">人均收入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#施利茨啤酒广告"><span class="nav-number">4.</span> <span class="nav-text">施利茨啤酒广告</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关事件和独立事件"><span class="nav-number">4.1.</span> <span class="nav-text">相关事件和独立事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#赌徒谬误"><span class="nav-number">4.2.</span> <span class="nav-text">赌徒谬误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#独立事件的概率"><span class="nav-number">4.3.</span> <span class="nav-text">独立事件的概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排列与组合"><span class="nav-number">4.4.</span> <span class="nav-text">排列与组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二项分布"><span class="nav-number">4.5.</span> <span class="nav-text">二项分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">5.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
             
 
           </div>
