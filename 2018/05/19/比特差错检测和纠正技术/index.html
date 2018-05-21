@@ -92,7 +92,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/two-dimensional-even-parity.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/crc.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/sample-crc-calculation.png">
-<meta property="og:updated_time" content="2018-05-21T08:03:43.000Z">
+<meta property="og:updated_time" content="2018-05-21T10:00:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="比特差错检测和纠正技术">
 <meta name="twitter:description" content="数据在链路层传输时，比特差错是一个无法忽视的问题。那么，当比特差错发生了之后我们如何检测和纠正比特差错呢？本文主要给大家介绍检测比特差错的基本思想和三种具体的实现技术，它们分别是：奇偶校验(用来描述差错检测和纠正背后的基本思想)、校验和(应用于运输层)、循环冗余检测(应用于链路层)。">
@@ -406,14 +406,14 @@
       
         <p>数据在链路层传输时，比特差错是一个无法忽视的问题。那么，当比特差错发生了之后我们如何检测和纠正比特差错呢？本文主要给大家介绍检测比特差错的基本思想和三种具体的实现技术，它们分别是：奇偶校验(用来描述差错检测和纠正背后的基本思想)、校验和(应用于运输层)、循环冗余检测(应用于链路层)。</p>
 <a id="more"></a>
-<h2 id="如何发现比特差错"><a href="#如何发现比特差错" class="headerlink" title="如何发现比特差错"></a>如何发现比特差错</h2><p>图 5-3 说明了我们研究的场景。在发送结点，为了保护比特免受差错，使用差错检测和纠正比特(Error-Detection and-Correction, EDC)来增强数据 D。通常，要保护的数据不仅包括从网络层传递下来需要通过链路传输的数据报，而且包括链路帧首部中的链路级的寻址信息、序号和其他字段。链路级帧中的 D 和 EDC 都被发送到接收结点。 在接收结点，接收到比特序列 D’和 EDC’。值得注意的是，因传输中的比特翻转所致，D’ 和 EDC’ 可能与初始的 D 和 EDC 不同。</p>
+<h2 id="如何发现比特差错"><a href="#如何发现比特差错" class="headerlink" title="如何发现比特差错"></a>如何发现比特差错</h2><p>图 5-3 说明了我们研究的场景。在发送结点，为了保护比特免受差错，使用差错检测和纠正比特(Error-Detection and-Correction, EDC)来增强数据 D。通常，要保护的数据不仅包括从网络层传递下来的数据报(Datagram)，而且包括链路帧(Frame)首部中的链路级的寻址信息、序号和其他字段。链路级帧中的 D 和 EDC 都被发送到接收结点。在接收结点，接收到比特序列 D’和 EDC’。值得注意的是，因传输中的比特翻转所致，D’ 和 EDC’ 可能与初始的 D 和 EDC 不同。</p>
 <p><code>图 5-3 错误检测与纠正场景</code><br><img edc-scenario="" src="/img/hufei/052018/edc-scenario.png" width="100%" height="50%"></p>
-<p>接收方的挑战是在它只收到 D’ 和 EDC’ 的情况下，确定 D’ 是否和初始的 D 相同。 在 图 5-3 中的接收方判定的准确措词（我们是否检测到一个差错，而非是否出现了差错！）是重要的。差错检测和纠正技术使接收方有时但并非总是检测出已经出现的比特差错。即使采用差错检测比特，也还是可能有未检出的比特差错(undetected bit error)；这就是说，接收方可能无法知道接收的信息中包含着比特差错。因此，接收方可能向网络层交付一个损伤的数据报，或者不知道该帧首部的某个其他字段的内容已经损伤。</p>
-<p>因此，我们要选择一个差错检测方案，使得这种事件发生的概率很小。 一般而言，差错检测和纠错技术越复杂，导致的开销就越大，这就意味着需要更多的计算及更多的差错检测和纠错比特。</p>
-<h2 id="奇偶校验-Parity-Checks"><a href="#奇偶校验-Parity-Checks" class="headerlink" title="奇偶校验(Parity Checks)"></a>奇偶校验(Parity Checks)</h2><h3 id="检测"><a href="#检测" class="headerlink" title="检测"></a>检测</h3><p>也许差错检测最简单的方式就是用单个奇偶校验位(parity bit)。假设在 图 5-4 中要发送的信息 D 有 d 个比特。在偶校验方案中，发送方只需要包含一个附加的比特，选择它的值，使得这 d+1 个比特中 1 的总数是偶数。对于奇校验方案，选择校验比特值使得有奇数个 1。 图 5-4 描述了一个偶校验的方案，单个校验比特被存放在一个单独的字段中。</p>
+<p>接收方的挑战是在它只收到 D’ 和 EDC’ 的情况下，确定 D’ 是否和初始的 D 相同。在 图 5-3 中的接收方判定的准确措词（我们是否检测到一个差错，而非是否出现了差错！）是重要的。差错检测和纠正技术使接收方有时但并非总是检测出已经出现的比特差错。即使采用差错检测比特，也还是可能有未检出的比特差错(undetected bit error)。这就是说，接收方可能无法知道接收的信息中包含着比特差错。因此，接收方可能向网络层交付一个损伤的数据报，或者不知道该帧首部的某个其他字段的内容已经损伤。</p>
+<p>因此，我们要选择一个差错检测方案，使得这种事件发生的概率很小。一般而言，差错检测和纠错技术越复杂，导致的开销就越大，这就意味着需要更多的计算及更多的差错检测和纠正比特。</p>
+<h2 id="奇偶校验-Parity-Checks"><a href="#奇偶校验-Parity-Checks" class="headerlink" title="奇偶校验(Parity Checks)"></a>奇偶校验(Parity Checks)</h2><h3 id="检测"><a href="#检测" class="headerlink" title="检测"></a>检测</h3><p>也许差错检测最简单的方式就是用单个奇偶校验位(parity bit)。假设在 图 5-4 中要发送的信息 D 有 d 个比特。在偶校验方案中，发送方只需要包含一个附加的比特，选择它的值，使得这 d+1 个比特中有偶数个 1。对于奇校验方案，选择校验比特值使得有奇数个 1。 图 5-4 描述了一个偶校验的方案，单个校验比特被存放在一个单独的字段中。</p>
 <p><code>图 5-4 一比特位的偶校验</code><br><img even-parity="" src="/img/hufei/052018/even-parity.png" width="100%" height="50%"></p>
 <p>采用单个奇偶校验位方式，接收方的操作也很简单。接收方只需要数一数接收的 d+1 比特中 1 的数目即可。如果在采用偶校验方案中发现了奇数个值为 1 的比特，接收方知道至少出现了一个比特差错。更精确的说法是，出现了奇数个比特差错。</p>
-<p>如果出现了偶数个比特差错，那会发生什么现象呢？你应该认识到这将导致一个未检出的差错。如果比特差错的概率小，而且比特之间的差错可以被看作是独立发生的，在一个分组中多个比特同时出错的概率将是极小的。在这种情况下，单个奇偶校验位可能是足够了。但是，现实场景中差错经常以『突发』方式聚集在一起，而不是独立的发生。在突发差错的情况下，使用单比特奇偶校验保护的一帧中未检测出差错的概率是 50%。显然，需要一个更加健壮的差错检测方案。</p>
+<h3 id="未检测出的比特差错"><a href="#未检测出的比特差错" class="headerlink" title="未检测出的比特差错"></a>未检测出的比特差错</h3><p>如果出现了偶数个比特差错，那会发生什么现象呢？你应该认识到这将导致一个未检出的差错。如果比特差错的概率小，而且比特之间的差错可以被看作是独立发生的，在一个分组中多个比特同时出错的概率将是极小的。在这种情况下，单个奇偶校验位可能是足够了。但是，现实场景中差错经常以『突发』方式聚集在一起，而不是独立的发生。在突发差错的情况下，使用单比特奇偶校验保护的一帧中未检测出差错的概率是 50%。显然，需要一个更加健壮的差错检测方案。</p>
 <h3 id="纠错"><a href="#纠错" class="headerlink" title="纠错"></a>纠错</h3><p>在研究实践中使用的差错检测方案之前，我们考虑对单比特奇偶校验的一种简单一般化方案，这将使我们深入地理解纠错技术。图 5-5 显示了单比特奇偶校验方案的二维一般化方案。这里 D 中的 d 个比特被划分为 i 行 j 列。对每行和每列计算奇偶值。产生的 i+j+1 奇偶比特构成了链路层帧的差错检测比特。</p>
 <p><code>图 5-5 二维偶校验</code><br><img two-dimensional-even-parity="" src="/img/hufei/052018/two-dimensional-even-parity.png" width="100%" height="50%"></p>
 <p>现在假设在初始 d 比特信息中出现了单个比特差错。使用这种二维奇偶校验(two-dimensional parity)方案，包含比特值改变的行和列的校验值都会出现差错。因此接收方不仅可以检测到出现了单个比特差错的事实，而且还可以利用行和列的索引来定位发生差错的比特并纠正它!</p>
@@ -637,7 +637,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何发现比特差错"><span class="nav-number">1.</span> <span class="nav-text">如何发现比特差错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇偶校验-Parity-Checks"><span class="nav-number">2.</span> <span class="nav-text">奇偶校验(Parity Checks)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检测"><span class="nav-number">2.1.</span> <span class="nav-text">检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纠错"><span class="nav-number">2.2.</span> <span class="nav-text">纠错</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#校验和方法-Checksum-Methods"><span class="nav-number">3.</span> <span class="nav-text">校验和方法(Checksum Methods)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环冗余检测-Cyclic-Redundancy-Check"><span class="nav-number">4.</span> <span class="nav-text">循环冗余检测(Cyclic Redundancy Check)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">5.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何发现比特差错"><span class="nav-number">1.</span> <span class="nav-text">如何发现比特差错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇偶校验-Parity-Checks"><span class="nav-number">2.</span> <span class="nav-text">奇偶校验(Parity Checks)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检测"><span class="nav-number">2.1.</span> <span class="nav-text">检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#未检测出的比特差错"><span class="nav-number">2.2.</span> <span class="nav-text">未检测出的比特差错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纠错"><span class="nav-number">2.3.</span> <span class="nav-text">纠错</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#校验和方法-Checksum-Methods"><span class="nav-number">3.</span> <span class="nav-text">校验和方法(Checksum Methods)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环冗余检测-Cyclic-Redundancy-Check"><span class="nav-number">4.</span> <span class="nav-text">循环冗余检测(Cyclic Redundancy Check)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">5.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
             
 
           </div>
