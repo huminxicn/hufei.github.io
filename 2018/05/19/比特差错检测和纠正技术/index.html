@@ -92,7 +92,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/two-dimensional-even-parity.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/crc.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/sample-crc-calculation.png">
-<meta property="og:updated_time" content="2018-05-21T02:26:58.000Z">
+<meta property="og:updated_time" content="2018-05-21T08:03:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="比特差错检测和纠正技术">
 <meta name="twitter:description" content="数据在链路层传输时，比特差错是一个无法忽视的问题。那么，当比特差错发生了之后我们如何检测和纠正比特差错呢？本文主要给大家介绍检测比特差错的基本思想和三种具体的实现技术，它们分别是：奇偶校验(用来描述差错检测和纠正背后的基本思想)、校验和(应用于运输层)、循环冗余检测(应用于链路层)。">
@@ -424,7 +424,7 @@
 <p>CRC 编码的关键思想如 图 5-6 所示。对于一个给定的数据段 D，发送方要选择 r 个附加比特 R，并将它们附加到 D 上，使得得到的 d+r 比特模式（被解释为一个二进制数）用模 2 算术恰好能被 G 整除（即余数为 0）。</p>
 <p><code>图 5-6 crc</code><br><img crc="" src="/img/hufei/052018/crc.png" width="100%" height="50%"></p>
 <p>用 CRC 进行差错检测的过程因此很简单：接收方用 C 去除接收到的 d+r 比特。如果余数为非零，接收方知道出现了差错；否则认为数据正确而被接收。</p>
-<p>所有 CRC 计算采用模 2 算术来做，在加法中不进位，在减法中不借位。这意味着加法和减法是相同的，而且这两种操作等价于操作数的按位异或(XOR)。 </p>
+<p>所有 CRC 计算采用模 2 算术来做(在加法中不进位，在减法中不借位)。这意味着加法和减法是相同的，而且这两种操作等价于操作数的按位异或(XOR)。 </p>
 <p><code>图 5-7 一个例子</code><br><img sample-crc-calculation="" src="/img/hufei/052018/sample-crc-calculation.png" width="100%" height="50%"></p>
 <h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
 <li><a href="https://book.douban.com/subject/26176870/" target="_blank" rel="noopener">《计算机网络:自定向下方法》</a></li>
