@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后呢，我认为会由机器来发掘。这就是为什么我们要发展人工智能的原因，这也是为什么我开始学习机器学习的原因。">
+<meta name="description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后会不会由机器来发掘呢？">
 <meta name="keywords" content="linear regression,线性回归">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linear Regression">
 <meta property="og:url" content="//huminxi.netlify.com/2018/06/10/Linear Regression/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后呢，我认为会由机器来发掘。这就是为什么我们要发展人工智能的原因，这也是为什么我开始学习机器学习的原因。">
+<meta property="og:description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后会不会由机器来发掘呢？">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/training-set.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/hypothesis-function.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/cost-function.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/gradient-descent.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/alpha.png">
-<meta property="og:updated_time" content="2018-06-10T15:32:25.000Z">
+<meta property="og:updated_time" content="2018-06-10T15:45:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linear Regression">
-<meta name="twitter:description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后呢，我认为会由机器来发掘。这就是为什么我们要发展人工智能的原因，这也是为什么我开始学习机器学习的原因。">
+<meta name="twitter:description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后会不会由机器来发掘呢？">
 <meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/062018/training-set.png">
 
 
@@ -407,7 +407,7 @@
         <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
-<p>事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后呢，我认为会由机器来发掘。这就是为什么我们要发展人工智能的原因，这也是为什么我开始学习机器学习的原因。</p>
+<p>事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后会不会由机器来发掘呢？</p>
 <a id="more"></a>
 <h2 id="Linear-Regression"><a href="#Linear-Regression" class="headerlink" title="Linear Regression"></a>Linear Regression</h2><p><strong>场景1</strong> 假设你是房地产销售人员，而且你手里有一些已经有一些已经成功售出的历史数据，如 <code>表 1-1</code> 所示。你想根据房屋面积来预测房子的售价，这个时候你应该怎么办？</p>
 <p><code>表 1-1 历史数据</code></p>
