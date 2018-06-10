@@ -96,7 +96,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-sender-and-receiver.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-operation.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/sr-receiver-dilemma.png">
-<meta property="og:updated_time" content="2018-03-26T07:33:13.000Z">
+<meta property="og:updated_time" content="2018-06-10T13:01:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可靠数据传输服务续">
 <meta name="twitter:description" content="经过 前文 的介绍，我们现在已经有了一个可以在『存在比特差错的丢包信道』上进行可靠数据传输(reliable data transfer)的协议——rdt3.0。但同时我们也发现了 rdt3.0 其实并不完善，因为它是一个停等(stop-and-wait)协议，所以还存在性能方面的问题待优化。今天我们就一起来看看具体是怎么优化的吧！">
@@ -408,7 +408,8 @@
       
 
       
-        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 <p>经过 <a href="https://www.huminxi.com/2018/03/18/%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9C%8D%E5%8A%A1/#more" target="_blank" rel="noopener">前文</a> 的介绍，我们现在已经有了一个可以在『存在比特差错的丢包信道』上进行可靠数据传输(reliable data transfer)的协议——rdt3.0。但同时我们也发现了 rdt3.0 其实并不完善，因为它是一个停等(stop-and-wait)协议，所以还存在性能方面的问题待优化。今天我们就一起来看看具体是怎么优化的吧！</p>
 <a id="more"></a>

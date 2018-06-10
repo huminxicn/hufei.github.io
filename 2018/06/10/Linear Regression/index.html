@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据传输,网络," />
+  <meta name="keywords" content="linear regression,线性回归," />
 
 
 
@@ -79,28 +79,24 @@
 
 
 
-<meta name="description" content="我们知道，传输层有两个协议，分别是 UDP 和 TCP。其中 UDP 提供的是无连接的、不可靠的数据传输服务。而 TCP 则提供面向连接、带拥塞控制的可靠数据传输服务。今天，我们就来聊一聊该怎么实现可靠数据传输服务(reliable data transmission service)。">
-<meta name="keywords" content="数据传输,网络">
+<meta name="description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后呢，我认为会由机器来发掘。这就是为什么我们要发展人工智能的原因，这也是为什么我开始学习机器学习的原因。">
+<meta name="keywords" content="linear regression,线性回归">
 <meta property="og:type" content="article">
-<meta property="og:title" content="可靠数据传输服务">
-<meta property="og:url" content="//huminxi.netlify.com/2018/03/18/可靠数据传输服务/index.html">
+<meta property="og:title" content="Linear Regression">
+<meta property="og:url" content="//huminxi.netlify.com/2018/06/10/Linear Regression/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="我们知道，传输层有两个协议，分别是 UDP 和 TCP。其中 UDP 提供的是无连接的、不可靠的数据传输服务。而 TCP 则提供面向连接、带拥塞控制的可靠数据传输服务。今天，我们就来聊一聊该怎么实现可靠数据传输服务(reliable data transmission service)。">
+<meta property="og:description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后呢，我认为会由机器来发掘。这就是为什么我们要发展人工智能的原因，这也是为什么我开始学习机器学习的原因。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/reliable-data-transfer.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-1.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-1-sender.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-1-receiver.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-2-sender.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-2-receiver.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-3-sender.png">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/rdt-version-2-2-receiver.png">
-<meta property="og:updated_time" content="2018-06-10T12:53:53.000Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/training-set.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/hypothesis-function.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/cost-function.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/gradient-descent.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/alpha.png">
+<meta property="og:updated_time" content="2018-06-10T15:30:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="可靠数据传输服务">
-<meta name="twitter:description" content="我们知道，传输层有两个协议，分别是 UDP 和 TCP。其中 UDP 提供的是无连接的、不可靠的数据传输服务。而 TCP 则提供面向连接、带拥塞控制的可靠数据传输服务。今天，我们就来聊一聊该怎么实现可靠数据传输服务(reliable data transmission service)。">
-<meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/032018/reliable-data-transfer.png">
+<meta name="twitter:title" content="Linear Regression">
+<meta name="twitter:description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后呢，我认为会由机器来发掘。这就是为什么我们要发展人工智能的原因，这也是为什么我开始学习机器学习的原因。">
+<meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/062018/training-set.png">
 
 
 
@@ -130,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="//huminxi.netlify.com/2018/03/18/可靠数据传输服务/"/>
+  <link rel="canonical" href="//huminxi.netlify.com/2018/06/10/Linear Regression/"/>
 
 
 
 
 
-  <title>可靠数据传输服务 | 黄枫谷</title>
+  <title>Linear Regression | 黄枫谷</title>
   
 
 
@@ -297,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2018/03/18/可靠数据传输服务/">
+    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2018/06/10/Linear Regression/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="胡匪">
@@ -314,7 +310,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">可靠数据传输服务</h1>
+          <h1 class="post-title" itemprop="name headline">Linear Regression</h1>
         
 
         <div class="post-meta">
@@ -326,8 +322,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-18T12:19:26+08:00">
-                2018-03-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T16:27:51+08:00">
+                2018-06-10
               </time>
             
 
@@ -349,8 +345,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/计算机基础/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机基础</span>
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -367,9 +363,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/03/18/可靠数据传输服务/#comments" itemprop="discussionUrl">
+                <a href="/2018/06/10/Linear Regression/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/03/18/可靠数据传输服务/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/06/10/Linear Regression/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -377,7 +373,7 @@
 
           
           
-             <span id="/2018/03/18/可靠数据传输服务/" class="leancloud_visitors" data-flag-title="可靠数据传输服务">
+             <span id="/2018/06/10/Linear Regression/" class="leancloud_visitors" data-flag-title="Linear Regression">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -408,118 +404,94 @@
       
 
       
-        <p>我们知道，传输层有两个协议，分别是 UDP 和 TCP。其中 UDP 提供的是无连接的、不可靠的数据传输服务。而 TCP 则提供面向连接、带拥塞控制的可靠数据传输服务。今天，我们就来聊一聊该怎么实现可靠数据传输服务(reliable data transmission service)。</p>
+        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<p>事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后呢，我认为会由机器来发掘。这就是为什么我们要发展人工智能的原因，这也是为什么我开始学习机器学习的原因。</p>
 <a id="more"></a>
-<h2 id="我们的目标"><a href="#我们的目标" class="headerlink" title="我们的目标"></a>我们的目标</h2><p>先来看一张图。</p>
-<p><code>图 3-8 可靠数据传输服务的模型与实现</code><br><img reliable-data-transfer="" src="/img/hufei/032018/reliable-data-transfer.png" width="100%" height="50%"></p>
-<p>名词解释:</p>
+<h2 id="Linear-Regression"><a href="#Linear-Regression" class="headerlink" title="Linear Regression"></a>Linear Regression</h2><p><strong>场景1</strong> 假设你是房地产销售人员，而且你手里有一些已经有一些已经成功售出的历史数据，如 <code>表 1-1</code> 所示。你想根据房屋面积来预测房子的售价，这个时候你应该怎么办？</p>
+<p><code>表 1-1 历史数据</code></p>
+<table>
+<thead>
+<tr>
+<th>房屋面积(m²)</th>
+<th>售价(万)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>42</td>
+<td>88</td>
+</tr>
+<tr>
+<td>55</td>
+<td>108</td>
+</tr>
+<tr>
+<td>64</td>
+<td>130</td>
+</tr>
+<tr>
+<td>75</td>
+<td>158</td>
+</tr>
+<tr>
+<td>82</td>
+<td>180</td>
+</tr>
+<tr>
+<td>90</td>
+<td>192</td>
+</tr>
+<tr>
+<td>108</td>
+<td>210</td>
+</tr>
+<tr>
+<td>123</td>
+<td>258</td>
+</tr>
+</tbody>
+</table>
+<p><code>图 1-1 数据分布图</code><br><img training-set="" src="/img/hufei/062018/training-set.png" width="100%" height="100%"></p>
+<h3 id="假想函数"><a href="#假想函数" class="headerlink" title="假想函数"></a>假想函数</h3><p>观察数据分布图，我们容易发现它很像初中就接触过的线性函数——y=ax+b。这里我们就假设售价与房屋面积的关系为线性函数。即 假想函数(Hypothesis Function) 是</p>
+<p>$$ h(x) = θ_0+θ_1x $$</p>
+<p>有了假想函数，下一步需要做的事情就是确定假想函数中的各个参数的值，或者叫特征值(Features)，这里我们有 \( θ_0  , θ_1 \) 这两个特征值。</p>
+<p>我们分别做如下假设，<code>图 1-2</code> 中表示了各个假想函数的拟合结果:</p>
 <ul>
-<li>Application Layer 应用层</li>
-<li>Transport Layer 传输层</li>
-<li>Network Layer 网络层</li>
-<li>Sending process 发送进程</li>
-<li>Receiver process 接收进程</li>
-<li>Reliable channel 可靠信道</li>
-<li>Unreliable channel 不可靠信道</li>
-<li>Data 数据</li>
-<li>Packet 分组</li>
-<li>rdt reliable data transfer 可靠数据传输</li>
-<li>udt unreliable data transfer 不可靠数据传输</li>
+<li>\(θ_0=150,θ_1=0 \)，得到 假想函数 \( h(x) = 2 \)</li>
+<li>\(θ_0=0,θ_1=1 \)，得到 假想函数 \( h(x) = x \)</li>
+<li>\(θ_0=0,θ_1=2 \)，得到 假想函数 \( h(x) = 2x \)</li>
 </ul>
-<blockquote>
-<p>图 3-8 描述的是可靠数据传输框架的模型与实现。图中，为上层实体提供的服务抽象是：数据可以通过一条可靠的信道进行传输。借助于可靠信道，传输数据比特就不会受到损坏（由 0 变为 1，或者由 1 变为 0）或丢失，而且所有数据都是按照其发送顺序进行交付。这恰好就是 TCP 向调用它的因特网应用所提供的服务模型。</p>
-<p>图 3-8b 说明了用于数据传输协议的接口。通过调用 rdt_send() 函数，可以调用数据传输协议的发送方。它将要发送的数据交付给位于接收方的较高层(这里 rdt 表示可靠数据传输协议，_send 指示 rdt 的发送端正在被调用)。在接收端，当分组从信道的接收端到达时，将调用 rdt_rcv()。当 rdt 协议想要向较高层交付数据时，将通过调用 deliver_data() 来完成。</p>
-</blockquote>
-<h2 id="怎么实现"><a href="#怎么实现" class="headerlink" title="怎么实现"></a>怎么实现</h2><blockquote>
-<p>我们现在一步步地研究一系列协议，它们一个比一个更为复杂，最后得到一个无错、可靠的数据传输协议。</p>
-</blockquote>
-<h3 id="rdt-1-0"><a href="#rdt-1-0" class="headerlink" title="rdt 1.0"></a>rdt 1.0</h3><p>经完全可靠信道的可靠数据传输协议</p>
-<h4 id="有限状态机-finite-state-machine"><a href="#有限状态机-finite-state-machine" class="headerlink" title="有限状态机(finite-state-machine)"></a>有限状态机(finite-state-machine)</h4><blockquote>
-<p>首先，我们考虑最简单的情况，即底层信道是完全可靠的。我们称该协议为 rdt1.0，该协议本身是简单的。图 3-9 显示了 rdt1.0 发送方和接收方的有限状态机(Finite-State-Machine, FSM)的定义。</p>
-</blockquote>
-<p><code>图 3-9 rdt1.0 用于完全可靠信道的协议</code><br><img rdt-version-1="" src="/img/hufei/032018/rdt-version-1.png" width="100%" height="50%"></p>
-<blockquote>
-<p>图 3-9a 中的 FSM 定义了发送方的操作，图 3-9b 中的 FSM 定义了接收方的操作。注意到下列问题是重要的</p>
-</blockquote>
+<p><code>图 1-2 各个假想函数的拟合结果</code><br><img hypothesis-function="" src="/img/hufei/062018/hypothesis-function.png" width="100%" height="100%"></p>
+<h3 id="代价函数"><a href="#代价函数" class="headerlink" title="代价函数"></a>代价函数</h3><p>从 <code>图 1-2</code> 中我们很明显的可以看到，\( θ_0=0,θ_1=2 \) 时拟合的结果最好。</p>
+<p><strong>提问1</strong> 除了用经验来判断拟合结果的好坏，有没有能量化比较的方法呢?</p>
+<p>答案是肯定的，这就是代价函数(Cost Function)</p>
+<p>$$ J(θ_0,θ_1) = \frac 1 {2m} $$</p>
+<p>$$\sum_{i=0}^{n} $$</p>
 <ul>
-<li>发送方和接收方有各自的 FSM 。图 3-9 中发送方和接收方的 FSM 每个都只有一个状态。</li>
-<li>FSM 描述图中的箭头指示了协议从一个状态变迁到另一个状态。（因为 图 3-9 中的每个 FSM 都只有一个状态，因此变迁必定是从一个状态返回到自身。）</li>
-<li>引起变迁的事件显示在表示变迁的横线上方，事件发生时所采取的动作显示在横线下方。如果对一个事件没有动作，或没有事件就发生了动作，我们将在横线下方或上方使用符号 𐌡，以明确地表示缺少动作或事件。</li>
-<li>FSM 的初始状态用虚线表示。尽管图 3-9 中的 FSM 只有一个状态但马上我们就将看到多状态的 FSM，因此标识每个 FSM 的初始状态是非常重要的。</li>
+<li>\( (h_θ(x_i)-y_i)^2 \)。表示假想函数求出来的值减去实际值的平方</li>
+<li>\( \sum_{i=0}^{n} \)。求和公式，表示从 i=0 一直加到 i=n</li>
 </ul>
-<p>发送端</p>
-<blockquote>
-<p>rdt 的发送端只通过 rdt_send(data) 事件接受来自较高层的数据，产生一个包含该数据的分组（经由 make_pkt(data) 动作），并将分组发送到信道中。 实际上，rdt_send(data) 事件是由较高层应用的过程调用产生的 （例如，rdt_send()）。</p>
-</blockquote>
-<p>接收端</p>
-<blockquote>
-<p>在接收端，rdt 通过 rdt_rcv(packet) 事件从底层信道接收一个分组，从分组中取出数据（经由 extract(packet, data) 动作），并将数据上传给较高层（通过 deliver_data(data) 动作）。实际上，rdt_rcv(packet) 事件是由较低层协议的过程调用产生的（例如，rdt_rcv())。</p>
-</blockquote>
-<p>小结</p>
-<blockquote>
-<p>在这个简单的协议中，一个 data 和一个 packet 在内容上没有任何差别。而且，所有分组是从发送方流向接收方。有了完全可靠的信道，接收端就不需要提供任何反馈信息给发送方，因为不必担心出现差错！注意到我们也已经假定了接收方接收数据的速率能够与发送方发送数据的速率一样快。因此，接收方没有必要请求发送方慢一点！</p>
-</blockquote>
-<h3 id="rdt-2-0"><a href="#rdt-2-0" class="headerlink" title="rdt 2.0"></a>rdt 2.0</h3><p>经具有比特差错信道的可靠数据传输协议</p>
-<h4 id="停等协议-stop-and-wait"><a href="#停等协议-stop-and-wait" class="headerlink" title="停等协议(stop-and-wait)"></a>停等协议(stop-and-wait)</h4><blockquote>
-<p>底层信道更为实际的模型是分组中的比特可能受损。在分组的传输、传播或缓存的过程中，这种比特差错通常会出现在网络的物理部件中。我们眼下还将继续假定所有发送的分组（虽然有些比特可能受损）将按其发送的顺序被接收。</p>
-<p>在开始研究能通过这种信道进行可靠通信的协议之前，首先考虑一下人们会怎样处理这类情形。考虑一下你自己是怎样通过电话口述一条长消息的(如电话号码)。在通常情况下，报文接收者在听到、理解并记下每句话后可能会说『OK』。如果报文接收者听到一句含糊不清的话时，他可能要求你重复刚才那句话。这种口述报文协议使用了肯定确认(positive acknowledgement)『OK』与否定确认(negative acknowledgment) 『请重复一遍』。这些控制报文使得接收方可以让发送方知道哪些内容被正确接收，哪些内容接收有误并因此需要重复。在计算机网络环境中，基于这样重传机制的可靠数据传输协议称为自动重传请求(Automatic Repeat reQuest, ARQ)协议。</p>
-</blockquote>
-<p>基本上，ARQ 协议中需要包括下列三种功能来处理存在比特差错的情况</p>
+<p>随着 \( θ_0,θ_1 \) 的取值不同，代价函数 \( J(θ_0,θ_1) \) 的结果值如 <code>图 1-3</code> 所示</p>
+<p><code>图 1-3 代价函数的结果</code><br><img cost-function="" src="/img/hufei/062018/cost-function.png" width="100%" height="100%"></p>
+<p>代价函数表示的是假想函数的拟合程度，代价函数求出来的值越小，说明拟合的越成功。现在的问题已经变成了如何求代价函数的最小值问题了。</p>
+<h3 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h3><p>梯度下降(Gradient Descent)定义如下:</p>
+<p>$$ θ_j=θ_j-α \frac δ {δθ_j} J(θ_0,θ_1) $$</p>
+<p><code>图 1-4 梯度下降的几何含义</code><br><img gradient-descent="" src="/img/hufei/062018/gradient-descent.png" width="100%" height="100%"></p>
+<p><strong>需要注意的是:在每次迭代中，应该同时更新参数。在这里需要同时更新 \( θ_0,θ_1\)</strong></p>
 <ul>
-<li>差错检测。首先，需要一种机制以使接收方检测到何时出现了比特差错。实现这个机制的技术要求有额外的比特（非原始数据中的比特）从发送方发送到接收方。这些比特将存在于 rdt2.0 数据分组的分组检验和字段当中。</li>
-<li>接收方反馈。因为发送方和接收方通常在不同端系统上执行，可能相隔数千英里，发送方要了解接收方情况（这里为分组是否被正确接收）的唯一途径就是让接收方提供明确的反馈信息给发送方。在口述报文情况下回答的『肯定确认』(ACK)和『否定确认』(NAK)就是这种反馈的例子。类似地，我们的 rdt2.0 协议将从接收方向发送方回送 ACK 与 NAK 分组。理论上，这些分组只需要一个比特长，如用 0 表示 NAK，用 1 表示 ACK。</li>
-<li>重传。接收方收到有差错的分组时，发送方将重传该分组。</li>
+<li>\( temp0:=θ_0-α \frac δ {δθ_0} J(θ_0,θ_1) \)</li>
+<li>\( temp1:=θ_1-α \frac δ {δθ_0} J(θ_0,θ_1) \)</li>
+<li>\( θ_0=temp0 \)</li>
+<li>\( θ_1=temp1 \)</li>
 </ul>
-<p>图 3-10 说明了表示 rdt2.0 的 FSM，该数据传输协议采用了差错检测、肯定确认与否定确认。</p>
-<p><code>图 3-10 rdt2.0 用于具有比特差错信道的协议</code><br><img rdt-version-2="" src="/img/hufei/032018/rdt-version-2.png" width="100%" height="50%"></p>
-<blockquote>
-<p>注意到下列事实很重要：当发送方处于等待 ACK 或 NAK 的状态时，它不能从上层获得更多的数据。这就是说，rdt_send() 事件不可能出现，仅当接收到 ACK 并离开该状态时才能发生这样的事件。因此，发送方将不会发送一块新数据除非发送方确信接收方已正确接收当前分组。由于这种行为，rdt2.0 这样的协议被称为停等(stop-and-wait)协议。</p>
-</blockquote>
-<h4 id="ACK-NAK-受损"><a href="#ACK-NAK-受损" class="headerlink" title="ACK/NAK 受损"></a>ACK/NAK 受损</h4><blockquote>
-<p>rdt2.0 协议看起来似乎可以运行了，但遗憾的是，它存在一个致命的缺陷。我们没有考虑到 ACK 或 NAK 分组受损的可能性！（在继续研究之前，你应该考虑怎样解决该问题。）遗憾的是，我们细小的疏忽并非像它看起来那么无关紧要。至少，我们需要在 ACK/NAK 分组中添加检验和比特以检测这样的差错。更难的问题是协议应该怎样纠正这样的差错。这里的难点在于，如果一个 ACK/NAK 分组受损，发送方无法知道接收方是否正确接收了上一块发送的数据。</p>
-</blockquote>
-<p>我们考虑处理受损 ACK 和 NAK 的 3 种可能情况:</p>
-<ul>
-<li>第一种，在口述报文情况下人们通常的做法。如果说话者不理解来自接收方回答的『OK』或『请重复一遍』，说话者将可能问 『你说什么？』（这样就在我们的协议中引入了一种新的发送方到接收方的分组类型），接收方则将复述其回答。但是如果说话者的『你说什么？』产生了差错，情况又会怎样呢？由于接收者不明白那句混淆的话是口述内容的一部分还是一个要求重复上次回答的请求，很可能也回一句『你说什么？』。于是，越回答越乱。显然，我们走上了一条困难重重之路。</li>
-<li>第二种，增加足够长度的检验和比特，使收到受损 ACK/NAK 的发送方不仅可以检测出差错，还可恢复差错。对于会产生差错但不丢失分组的信道，这就可以直接解决问题。</li>
-<li>第三种，当发送方收到含糊不清的 ACK/NAK 分组时，只需重传当前数据分组即可。然而，这种方法在发送方到接收方的信道中引人了冗余分组(duplicate packet)。冗余分组的根本困难在于接收方不知道它上次所发送的 ACK/NAK 是否被发送方正确地收到，这就导致它无法确认这一次接收到的分组是新的还是一次重传！</li>
-</ul>
-<blockquote>
-<p>解决这个新问题的一个简单方法（几乎所有现有的数据传输协议中，包括 TCP，都采用了这种方法）是在数据分组中添加一新字段，让发送方对其数据分组进行编号，将数据分组的序号(sequence number)放在该字段。于是，接收方只需要检查序号即可确定收到的分组是否来自重传。对于停等协议这种简单情况，1 比特序号就足够了，因为它可让接收方知道发送方是否正在重传前一个发送分组（接收到的分组序号与最近收到的分组序号相同），或是一个新分组（序号变化了）。因为目前我们假定信道不丢失分组。ACK 和 NAK 分组本身不需要指明它们要确认的分组序号。发送方知道所接收到的 ACK 和 NAK 分组（无论是否是含糊不清的）是为响应其最近发送的数据分组而生成的。</p>
-<p>图 3-11 和图 3-12 给出了对 rdt2.1 的 FSM 描述，这是 rdt2.0 的修订版。rdt2.1 的发送方和接收方 FSM 的状态数都是以前的两倍。这是因为协议状态此时必须反映出目前（由发送方）正发送的分组或（在接收方）希望接收的分组的序号是 0 还是 1。值得注意的是，发送或期望接收 0 号分组的状态中的动作与发送或期望接收 1 号分组的状态中的动作是相似的；唯一的不同是序号处理的方法不同。</p>
-</blockquote>
-<p><code>图 3-11 rdt2.1 发送方</code><br><img rdt-version-2-1-sender="" src="/img/hufei/032018/rdt-version-2-1-sender.png" width="100%" height="50%"></p>
-<p><code>图 3-12 rdt2.1 接收方</code><br><img rdt-version-2-1-receiver="" src="/img/hufei/032018/rdt-version-2-1-receiver.png" width="100%" height="50%"></p>
-<h4 id="去掉-NAK"><a href="#去掉-NAK" class="headerlink" title="去掉 NAK"></a>去掉 NAK</h4><blockquote>
-<p>协议 rdt2.1 使用了从接收方到发送方的肯定确认和否定确认。当接收到失序的分组时，接收方对所接收的分组发送一个肯定确认。如果收到受损的分组，则接收方将发送一个否定确认。如果不发送 NAK，而是对上次正确接收的分组发送一个 ACK，我们也能实现与 NAK 一样的效果。发送方接收到对同一个分组的两个 ACK (即接收冗余 ACK (duplicate ACK))后，就知道接收方没有正确接收到跟在被确认两次的分组后面的分组。rdt2.2 是在有比特差错信道上实现的一个无 NAK 的可靠数据传输协议，如图 3-13 和图 3-14 所示。rdt2.1 和 rdt2.2 之间的细微变化在于，接收方此时必须包括由一个 ACK 报文所确认的分组序号（这可以通过在接收方 FSM 中，在 make_pkt() 中包括参数 ACK 0 或 ACK 1 来实现），发送方此时必须检查接收到的 ACK 报文中被确认的分组序号（这可通过在发送方 FSM 中， 在 isACK() 中包括参数 0 或 1 来实现）。</p>
-</blockquote>
-<p><code>图 3-13 rdt2.2 发送方</code><br><img rdt-version-2-2-sender="" src="/img/hufei/032018/rdt-version-2-2-sender.png" width="100%" height="50%"></p>
-<p><code>图 3-14 rdt2.2 接收方</code><br><img rdt-version-2-2-receiver="" src="/img/hufei/032018/rdt-version-2-2-receiver.png" width="100%" height="50%"></p>
-<h3 id="rdt-3-0"><a href="#rdt-3-0" class="headerlink" title="rdt 3.0"></a>rdt 3.0</h3><p>经具有比特差错的丢包信道的可靠数据传输协议</p>
-<h4 id="丢包检测和恢复"><a href="#丢包检测和恢复" class="headerlink" title="丢包检测和恢复"></a>丢包检测和恢复</h4><blockquote>
-<p>现在假定除了比特受损外，底层信道还会丢包，这在今天的计算机网络（包括因特网）中很常见。协议现在必须解决另外两个关注的问题：怎样检测丢包以及发生丢包后该做些什么。在 rdt2.2 中已经研发的技术，如使用检验和、序号、ACK 分组和重传等，使我们能给出后一个问题的答案。为解决第一个的问题，还需增加一种新的协议机制。</p>
-<p>有很多可能的方法用于解决丢包问题，在这里，我们让发送方负责检测和恢复丢包工作。假定发送方传输一个数据分组，该分组或者接收方对该分组的 ACK 发生了丢失。在这两种情况下，发送方都收不到来自接收方的响应。如果发送方愿意等待足够长的时间以便确定分组已经丢失，则它只需重传该数据分组即可。</p>
-<p>但是发送方需要等待多久才能确定已丢失了某些东西呢？很明显发送方至少需要等待这样长的时间：即发送方与接收方之间的一个往返时延（可能会包括在中间路由器的缓冲时延）加上接收方处理一个分组所需的时间。在很多网络中，最坏情况下的最大时延是很难估算的，确定的因素非常少。此外，理想的协议应该能尽快地从丢包中恢复出来。等待一个最坏情况的时延可能意味着要等待一段较长的时间，直到启动差错恢复为止。因此实践中采取的方法是发送方『明智』地选择一个时间值，以判定可能发生了丢包（尽管不能确保）。如果在这个时间内没有收到 ACK，则重传该分组(注意到如果一个分组经历了一个特别大的时延，发送方可能会重传该分组，即使该数据分组及其 ACK 都没有丢失)。这就在发送方到接收方的信道中引入了冗余数据分组(duplicate data packet)的可能性。幸运的是，rdt2.2 协议已经有足够的功能（即序号）来处理冗余分组的情况。</p>
-</blockquote>
-<h4 id="定时重传"><a href="#定时重传" class="headerlink" title="定时重传"></a>定时重传</h4><blockquote>
-<p>从发送方的观点来看，重传是一种万能灵药(重启也是!)。发送方不知道是一个数据分组丢失，还是一个 ACK 丢失，或者只是该分组或 ACK 过度延时。在所有这些情况下，动作是同样的：重传。为了实现基于时间的重传机制，需要一个倒计时器(countdown timer)，在一个给定的时间量过期后，可中断发送方。因此，发送方需要能做到:</p>
-</blockquote>
-<ul>
-<li>每次发送一个分组(包括新分组和重传分组)时，便启动一个定时器</li>
-<li>响应定时器中断(采取适当的动作)</li>
-<li>终止定时器</li>
-</ul>
-<p>图 3-15 给出了 rdt3.0 的发送方 FSM，这是一个在可能出错和丢包的信道上可靠传输数据的协议。</p>
-<p><code>图 3-15 rdt3.0 发送方</code><br><img rdt-version-3-sender="" src="/img/hufei/032018/rdt-version-3-sender.png" width="100%" height="50%"></p>
-<h4 id="rdt3-0-接收方"><a href="#rdt3-0-接收方" class="headerlink" title="rdt3.0 接收方"></a>rdt3.0 接收方</h4><p>因为它和 rdt2.2 一样，没有 ACK 和 NCK 的区别，而且传输的数据分组也标了序号(0 和 1)，所以它不受超时重传的影响。因此 rtd3.0 和 rtd2.2 的接受方是一样的 FSM 图。</p>
-<p><code>图 3-16 rdt3.0 接收方</code><br><img rdt-version-2-2-receiver="" src="/img/hufei/032018/rdt-version-2-2-receiver.png" width="100%" height="50%"></p>
-<blockquote>
-<p>现在我们归纳一下数据传输协议的要点。在检验和、序号、定时器、肯定和否定确认分组这些技术中，每种机制都在协议的运行中起到了必不可少的作用。至此，我们得到了一个可靠的数据传输协议！</p>
-</blockquote>
-<h4 id="rdt3-0-的性能问题"><a href="#rdt3-0-的性能问题" class="headerlink" title="rdt3.0 的性能问题"></a>rdt3.0 的性能问题</h4><p>rdt3.0 是一个功能正确的协议，但并非人人都对它的性能满意，特别是在今天的高速网络中更是如此。rdt3.0 性能问题的核心在于它是一个停等协议！</p>
-<p>预知后事如何，且听 <a href="https://www.huminxi.com/2018/03/23/%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9C%8D%E5%8A%A1%E7%BB%AD/#more" target="_blank" rel="noopener">下回分解</a>。</p>
+<p><code>图 1-5  α 取值的影响</code><br><img alpha="" src="/img/hufei/062018/alpha.png" width="100%" height="100%"></p>
+<p>实际操作中，我们需要及时调整参数 α，以确保梯度下降算法在合理的时间内收敛。未能收敛或取得最小值的时间太多意味着我们的步长是错误的。</p>
+<h3 id="octave-代码实现"><a href="#octave-代码实现" class="headerlink" title="octave 代码实现"></a>octave 代码实现</h3><p><strong>Cost Function</strong><br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">J</span> = <span class="title">computeCost</span><span class="params">(X, y, theta)</span></span></span><br><span class="line"><span class="comment">%COMPUTECOST Compute cost for linear regression</span></span><br><span class="line"><span class="comment">%   J = COMPUTECOST(X, y, theta) computes the cost of using theta as the</span></span><br><span class="line"><span class="comment">%   parameter for linear regression to fit the data points in X and y</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Initialize some useful values</span></span><br><span class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% You need to return the following variables correctly</span></span><br><span class="line">J = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line"><span class="comment">% Instructions: Compute the cost of a particular choice of theta</span></span><br><span class="line"><span class="comment">%               You should set J to the cost.</span></span><br><span class="line"></span><br><span class="line">m = <span class="built_in">size</span>(X,<span class="number">1</span>);</span><br><span class="line">predictions = X*theta;</span><br><span class="line">sqrErrors = (predictions-y).^<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">J = <span class="number">1</span>/(<span class="number">2</span>*m)*sum(sqrErrors);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">% =========================================================================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>Gradient Descent</strong><br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[theta, J_history]</span> = <span class="title">gradientDescent</span><span class="params">(X, y, theta, alpha, num_iters)</span></span></span><br><span class="line"><span class="comment">%GRADIENTDESCENT Performs gradient descent to learn theta</span></span><br><span class="line"><span class="comment">%   theta = GRADIENTDESCENT(X, y, theta, alpha, num_iters) updates theta by</span></span><br><span class="line"><span class="comment">%   taking num_iters gradient steps with learning rate alpha</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Initialize some useful values</span></span><br><span class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></span><br><span class="line">J_history = <span class="built_in">zeros</span>(num_iters, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line"></span><br><span class="line">    <span class="comment">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line">    <span class="comment">% Instructions: Perform a single gradient step on the parameter vector</span></span><br><span class="line">    <span class="comment">%               theta.</span></span><br><span class="line">    <span class="comment">%</span></span><br><span class="line">    <span class="comment">% Hint: While debugging, it can be useful to print out the values</span></span><br><span class="line">    <span class="comment">%       of the cost function (computeCost) and gradient here.</span></span><br><span class="line">    <span class="comment">%</span></span><br><span class="line"></span><br><span class="line">    x1 = X(:,<span class="number">2</span>);</span><br><span class="line">    h = theta(<span class="number">1</span>) + (theta(<span class="number">2</span>)*x1);</span><br><span class="line"></span><br><span class="line">    theta_zero = theta(<span class="number">1</span>) - alpha * (<span class="number">1</span>/m) * sum(h-y);</span><br><span class="line">    theta_one = theta(<span class="number">2</span>) - alpha * (<span class="number">1</span>/m) * sum((h-y) .* x1);</span><br><span class="line"></span><br><span class="line">    theta = [theta_zero; theta_one];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">% ============================================================</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">% Save the cost J in every iteration</span></span><br><span class="line">    J_history(iter) = computeCost(X, y, theta);</span><br><span class="line">    <span class="built_in">disp</span>(J_history(iter));</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">    <span class="built_in">disp</span>(min(J_history));</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
-<li><a href="https://book.douban.com/subject/26176870/" target="_blank" rel="noopener">《计算机网络:自定向下方法》</a></li>
+<li><a href="http://kjwy.5any.com/gdsx22/content/ch02/gdsx080202.htm" target="_blank" rel="noopener">偏导数的几何意义</a></li>
 </ul>
 
       
@@ -538,9 +510,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据传输/" rel="tag"># 数据传输</a>
+            <a href="/tags/linear-regression/" rel="tag"># linear regression</a>
           
-            <a href="/tags/网络/" rel="tag"># 网络</a>
+            <a href="/tags/线性回归/" rel="tag"># 线性回归</a>
           
         </div>
       
@@ -553,8 +525,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/11/钉钉自定义机器人的一种用法/" rel="next" title="钉钉自定义机器人的一种用法">
-                <i class="fa fa-chevron-left"></i> 钉钉自定义机器人的一种用法
+              <a href="/2018/06/03/IPv4 和 IPv6/" rel="next" title="IPv4 和 IPv6">
+                <i class="fa fa-chevron-left"></i> IPv4 和 IPv6
               </a>
             
           </div>
@@ -562,10 +534,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/23/可靠数据传输服务续/" rel="prev" title="可靠数据传输服务续">
-                可靠数据传输服务续 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -727,7 +695,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#我们的目标"><span class="nav-number">1.</span> <span class="nav-text">我们的目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么实现"><span class="nav-number">2.</span> <span class="nav-text">怎么实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-1-0"><span class="nav-number">2.1.</span> <span class="nav-text">rdt 1.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有限状态机-finite-state-machine"><span class="nav-number">2.1.1.</span> <span class="nav-text">有限状态机(finite-state-machine)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-2-0"><span class="nav-number">2.2.</span> <span class="nav-text">rdt 2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#停等协议-stop-and-wait"><span class="nav-number">2.2.1.</span> <span class="nav-text">停等协议(stop-and-wait)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ACK-NAK-受损"><span class="nav-number">2.2.2.</span> <span class="nav-text">ACK/NAK 受损</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#去掉-NAK"><span class="nav-number">2.2.3.</span> <span class="nav-text">去掉 NAK</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rdt-3-0"><span class="nav-number">2.3.</span> <span class="nav-text">rdt 3.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#丢包检测和恢复"><span class="nav-number">2.3.1.</span> <span class="nav-text">丢包检测和恢复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定时重传"><span class="nav-number">2.3.2.</span> <span class="nav-text">定时重传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rdt3-0-接收方"><span class="nav-number">2.3.3.</span> <span class="nav-text">rdt3.0 接收方</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rdt3-0-的性能问题"><span class="nav-number">2.3.4.</span> <span class="nav-text">rdt3.0 的性能问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">3.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linear-Regression"><span class="nav-number">1.</span> <span class="nav-text">Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#假想函数"><span class="nav-number">1.1.</span> <span class="nav-text">假想函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代价函数"><span class="nav-number">1.2.</span> <span class="nav-text">代价函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度下降"><span class="nav-number">1.3.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#octave-代码实现"><span class="nav-number">1.4.</span> <span class="nav-text">octave 代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文引自"><span class="nav-number">2.</span> <span class="nav-text">本文引自</span></a></li></ol></div>
             
 
           </div>
@@ -897,8 +865,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.identifier = '2018/03/18/可靠数据传输服务/';
-          this.page.title = '可靠数据传输服务';
+          this.page.identifier = '2018/06/10/Linear Regression/';
+          this.page.title = 'Linear Regression';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://huminxi.disqus.com/embed.js';

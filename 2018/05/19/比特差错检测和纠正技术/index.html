@@ -90,9 +90,10 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/edc-scenario.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/even-parity.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/two-dimensional-even-parity.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/ipv4-datagram-format.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/crc.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/052018/sample-crc-calculation.png">
-<meta property="og:updated_time" content="2018-05-21T10:00:24.000Z">
+<meta property="og:updated_time" content="2018-06-05T03:31:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="比特差错检测和纠正技术">
 <meta name="twitter:description" content="数据在链路层传输时，比特差错是一个无法忽视的问题。那么，当比特差错发生了之后我们如何检测和纠正比特差错呢？本文主要给大家介绍检测比特差错的基本思想和三种具体的实现技术，它们分别是：奇偶校验(用来描述差错检测和纠正背后的基本思想)、校验和(应用于运输层)、循环冗余检测(应用于链路层)。">
@@ -420,6 +421,7 @@
 <p>接收方检测和纠正差错的能力被称为前向纠错(Forward Error Correction, FEC)。这些技术通常用于如音频 CD 这样的音频存储和回放设备中。FEC 技术很有价值，因为它们可以减少发送方重发的次数。更为重要的是，它们允许在接收方立即纠正差错。FEC 避免了不得不等待的往返时延，而这些时延是发送方收到 NAK 分组并向接收方重传分组时所需要的，这对于实时网络应用或者具有长传播时延的链路可能是一种非常重要的优点。</p>
 <h2 id="校验和方法-Checksum-Methods"><a href="#校验和方法-Checksum-Methods" class="headerlink" title="校验和方法(Checksum Methods)"></a>校验和方法(Checksum Methods)</h2><p>在检验和技术中， 图 5-4 中的 d 比特数据被作为一个 k 比特整数的序列处理。一个简单检验和方法就是将这 k 比特整数加起来，并且用得到的和作为差错检测比特。因特网检验和(Internet checksum) 就基于这种方法，将数据的字节作为 16 比特的整数对待并求和。这个和的反码就是携带在报文段首部的因特网检验和。接收方通过对接收的数据（包括检验和）的和取反码，并且检测其结果是否为全 1 来检测检验和。如果这些比特中有任何比特是 0，就可以指示出现差错。<a href="http://www.rfc-base.org/rfc-1071.html" target="_blank" rel="noopener">RFC1071</a> 详细地讨论因特网检验和算法和它的实现。在 TCP 和 UDP 协议中， 对所有字段（包括首部和数据字段）都计算因特网检验和。</p>
 <p>检验和方法需要相对小的分组开销。例如，TCP 和 UDP 中的检验和只用了 16 比特。然而，与后面要讨论的常用于链路层的 CRC 相比，它们提供相对弱的差错保护。这时，一个很自然的问题是：为什么运输层使用检验和而链路层使用 CRC 呢？前面讲过运输层通常是在主机中作为用户操作系统的一部分，通常是用软件来实现的。因为运输层差错检测用软件实现，采用简单而快速(如检验和这样)的差错检测方案是重要的。在另一方面，链路层的差错检测在适配器中用专用的硬件实现，它能够快速执行更复杂的 CRC 操作。</p>
+<p>例 IPv4 数据报首部中的校验和如何计算?<br><code>IPv4 数据报</code><br><img ipv4-datagram-format="" src="/img/hufei/062018/ipv4-datagram-format.png" width="100%" height="100%"></p>
 <h2 id="循环冗余检测-Cyclic-Redundancy-Check"><a href="#循环冗余检测-Cyclic-Redundancy-Check" class="headerlink" title="循环冗余检测(Cyclic Redundancy Check)"></a>循环冗余检测(Cyclic Redundancy Check)</h2><p>现今的计算机网络中广泛应用的差错检测技术基于循环冗余检测(Cyclic Redundancy Check, CRC)编码。CRC 编码也称为多项式编码(polynomial code), 因为该编码能够将要发送的比特串看作系数是 0 和 1 的一个多项式，对比特串的操作被解释为多项式算术。CRC 编码操作如下。考虑 d 比特的数据 D，发送结点要将它发送给接收结点。发送方和接收方首先必须协商一个 r+1 比特模式，称为生成多项式(generator)，我们将其表示为 G。我们将要求 G 的最高有效位的比特是 1。</p>
 <p>CRC 编码的关键思想如 图 5-6 所示。对于一个给定的数据段 D，发送方要选择 r 个附加比特 R，并将它们附加到 D 上，使得得到的 d+r 比特模式（被解释为一个二进制数）用模 2 算术恰好能被 G 整除（即余数为 0）。</p>
 <p><code>图 5-6 crc</code><br><img crc="" src="/img/hufei/052018/crc.png" width="100%" height="50%"></p>
