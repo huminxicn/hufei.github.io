@@ -94,7 +94,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/alpha.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/X-y-theta.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/062018/iterator-result.png">
-<meta property="og:updated_time" content="2018-06-10T16:25:54.000Z">
+<meta property="og:updated_time" content="2018-06-11T00:45:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linear Regression">
 <meta name="twitter:description" content="事情的发生是有规律性的，这样我们才能预测天气、发射火箭、制造原子弹、将来甚至进行星际旅行。那么这些规律又是如何发现的呢？以前靠人，例如牛顿、爱因斯坦。那么以后会不会由机器来发掘呢？">
@@ -469,8 +469,8 @@
 <h3 id="代价函数"><a href="#代价函数" class="headerlink" title="代价函数"></a>代价函数</h3><p>从 <code>图 1-2</code> 中我们很明显的可以看到，\( θ_0=0,θ_1=2 \) 时拟合的结果最好。</p>
 <p><strong>提问1</strong> 除了用经验来判断拟合结果的好坏，有没有能量化比较的方法呢?</p>
 <p>答案是肯定的，这就是代价函数(Cost Function)。</p>
-<p>$$J(θ_0,θ<em>1) = \frac 1 {2m} \sum</em>{i=0}^{m} (h_θ(x_i)-y_i)^2 $$</p>
-<p>$$\sum_{i=0}^n$$</p>
+<p>$$J(θ_0,θ_1) = \frac 1 {2m} \sum_{i=0}^{m} (h_θ(x_i)-y_i)^2 $$</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注:有的公式符号前面需要加转移字符 \，例如 <span class="keyword">_</span>，应该写成 \<span class="keyword">_</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>\( (h_θ(x_i)-y_i)^2 \)。表示假想函数求出来的值减去实际值的平方</li>
 <li>\( \sum_{i=0}^{n} \)。表示从 i=0 累加到 i=n</li>
