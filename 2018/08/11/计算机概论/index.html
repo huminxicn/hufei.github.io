@@ -92,7 +92,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/082018/computer-component.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/082018/compiler.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/082018/os.png">
-<meta property="og:updated_time" content="2018-08-14T14:59:05.000Z">
+<meta property="og:updated_time" content="2018-08-15T01:16:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机概论">
 <meta name="twitter:description" content="21 世纪已经过去了 1/5，还没有接触过计算机的朋友应该很少了吧。但是，你真的了解你每天都在使用的计算机吗？计算机由哪些部件组成？内存和硬盘有什么区别？在 Windows 上能运行的软件为什么在 Mac OS 上就不能运行了？">
@@ -445,14 +445,14 @@
 </ul>
 </li>
 </ul>
-<h2 id="操作系统是什么"><a href="#操作系统是什么" class="headerlink" title="操作系统是什么"></a>操作系统是什么</h2><h3 id="机器程序与编译程序"><a href="#机器程序与编译程序" class="headerlink" title="机器程序与编译程序"></a>机器程序与编译程序</h3><p>我们知道计算机只认识 0 和 1，且计算机最重要的运算与逻辑判断都在 CPU 内执行，而 CPU 又有着自己独特的指令集。因此，当我们需要 CPU 帮忙工作时，就得要参考微指令集的内容，然后编写让 CPU 读得懂的指令码给 CPU 执行，这样就能够让 CPU 运行了。理论上这样是行的通的(<a href="http://www.techug.com/post/the-world-of-programming.html" target="_blank" rel="noopener">纸带打孔编程</a>)，但利用这种方式编程对程序猿的要求太高，并且存在以下几个缺点：</p>
+<h2 id="操作系统是什么"><a href="#操作系统是什么" class="headerlink" title="操作系统是什么"></a>操作系统是什么</h2><h3 id="机器程序与编译程序"><a href="#机器程序与编译程序" class="headerlink" title="机器程序与编译程序"></a>机器程序与编译程序</h3><p>我们知道计算机只认识 0 和 1，且计算机最重要的运算与逻辑判断都在 CPU 内执行，而 CPU 又有着自己独特的指令集。因此，当我们需要 CPU 帮忙工作时，就得要参考微指令集的内容，然后编写让 CPU 读得懂的指令码给 CPU 执行，这样就能够让 CPU 运行了。理论上这样是行的通的(<a href="http://www.techug.com/post/the-world-of-programming.html" target="_blank" rel="noopener">纸带打孔编程</a>)，但利用这种方式编程对程序猿的要求太高，并且存在以下几个难点：</p>
 <ul>
 <li>需要了解机器语言<ul>
 <li>机器只认识 0 和 1，因此你必须要学习直接写给机器看的语言。这个相当有挑战！</li>
 </ul>
 </li>
 <li>需要了解所有硬件的功能函数<ul>
-<li>因为你的程序要写给机器看，你就必须要参考机器本身的功能，然后针对该功能区编写程序代码。例如，你要让 DVD 影片能够放映，那就得要参考 DVD 光碟机的硬件信息才行。万一你的系统有比较冷门的硬件，光是参考技术手册可能会昏倒。</li>
+<li>因为你的程序要写给机器看，你就必须要参考机器本身的功能，然后针对该功能去编写程序。例如，你要让 DVD 影片能够放映，那就得要参考 DVD 光碟机的硬件信息才行。万一你的系统有比较冷门的硬件，光是参考技术手册就可能会昏倒。</li>
 </ul>
 </li>
 <li>程序不具有可移植性<ul>
@@ -465,8 +465,8 @@
 </li>
 </ul>
 <p><code>编译器的角色</code><br><img compiler="" src="/img/hufei/082018/compiler.png" width="100%" height="50%"></p>
-<p>针对上述的种种问题，计算机界的前辈们想到了一种解决思路：人为什么要去理解计算机的语言呢，我们可以设计出一种便于人类理解的语言，用它来编程，然后再通过一个编译程序，将写好的程序翻译成机器能识别的机器码就行了。如此一来，我们修改与编写程序就变得容易多了！这种语言我们称之为高级语言，常见的如 C、C++、Java、Python、Lisp 等。</p>
-<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>如同前面提到的，在早期想要让电脑执行程序就得要参考一堆硬件功能函数，并且学习机器语言才能够编写程序。同时每次写程序时都必须要重新改写，因为硬件与软件功能不见得都一致。那么我如果能够将所有的硬体都驱动，并且提供一个开发软件的参考接口来给工程师开发软件的话，那开发软件不就变的非常的简单了？这就是操作系统啦！</p>
+<p>针对上述的种种问题，计算机界的前辈们想到了一种解决思路：人为什么要去理解计算机的语言呢，我们可以设计出一种便于人类理解的语言，用它来编程，然后再通过一个编译程序，将写好的程序翻译成机器能识别的机器码就行了。如此一来，我们编写与修改程序就变得容易多了！这种语言我们称之为高级语言，常见的如 C、C++、Java、Python、Lisp 等。</p>
+<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>如同前面提到的，在早期想要让电脑执行程序就得要参考一堆硬件功能函数，并且学习机器语言才能够编写程序。同时每次写程序时都必须要重新改写，因为硬件与软件功能不见得都一致。那么我如果能够将所有的硬件都驱动，并且提供一个开发软件的参考接口来给工程师使用的话，那开发软件不就变的非常简单了？这就是操作系统啦！</p>
 <ul>
 <li>操作系统内核(Kernel)<ul>
 <li>操作系统(Operating System, OS)其实也是一组程序，这组程序的重点在于管理电脑的所有活动以及驱动系统中的所有硬件。</li>
@@ -479,8 +479,14 @@
 </li>
 </ul>
 <p><code>操作系统角色</code><br><img os="" src="/img/hufei/082018/os.png" width="100%" height="50%"></p>
-<h2 id="应用程序"><a href="#应用程序" class="headerlink" title="应用程序"></a>应用程序</h2><p>应用程序是参考操作系统提供的开发接口所开发出来的软件，这些软件会利用计算机的一些硬件功能，来达到用户的目的。举例来说，Office 软件主要是用来让用户办公用的；影像处理软件主要是让用户用来处理影音资料的；浏览器软件主要是让用户用来上网浏览用的等等。</p>
-<p>需要注意的是，应用程序是与操作系统有关系的，参照上图。因此，如果你想要购买新的软件，请务必查看软件上面的说明，看看该软件是否能够支持你的操作系统。举例来说，如果你想要购买线上游戏光碟，务必参考一下该光碟是否支持你的操作系统，例如是否支持 Windows XP/Windows 98/Mac/Linux 等等。不要购买了之后才发现该软件无法安装在你的操作系统上喔！</p>
+<h2 id="应用程序"><a href="#应用程序" class="headerlink" title="应用程序"></a>应用程序</h2><p>应用程序是参考操作系统提供的开发接口所开发出来的软件，这些软件会利用计算机的一些硬件功能，来达到用户的目的。</p>
+<ul>
+<li>举例来说，Office 软件主要是用来让用户办公用的；影像处理软件主要是让用户用来处理影音资料的；浏览器软件主要是让用户用来上网浏览网页用的等等。</li>
+</ul>
+<p>需要注意的是，应用程序是与操作系统有关系的，参照上图。因此，如果你想要购买新的软件，请务必查看软件上面的说明，看看该软件是否能够支持你的操作系统。</p>
+<ul>
+<li>举例来说，如果你想要购买线上游戏光碟，务必参考一下该光碟是否支持你的操作系统，例如是否支持 Windows XP/Windows 98/Mac/Linux 等等。不要购买了之后才发现该软件无法安装在你的操作系统上！</li>
+</ul>
 <h2 id="本文引自"><a href="#本文引自" class="headerlink" title="本文引自"></a>本文引自</h2><ul>
 <li><a href="http://linux.vbird.org/linux_basic/0105computers.php" target="_blank" rel="noopener">《鸟哥的 Linux 私房菜》</a></li>
 <li><a href="https://zh.wikipedia.org/wiki/%E7%B2%BE%E7%AE%80%E6%8C%87%E4%BB%A4%E9%9B%86" target="_blank" rel="noopener">精简指令集</a></li>
