@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="单点登录（英语：Single sign-on，缩写为 SSO），又译为单一签入，一种对于许多相互关连，但是又是各自独立的软件系统，提供访问控制的属性。当拥有这项属性时，当用户登录时，就可以获取所有系统的访问权限，不用对每个单一系统都逐一登录。相同的，单一注销（single sign-off）就是指，只需要单一的注销动作">
+<meta name="description" content="单点登录（英语：Single sign-on，缩写为 SSO），顾名思义，只需要登录一次就能访问多个系统。相同的，单一注销（single sign-off）就是指，只需要注销一次，就可以结束对多个系统的访问权限。下面，就一起来研究一下单点登录的适用场景以及背后的实现原理。">
 <meta name="keywords" content="单点登录">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一种基于前后端分离的单点登录实现方案">
 <meta property="og:url" content="//huminxi.netlify.com/2017/12/10/一种基于前后端分离的单点登录实现方案/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="单点登录（英语：Single sign-on，缩写为 SSO），又译为单一签入，一种对于许多相互关连，但是又是各自独立的软件系统，提供访问控制的属性。当拥有这项属性时，当用户登录时，就可以获取所有系统的访问权限，不用对每个单一系统都逐一登录。相同的，单一注销（single sign-off）就是指，只需要单一的注销动作，就可以结束对于多个系统的访问权限。">
+<meta property="og:description" content="单点登录（英语：Single sign-on，缩写为 SSO），顾名思义，只需要登录一次就能访问多个系统。相同的，单一注销（single sign-off）就是指，只需要注销一次，就可以结束对多个系统的访问权限。下面，就一起来研究一下单点登录的适用场景以及背后的实现原理。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/122017/http-stateless.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/122017/session.png">
@@ -97,10 +97,10 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/122017/login.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/122017/logout.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/122017/deployment.png">
-<meta property="og:updated_time" content="2018-11-08T11:01:29.000Z">
+<meta property="og:updated_time" content="2018-11-08T11:27:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种基于前后端分离的单点登录实现方案">
-<meta name="twitter:description" content="单点登录（英语：Single sign-on，缩写为 SSO），又译为单一签入，一种对于许多相互关连，但是又是各自独立的软件系统，提供访问控制的属性。当拥有这项属性时，当用户登录时，就可以获取所有系统的访问权限，不用对每个单一系统都逐一登录。相同的，单一注销（single sign-off）就是指，只需要单一的注销动作，就可以结束对于多个系统的访问权限。">
+<meta name="twitter:description" content="单点登录（英语：Single sign-on，缩写为 SSO），顾名思义，只需要登录一次就能访问多个系统。相同的，单一注销（single sign-off）就是指，只需要注销一次，就可以结束对多个系统的访问权限。下面，就一起来研究一下单点登录的适用场景以及背后的实现原理。">
 <meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/122017/http-stateless.png">
 
 
@@ -409,7 +409,7 @@
       
 
       
-        <p>单点登录（英语：Single sign-on，缩写为 SSO），又译为单一签入，一种对于许多相互关连，但是又是各自独立的软件系统，提供访问控制的属性。当拥有这项属性时，当用户登录时，就可以获取所有系统的访问权限，不用对每个单一系统都逐一登录。相同的，单一注销（single sign-off）就是指，只需要单一的注销动作，就可以结束对于多个系统的访问权限。</p>
+        <p>单点登录（英语：Single sign-on，缩写为 SSO），顾名思义，只需要登录一次就能访问多个系统。相同的，单一注销（single sign-off）就是指，只需要注销一次，就可以结束对多个系统的访问权限。下面，就一起来研究一下单点登录的适用场景以及背后的实现原理。</p>
 <a id="more"></a>
 <h2 id="一、单系统登录"><a href="#一、单系统登录" class="headerlink" title="一、单系统登录"></a>一、单系统登录</h2><h3 id="1、http-无状态协议"><a href="#1、http-无状态协议" class="headerlink" title="1、http 无状态协议"></a>1、http 无状态协议</h3><p>web 应用采用 browser/server 架构，http 作为通信协议。http 是无状态协议，浏览器的每一次请求，服务器会独立处理，不与之前或之后的请求产生关联，这个过程如下图所示，三次请求/响应对之间没有任何联系。</p>
 <p><img hands="" src="/img/hufei/122017/http-stateless.png" width="50%" height="50%"></p>
@@ -432,9 +432,9 @@
 <p><img hands="" src="/img/hufei/122017/multi-login-logout.png" width="50%" height="50%"></p>
 <p>web 系统由单系统发展成多系统组成的应用群，复杂性应该由系统内部承担，而不是用户。无论 web 系统内部多么复杂，对用户而言，都是一个统一的整体，也就是说，用户访问 web 系统的整个应用群与访问单个系统一样，登录/注销只要一次就够了。</p>
 <p><img hands="" src="/img/hufei/122017/single-login-logout.png" width="50%" height="50%"></p>
-<p>虽然单系统的登录解决方案很完美，但对于多系统应用群已经不再适用了，为什么呢？<br>单系统登录解决方案的核心是 cookie，cookie 携带会话 id 在浏览器与服务器之间维护会话状态。但 cookie 是有限制的，这个限制就是 cookie 的域（通常对应网站的域名），浏览器发送 http 请求时会自动携带与该域匹配的 cookie，而不是所有 cookie。</p>
+<p>虽然单系统的登录解决方案很完美，但对于多系统应用群已经不再适用了，为什么呢？<br>单系统登录解决方案的核心是 cookie，cookie 携带会话 id 在浏览器与服务器之间维护会话状态。但 cookie 是有限制的，这个限制就是 cookie 的域（通常对应网站的域名），浏览器发送 http 请求时会自动携带与该域匹配的 cookie，而不是所有 cookie（否则会存在 <a href="https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0" target="_blank" rel="noopener">CSRF</a> 问题）。</p>
 <p><img hands="" src="/img/hufei/122017/cookie.png" width="50%" height="50%"></p>
-<p>既然这样，为什么不将 web 应用群中所有子系统的域名统一在一个顶级域名下，例如 “*.baidu.com”，然后将它们的 cookie 域设置为 “baidu.com”，这种做法理论上是可以的，甚至早期很多多系统登录就采用这种同域名共享 cookie 的方式。然而，可行并不代表好，共享 cookie 的方式存在众多局限。首先，应用群域名得统一；其次，应用群各系统使用的技术（至少是 web 服务器）要相同，不然 cookie 的 key  值（tomcat 为 JSESSIONID）不同，无法维持会话，共享 cookie 的方式是无法实现跨语言技术平台登录的，比如 java、php、.net 系统之间；第三，cookie 本身不安全。<br>因此，我们需要一种全新的登录方式来实现多系统应用群的登录，这就是单点登录。</p>
+<p>既然这样，为什么不将 web 应用群中所有子系统的域名统一在一个顶级域名下，例如 “*.baidu.com”，然后将它们的 cookie 域设置为 “baidu.com”，这种做法理论上是可以的，甚至早期很多多系统登录就采用这种同域名共享 cookie 的方式。然而，可行并不代表好，共享 cookie 的方式存在众多局限。首先，应用群域名得统一；其次，应用群各系统使用的技术（至少是 web 服务器）要相同，不然 cookie 的 key  值（tomcat 为 JSESSIONID）不同，无法维持会话，共享 cookie 的方式是无法实现跨语言技术平台登录的，比如 java、php、.net 系统之间就无法使用同一个 cookie。<br>因此，我们需要一种全新的登录方式来实现多系统应用群的登录，这就是单点登录。</p>
 <h2 id="三、单点登录"><a href="#三、单点登录" class="headerlink" title="三、单点登录"></a>三、单点登录</h2><p>什么是单点登录？单点登录全称 Single Sign On（以下简称SSO），是指在多系统应用群中登录一个系统，便可在其他所有系统中得到授权而无需再次登录。</p>
 <h3 id="1、登录"><a href="#1、登录" class="headerlink" title="1、登录"></a>1、登录</h3><p>相比于单系统登录，sso 需要一个独立的认证中心，只有认证中心能接受用户的用户名密码等安全信息，其他系统不提供登录入口，只接受认证中心的间接授权。间接授权通过令牌实现，先由子系统产生临时令牌，然后 sso 认证中心验证用户的用户名密码没问题，最后 sso 认证中心再通知各子系统令牌生效。之后浏览器端可以利用之前就返回的令牌进行受限资源的访问。</p>
 <p><img hands="" src="/img/hufei/122017/login.png" width="50%" height="50%"></p>
