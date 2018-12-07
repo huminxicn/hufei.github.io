@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/hufei/fei.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/hufei/fei.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/hufei/fei.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/img/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Iterator,迭代器模式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="可在容器对象(例如链表或数组)上遍历的接口。">
+<meta name="keywords" content="Iterator,迭代器模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Iterator">
+<meta property="og:url" content="//huminxi.netlify.com/2018/12/07/Iterator/index.html">
+<meta property="og:site_name" content="黄枫谷">
+<meta property="og:description" content="可在容器对象(例如链表或数组)上遍历的接口。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/class-structure.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/result.png">
+<meta property="og:updated_time" content="2018-12-07T12:27:46.770Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Iterator">
+<meta name="twitter:description" content="可在容器对象(例如链表或数组)上遍历的接口。">
+<meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201812/class-structure.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="//huminxi.netlify.com/2018/12/07/Iterator/"/>
+
+
+
+
+
+  <title>Iterator | 黄枫谷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黄枫谷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">勿在浮沙筑高台。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2018/12/07/Iterator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡匪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/huangfenggu.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黄枫谷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Iterator</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-07T14:37:50+08:00">
+                2018-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/07/Iterator/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/12/07/Iterator/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/07/Iterator/" class="leancloud_visitors" data-flag-title="Iterator">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>可在容器对象(例如链表或数组)上遍历的接口。</p>
+<a id="more"></a>
+<h2 id="for-和-Iterator"><a href="#for-和-Iterator" class="headerlink" title="for 和 Iterator"></a>for 和 Iterator</h2><p>我们可以用下面这样的 for 循环语句来遍历数组 arr 中的元素。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (int <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; arr.<span class="built_in">length</span>; <span class="built_in">i</span>++) &#123;</span><br><span class="line">    System.out.println(arr[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>for 循环中的 <code>i++</code> 的作用是让 i 的值在每次循环之后自增 1，这样就可以访问数组中的下一个元素，下下一个元素，下下下一个元素，从而实现了从头至尾遍历数组元素的功能。</p>
+<p>将上面循环变量 i 的作用抽象化之后形成的模式，称为 Iterator 模式。下面让我们来看一段实现了 Iterator 模式的示例程序。这段程序的作用是将 Book 放置到 BookShelf 中，并将 Book 的名字按顺序打印出来。 </p>
+<h2 id="示例程序"><a href="#示例程序" class="headerlink" title="示例程序"></a>示例程序</h2><h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p><code>示例程序的类图</code><br><img class-structure="" src="/img/hufei/201812/class-structure.png" width="50%" height="50%"></p>
+<h3 id="Aggregate"><a href="#Aggregate" class="headerlink" title="Aggregate"></a>Aggregate</h3><p>Aggregate 接口中只声明了一个 iterator 方法，该方法会生成一个用来遍历集合的迭代器。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>Aggregate &#123;</span><br><span class="line">    public abstract Iterator iterator();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h3><p>Iterator 接口用于遍历集合中的元素，其作用相当于循环语句中的循环变量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Object <span class="title">next</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里我们声明了两个方法，即：</p>
+<ul>
+<li>hasNext 方法判断下一个元素是否存在。<ul>
+<li>该方法返回值是 boolean 型的，其原因很简单。当集合中存在下一个元素时，返回 True；当集合中不存在下一个元素时，返回 False。hasNext 主要用于循环终止条件。</li>
+</ul>
+</li>
+<li>next 方法获取下一个元素。<ul>
+<li>该方法的返回值类型是 Object，表示该方法能返回任意类型的元素。但是，next 方法的作用却不止如此。为了能在下次调用 next 方法时正确地返回下一个元素，该方法中还隐含着将迭代器移动至下一个元素的处理。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h3><p>Book 是表示书的类。这个类的作用有限，只有通过 getName 方法获取书名这一个作用。<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> Book &#123;</span><br><span class="line">    <span class="keyword">private</span> String <span class="keyword">name</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Book(String <span class="keyword">name</span>) &#123;</span><br><span class="line">        this.<span class="keyword">name</span> = <span class="keyword">name</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">name</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="BookShelf"><a href="#BookShelf" class="headerlink" title="BookShelf"></a>BookShelf</h3><p>BookShelf 是表示书架的类。由于需要将该类作为集合处理，所以它实现了 Aggregate 接口。因此，它 @Override 接口中的 iterator 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookShelf</span> <span class="keyword">implements</span> <span class="title">Aggregate</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Book[] books;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> last = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BookShelf</span><span class="params">(<span class="keyword">int</span> initialSize)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.books = <span class="keyword">new</span> Book[initialSize];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Book <span class="title">getBookAt</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (Book) books[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">appendBook</span><span class="params">(Book book)</span> </span>&#123;</span><br><span class="line">        books[last] = book;</span><br><span class="line">        last++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> last;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BookShelfIterator(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这个书架中定义了 books 字段，它是 Book 类型的数组。该数组的大小(initialSize)在生成 BookShelf 实例的时候就被指定了。</li>
+<li>之所以将 books 字段的可见性设置为 private，是为了防止外部不小心改变了该字段的值。</li>
+</ul>
+<h3 id="BookShelfIterator"><a href="#BookShelfIterator" class="headerlink" title="BookShelfIterator"></a>BookShelfIterator</h3><p>因为 BookShelfIterator 类需要发挥 Iterator 的作用，所以它实现了 Iterator 接口。</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookShelfIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> BookShelf bookShelf;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> <span class="keyword">index</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> BookShelfIterator(BookShelf bookShelf) &#123;</span><br><span class="line">        <span class="keyword">this</span>.bookShelf = bookShelf;</span><br><span class="line">        <span class="keyword">this</span>.<span class="keyword">index</span> = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> hasNext() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">index</span> &lt; bookShelf.getLength();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> Object next() &#123;</span><br><span class="line">        Book book = bookShelf.getBookAt(<span class="keyword">index</span>);</span><br><span class="line">        <span class="keyword">index</span>++;</span><br><span class="line">        <span class="keyword">return</span> book;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>bookShelf 字段表示迭代器将要遍历的书架。index 字段表示迭代器当前所指向的书的下标。</li>
+<li>构造函数会将传入的 BookShelf 实例保存在 bookShelf 字段中，并将 index 初始化为 0。</li>
+<li>hasNext 方法是 Iterator 接口中声明的方法。该方法会判断书架中还有没有下一本书，如果有就返回 True，如果没有就返回 False。而要知道书架中有没有下一本书，可以通过比较 index 和书架中书的总册数(bookShelf.getLength() 的返回值)来判断。</li>
+<li>next 方法会返回迭代器当前所指向的书(Book 的实例)，并让迭代器指向下一本书。如果与前面的 for 循环相比，这里的 <code>index++</code> 的相当于其中的 <code>i++</code>，它让循环变量指向下一个元素。</li>
+</ul>
+<h3 id="Main"><a href="#Main" class="headerlink" title="Main"></a>Main</h3><p>至此，遍历书架的准备工作就完成了。接下来我们利用 Main 类来制作一个小书架。<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) &#123;</span><br><span class="line">        BookShelf bookShelf = <span class="keyword">new</span> <span class="type">BookShelf</span>(<span class="number">4</span>);</span><br><span class="line">        bookShelf.appendBook(<span class="keyword">new</span> <span class="type">Book</span>(<span class="string">"Around the World in 80 Days"</span>));</span><br><span class="line">        bookShelf.appendBook(<span class="keyword">new</span> <span class="type">Book</span>(<span class="string">"Bible"</span>));</span><br><span class="line">        bookShelf.appendBook(<span class="keyword">new</span> <span class="type">Book</span>(<span class="string">"Cinderella"</span>));</span><br><span class="line">        bookShelf.appendBook(<span class="keyword">new</span> <span class="type">Book</span>(<span class="string">"Daddy Long Legs"</span>));</span><br><span class="line"></span><br><span class="line">        Iterator it = <span class="keyword">new</span> <span class="type">BookShelfIterator</span>(bookShelf);</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">            Book book = (Book) it.next();</span><br><span class="line">            System.out.println(book.getName());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这段程序首先设计了一个能容纳 4 本书的书架，然后按照书名顺序一次向书架中放入了下面这 4 本书。</p>
+<ul>
+<li>Around the World in 80 Days</li>
+<li>Bible</li>
+<li>Cinderella</li>
+<li>Daddy Long Legs</li>
+</ul>
+<p>通过 bookShelf.iterator() 得到了遍历书架的 it 实例。while 的条件自然就是 it.hasNext()。只要书架上有书，while 循环就不会终止。然后，程序会通过 it.next() 一本一本地遍历书架中的书。</p>
+<p><code>运行结果</code><br><img result="" src="/img/hufei/201812/result.png" width="100%" height="50%"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="不管实现-BookShelf-如何变化，都可以使用-Iterator"><a href="#不管实现-BookShelf-如何变化，都可以使用-Iterator" class="headerlink" title="不管实现(BookShelf)如何变化，都可以使用 Iterator"></a>不管实现(BookShelf)如何变化，都可以使用 Iterator</h3><p>为什么要引入 Iterator 这种复杂的设计模式呢？如果是数组，直接 for 循环语句进行遍历不就行了吗？为什么要在集合之外引入 Iterator 这个角色呢？一个重要的理由是，引入 Iterator 后可以将遍历与实现分离开来。请看如下代码。</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">while</span>(<span class="keyword">it.hasNext()) </span>&#123;</span><br><span class="line">    <span class="keyword">Book </span><span class="keyword">book </span>= (<span class="keyword">Book) </span><span class="keyword">it.next();</span></span><br><span class="line"><span class="keyword"> </span>   System.out.println(<span class="keyword">book.getName());</span></span><br><span class="line"><span class="keyword">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>这里只使用了 Iterator 的 hasNext 方法和 next 方法，并没有调用 BookShelf 的方法。也就是说，这里的 while 循环并不依赖与 BookShelf 的实现。</li>
+<li>如果编写 BookShelf 的开发人员决定放弃用数组来管理书本，而是用 java.util.ArrayList 取而代之，会怎样呢？</li>
+<li>其实不管 BookShelf 如何变化，只要 BookShelf 的 iterator 方法能正确地返回 Iterator 的实例（换句话说，hasNext 和 next 方法都可以正常工作），即使不对上面的 while 循环做任何修改，代码都可以正常工作。这对于 BookShelf 的调用者来说真是太方便了。</li>
+</ul>
+<p><strong>设计模式的作用就是帮助我们编写可复用的类。</strong> 所谓『可复用』就是指将类实现为『组件』。当一个组件发生改变时，不需要对其它的组件进行修改或是只需要很小的修改即可应对。</p>
+<h3 id="容易弄错『下一个』"><a href="#容易弄错『下一个』" class="headerlink" title="容易弄错『下一个』"></a>容易弄错『下一个』</h3><p>在 Iterator 模式的实现中，很容易在 next 方法上出错。该方法的返回值到底是应该指向当前元素还是当前元素的下一个元素呢？更详细地讲，next 方法的名字应该是这样的——<code>returnCurrentElementAndAdvanceToNextPosition</code>。</p>
+<p>也就是说，next 方法是『返回当前的元素，并指向下一个元素』。</p>
+<h3 id="还容易弄错『最后一个』"><a href="#还容易弄错『最后一个』" class="headerlink" title="还容易弄错『最后一个』"></a>还容易弄错『最后一个』</h3><p>在 Iterator 模式中，不仅容易弄错『下一个』，还容易弄错『最后一个』。hasNext 方法在返回最后一个元素前会返回 true，当返回了最后一个元素后则返回 false。稍不注意，就会无法正确地返回『最后一个』元素。</p>
+<h3 id="迭代器的种类多种多样"><a href="#迭代器的种类多种多样" class="headerlink" title="迭代器的种类多种多样"></a>迭代器的种类多种多样</h3><p>在示例程序中展示的 Iterator 类只是很简单地从前向后遍历集合。其实，遍历的方法是多种多样的。</p>
+<ul>
+<li>从最后开始向前遍历。</li>
+<li>既可以从前向后遍历，也可以从后向前遍历（既有 next 方法也有 previous 方法)。</li>
+<li>指定下标进行『跳跃式』遍历。</li>
+</ul>
+<p>这就需要大家具体情况具体分析了。</p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h3><p>在示例程序的 BookShelf 类中，当书的数量超过最初指定的书架容量时，就无法继续向书架中添加书本了。请大家不使用数组，而是用 java.util.ArrayList 修改程序，确保当书的数量超过最初指定的书架容量时也能继续向书架中添加书本。</p>
+<h3 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h3><p><a href="https://github.com/huminxicn/design-pattern" target="_blank" rel="noopener">代码地址</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://book.douban.com/subject/26933281/" target="_blank" rel="noopener">图解设计模式</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Iterator/" rel="tag"># Iterator</a>
+          
+            <a href="/tags/迭代器模式/" rel="tag"># 迭代器模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/15/直接继承 Thread 类和实现 Runnable 接口来创建线程有和异同/" rel="next" title="直接继承 Thread 类和实现 Runnable 接口来创建线程有和异同">
+                <i class="fa fa-chevron-left"></i> 直接继承 Thread 类和实现 Runnable 接口来创建线程有和异同
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/huangfenggu.png"
+                alt="胡匪" />
+            
+              <p class="site-author-name" itemprop="name">胡匪</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:huminxi@nongfenqi.com" target="_blank" title="Email">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>Email</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/huminxicn" target="_blank" title="Github">
+                    
+                      <i class="fa fa-fw fa-github"></i>Github</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#for-和-Iterator"><span class="nav-number">1.</span> <span class="nav-text">for 和 Iterator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例程序"><span class="nav-number">2.</span> <span class="nav-text">示例程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类图"><span class="nav-number">2.1.</span> <span class="nav-text">类图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Aggregate"><span class="nav-number">2.2.</span> <span class="nav-text">Aggregate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Iterator"><span class="nav-number">2.3.</span> <span class="nav-text">Iterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Book"><span class="nav-number">2.4.</span> <span class="nav-text">Book</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BookShelf"><span class="nav-number">2.5.</span> <span class="nav-text">BookShelf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BookShelfIterator"><span class="nav-number">2.6.</span> <span class="nav-text">BookShelfIterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Main"><span class="nav-number">2.7.</span> <span class="nav-text">Main</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不管实现-BookShelf-如何变化，都可以使用-Iterator"><span class="nav-number">3.1.</span> <span class="nav-text">不管实现(BookShelf)如何变化，都可以使用 Iterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容易弄错『下一个』"><span class="nav-number">3.2.</span> <span class="nav-text">容易弄错『下一个』</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#还容易弄错『最后一个』"><span class="nav-number">3.3.</span> <span class="nav-text">还容易弄错『最后一个』</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代器的种类多种多样"><span class="nav-number">3.4.</span> <span class="nav-text">迭代器的种类多种多样</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展"><span class="nav-number">4.</span> <span class="nav-text">拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#习题"><span class="nav-number">4.1.</span> <span class="nav-text">习题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#答案"><span class="nav-number">4.2.</span> <span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">胡匪</span>
+
+  
+</div>
+
+
+  <div class="powered-by">采用 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 博客框架</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huminxi.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.identifier = '2018/12/07/Iterator/';
+          this.page.title = 'Iterator';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huminxi.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("FvvQKKiX5WpG9xSaVCpACeaJ-gzGzoHsz", "jlG7zUKtYqrmyfUYTERxSN60");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
