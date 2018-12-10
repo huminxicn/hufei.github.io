@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="可在容器对象(例如链表或数组)上遍历的接口。">
+<meta name="description" content="可在 容器 上遍访的接口，调用人员无需关心容器的实现细节。">
 <meta name="keywords" content="Iterator,迭代器模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Iterator">
 <meta property="og:url" content="//huminxi.netlify.com/2018/12/07/Iterator/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="可在容器对象(例如链表或数组)上遍历的接口。">
+<meta property="og:description" content="可在 容器 上遍访的接口，调用人员无需关心容器的实现细节。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/class-structure.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/iterator-class-structure.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/result.png">
-<meta property="og:updated_time" content="2018-12-10T01:09:41.602Z">
+<meta property="og:updated_time" content="2018-12-10T09:48:56.190Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Iterator">
-<meta name="twitter:description" content="可在容器对象(例如链表或数组)上遍历的接口。">
-<meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201812/class-structure.png">
+<meta name="twitter:description" content="可在 容器 上遍访的接口，调用人员无需关心容器的实现细节。">
+<meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201812/iterator-class-structure.png">
 
 
 
@@ -401,13 +401,13 @@
       
 
       
-        <p>可在容器对象(例如链表或数组)上遍历的接口。</p>
+        <p>可在 <a href="https://zh.wikipedia.org/wiki/%E5%AE%B9%E5%99%A8" target="_blank" rel="noopener">容器</a> 上遍访的接口，调用人员无需关心容器的实现细节。</p>
 <a id="more"></a>
 <h2 id="for-和-Iterator"><a href="#for-和-Iterator" class="headerlink" title="for 和 Iterator"></a>for 和 Iterator</h2><p>我们可以用下面这样的 for 循环语句来遍历数组 arr 中的元素。</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (int <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; arr.<span class="built_in">length</span>; <span class="built_in">i</span>++) &#123;</span><br><span class="line">    System.out.println(arr[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>for 循环中的 <code>i++</code> 的作用是让 i 的值在每次循环之后自增 1，这样就可以访问数组中的下一个元素，下下一个元素，下下下一个元素，从而实现了从头至尾遍历数组元素的功能。</p>
 <p>将上面循环变量 i 的作用抽象化之后形成的模式，称为 Iterator 模式。下面让我们来看一段实现了 Iterator 模式的示例程序。这段程序的作用是将 Book 放置到 BookShelf 中，并将 Book 的名字按顺序打印出来。 </p>
-<h2 id="示例程序"><a href="#示例程序" class="headerlink" title="示例程序"></a>示例程序</h2><h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p><code>示例程序的类图</code><br><img class-structure="" src="/img/hufei/201812/class-structure.png" width="50%" height="50%"></p>
+<h2 id="示例程序"><a href="#示例程序" class="headerlink" title="示例程序"></a>示例程序</h2><h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p><code>iterator 的类图</code><br><img iterator-class-structure="" src="/img/hufei/201812/iterator-class-structure.png" width="50%" height="50%"></p>
 <h3 id="Aggregate"><a href="#Aggregate" class="headerlink" title="Aggregate"></a>Aggregate</h3><p>Aggregate 接口中只声明了一个 iterator 方法，该方法会生成一个用来遍历集合的迭代器。</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>Aggregate &#123;</span><br><span class="line">    public abstract Iterator iterator();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h3><p>Iterator 接口用于遍历集合中的元素，其作用相当于循环语句中的循环变量。</p>
@@ -512,6 +512,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/12/10/Adapter/" rel="prev" title="Adapter">
+                Adapter <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -601,7 +605,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -623,7 +627,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
