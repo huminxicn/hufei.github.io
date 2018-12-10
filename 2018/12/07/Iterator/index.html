@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/class-structure.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/result.png">
-<meta property="og:updated_time" content="2018-12-10T01:06:15.205Z">
+<meta property="og:updated_time" content="2018-12-10T01:09:41.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Iterator">
 <meta name="twitter:description" content="可在容器对象(例如链表或数组)上遍历的接口。">
@@ -457,14 +457,14 @@
 <p><strong>设计模式的作用就是帮助我们编写可复用的类。</strong> 所谓『可复用』就是指将类实现为『组件』。当一个组件发生改变时，不需要对其它的组件进行修改或是只需要很小的修改即可应对。</p>
 <h3 id="容易弄错『下一个』"><a href="#容易弄错『下一个』" class="headerlink" title="容易弄错『下一个』"></a>容易弄错『下一个』</h3><p>在 Iterator 模式的实现中，很容易在 next 方法上出错。该方法的返回值到底是应该指向当前元素还是当前元素的下一个元素呢？更详细地讲，next 方法的名字应该是这样的——<code>returnCurrentElementAndAdvanceToNextPosition</code>。</p>
 <p>也就是说，next 方法是『返回当前的元素，并指向下一个元素』。</p>
-<h3 id="还容易弄错『最后一个』"><a href="#还容易弄错『最后一个』" class="headerlink" title="还容易弄错『最后一个』"></a>还容易弄错『最后一个』</h3><p>在 Iterator 模式中，不仅容易弄错『下一个』，还容易弄错『最后一个』。hasNext 方法在返回最后一个元素前会返回 true，当返回了最后一个元素后则返回 false。稍不注意，就会无法正确地返回『最后一个』元素。</p>
+<h3 id="还容易弄错『最后一个』"><a href="#还容易弄错『最后一个』" class="headerlink" title="还容易弄错『最后一个』"></a>还容易弄错『最后一个』</h3><p>在 Iterator 模式中，不仅容易弄错『下一个』，还容易弄错『最后一个』。hasNext 方法在返回最后一个元素前会返回 true，当返回了最后一个元素后则返回 false。</p>
 <h3 id="迭代器的种类多种多样"><a href="#迭代器的种类多种多样" class="headerlink" title="迭代器的种类多种多样"></a>迭代器的种类多种多样</h3><p>在示例程序中展示的 Iterator 类只是很简单地从前向后遍历集合。其实，遍历的方法是多种多样的。</p>
 <ul>
 <li>从最后开始向前遍历。</li>
 <li>既可以从前向后遍历，也可以从后向前遍历（既有 next 方法也有 previous 方法)。</li>
 <li>指定下标进行『跳跃式』遍历。</li>
 </ul>
-<p>这就需要大家具体情况具体分析了。</p>
+<p>具体实现依照需求而定。</p>
 <h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h3><p>在示例程序的 BookShelf 类中，当书的数量超过最初指定的书架容量时，就无法继续向书架中添加书本了。请大家不使用数组，而是用 java.util.ArrayList 修改程序，确保当书的数量超过最初指定的书架容量时也能继续向书架中添加书本。</p>
 <h3 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h3><p><a href="https://github.com/huminxicn/design-pattern" target="_blank" rel="noopener">代码地址</a></p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
