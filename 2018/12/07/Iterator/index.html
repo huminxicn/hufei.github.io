@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/class-structure.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201812/result.png">
-<meta property="og:updated_time" content="2018-12-07T12:27:46.770Z">
+<meta property="og:updated_time" content="2018-12-10T01:06:15.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Iterator">
 <meta name="twitter:description" content="可在容器对象(例如链表或数组)上遍历的接口。">
@@ -415,11 +415,11 @@
 <p>在这里我们声明了两个方法，即：</p>
 <ul>
 <li>hasNext 方法判断下一个元素是否存在。<ul>
-<li>该方法返回值是 boolean 型的，其原因很简单。当集合中存在下一个元素时，返回 True；当集合中不存在下一个元素时，返回 False。hasNext 主要用于循环终止条件。</li>
+<li>该方法返回值是 boolean 型的。其原因很简单，当集合中存在下一个元素时，返回 true；当集合中不存在下一个元素时，返回 false。hasNext 主要用作循环终止条件。</li>
 </ul>
 </li>
 <li>next 方法获取下一个元素。<ul>
-<li>该方法的返回值类型是 Object，表示该方法能返回任意类型的元素。但是，next 方法的作用却不止如此。为了能在下次调用 next 方法时正确地返回下一个元素，该方法中还隐含着将迭代器移动至下一个元素的处理。</li>
+<li>该方法的返回值类型是 Object，表示该方法能返回任意类型的元素。但 next 方法的作用却不止如此。为了能在下次调用 next 方法时正确地返回下一个元素，该方法中还隐含着将迭代器移动至下一个元素的处理逻辑。</li>
 </ul>
 </li>
 </ul>
@@ -435,7 +435,7 @@
 <ul>
 <li>bookShelf 字段表示迭代器将要遍历的书架。index 字段表示迭代器当前所指向的书的下标。</li>
 <li>构造函数会将传入的 BookShelf 实例保存在 bookShelf 字段中，并将 index 初始化为 0。</li>
-<li>hasNext 方法是 Iterator 接口中声明的方法。该方法会判断书架中还有没有下一本书，如果有就返回 True，如果没有就返回 False。而要知道书架中有没有下一本书，可以通过比较 index 和书架中书的总册数(bookShelf.getLength() 的返回值)来判断。</li>
+<li>hasNext 方法是 Iterator 接口中声明的方法。该方法会判断书架中还有没有下一本书，如果有就返回 true，如果没有就返回 false。而要知道书架中有没有下一本书，可以通过比较 index 和书架中书的总册数(bookShelf.getLength() 的返回值)来判断。</li>
 <li>next 方法会返回迭代器当前所指向的书(Book 的实例)，并让迭代器指向下一本书。如果与前面的 for 循环相比，这里的 <code>index++</code> 的相当于其中的 <code>i++</code>，它让循环变量指向下一个元素。</li>
 </ul>
 <h3 id="Main"><a href="#Main" class="headerlink" title="Main"></a>Main</h3><p>至此，遍历书架的准备工作就完成了。接下来我们利用 Main 类来制作一个小书架。<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) &#123;</span><br><span class="line">        BookShelf bookShelf = <span class="keyword">new</span> <span class="type">BookShelf</span>(<span class="number">4</span>);</span><br><span class="line">        bookShelf.appendBook(<span class="keyword">new</span> <span class="type">Book</span>(<span class="string">"Around the World in 80 Days"</span>));</span><br><span class="line">        bookShelf.appendBook(<span class="keyword">new</span> <span class="type">Book</span>(<span class="string">"Bible"</span>));</span><br><span class="line">        bookShelf.appendBook(<span class="keyword">new</span> <span class="type">Book</span>(<span class="string">"Cinderella"</span>));</span><br><span class="line">        bookShelf.appendBook(<span class="keyword">new</span> <span class="type">Book</span>(<span class="string">"Daddy Long Legs"</span>));</span><br><span class="line"></span><br><span class="line">        Iterator it = <span class="keyword">new</span> <span class="type">BookShelfIterator</span>(bookShelf);</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">            Book book = (Book) it.next();</span><br><span class="line">            System.out.println(book.getName());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -451,8 +451,7 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="不管实现-BookShelf-如何变化，都可以使用-Iterator"><a href="#不管实现-BookShelf-如何变化，都可以使用-Iterator" class="headerlink" title="不管实现(BookShelf)如何变化，都可以使用 Iterator"></a>不管实现(BookShelf)如何变化，都可以使用 Iterator</h3><p>为什么要引入 Iterator 这种复杂的设计模式呢？如果是数组，直接 for 循环语句进行遍历不就行了吗？为什么要在集合之外引入 Iterator 这个角色呢？一个重要的理由是，引入 Iterator 后可以将遍历与实现分离开来。请看如下代码。</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">while</span>(<span class="keyword">it.hasNext()) </span>&#123;</span><br><span class="line">    <span class="keyword">Book </span><span class="keyword">book </span>= (<span class="keyword">Book) </span><span class="keyword">it.next();</span></span><br><span class="line"><span class="keyword"> </span>   System.out.println(<span class="keyword">book.getName());</span></span><br><span class="line"><span class="keyword">&#125;</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>这里只使用了 Iterator 的 hasNext 方法和 next 方法，并没有调用 BookShelf 的方法。也就是说，这里的 while 循环并不依赖与 BookShelf 的实现。</li>
-<li>如果编写 BookShelf 的开发人员决定放弃用数组来管理书本，而是用 java.util.ArrayList 取而代之，会怎样呢？</li>
+<li>这里只使用了 Iterator 的 hasNext 方法和 next 方法，并没有调用 BookShelf 的方法。也就是说，这里的 while 循环并不依赖与 BookShelf 的实现。如果编写 BookShelf 的开发人员决定放弃用数组来管理书本，而是用 java.util.ArrayList 取而代之，会怎样呢？</li>
 <li>其实不管 BookShelf 如何变化，只要 BookShelf 的 iterator 方法能正确地返回 Iterator 的实例（换句话说，hasNext 和 next 方法都可以正常工作），即使不对上面的 while 循环做任何修改，代码都可以正常工作。这对于 BookShelf 的调用者来说真是太方便了。</li>
 </ul>
 <p><strong>设计模式的作用就是帮助我们编写可复用的类。</strong> 所谓『可复用』就是指将类实现为『组件』。当一个组件发生改变时，不需要对其它的组件进行修改或是只需要很小的修改即可应对。</p>
