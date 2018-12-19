@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Builder,建造模式," />
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="黄枫谷">
-<meta property="og:url" content="//huminxi.netlify.com/tags/统计学/index.html">
+<meta name="description" content="想必受过 POJO 中 getter、setter、toString 方法折磨的同学都用过 Lombok，那我们今天就一起来探讨一下 Lombok 是怎样实现 Builder 模式的。">
+<meta name="keywords" content="Builder,建造模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Builder">
+<meta property="og:url" content="//huminxi.netlify.com/2018/12/19/Builder/index.html">
 <meta property="og:site_name" content="黄枫谷">
+<meta property="og:description" content="想必受过 POJO 中 getter、setter、toString 方法折磨的同学都用过 Lombok，那我们今天就一起来探讨一下 Lombok 是怎样实现 Builder 模式的。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-19T10:26:48.835Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黄枫谷">
+<meta name="twitter:title" content="Builder">
+<meta name="twitter:description" content="想必受过 POJO 中 getter、setter、toString 方法折磨的同学都用过 Lombok，那我们今天就一起来探讨一下 Lombok 是怎样实现 Builder 模式的。">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="//huminxi.netlify.com/tags/统计学/"/>
+  <link rel="canonical" href="//huminxi.netlify.com/2018/12/19/Builder/"/>
 
 
 
 
 
-  <title>标签: 统计学 | 黄枫谷</title>
+  <title>Builder | 黄枫谷</title>
   
 
 
@@ -140,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -268,54 +273,211 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>统计学<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2018/12/19/Builder/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡匪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/huangfenggu.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黄枫谷">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/05/04/统计学与生活/" itemprop="url">
-              
-                <span itemprop="name">统计学与生活</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Builder</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-05-04T22:52:36+08:00"
-              content="2018-05-04" >
-          05-04
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T16:30:43+08:00">
+                2018-12-19
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/19/Builder/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/12/19/Builder/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/19/Builder/" class="leancloud_visitors" data-flag-title="Builder">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>想必受过 <a href="https://www.jianshu.com/p/224489dfdec8" target="_blank" rel="noopener">POJO</a> 中 getter、setter、toString 方法折磨的同学都用过 <a href="https://zhuanlan.zhihu.com/p/32779910" target="_blank" rel="noopener">Lombok</a>，那我们今天就一起来探讨一下 Lombok 是怎样实现 Builder 模式的。</p>
+<a id="more"></a>
+<h2 id="User-类"><a href="#User-类" class="headerlink" title="User 类"></a>User 类</h2><p>假设我们存在这样一个 POJO 类，而且客户端在构建 User 对象时并非所有的字段都是必选的。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class<span class="built_in"> User </span>&#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private int age;</span><br><span class="line">    private String phone;</span><br><span class="line">    private<span class="built_in"> Address </span>address;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class<span class="built_in"> Address </span>&#123;</span><br><span class="line">    private String zip;</span><br><span class="line">    private String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="不用-Builder-模式"><a href="#不用-Builder-模式" class="headerlink" title="不用 Builder 模式"></a>不用 Builder 模式</h2><p>为了满足上述场景，我们需要为 User 类构建如下所示的构造函数。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> User(<span class="keyword">String</span> name) &#123;</span><br><span class="line">    <span class="keyword">this</span>(name, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> User(<span class="keyword">String</span> name, <span class="built_in">int</span> age) &#123;</span><br><span class="line">    <span class="keyword">this</span>(name, age, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> User(<span class="keyword">String</span> name, <span class="built_in">int</span> age, <span class="keyword">String</span> phone) &#123;</span><br><span class="line">    <span class="keyword">this</span>(name, age, phone, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> User(<span class="keyword">String</span> name, <span class="built_in">int</span> age, <span class="keyword">String</span> phone, Address address) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">    <span class="keyword">this</span>.phone = phone;</span><br><span class="line">    <span class="keyword">this</span>.address = address;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不但有繁杂的构造函数，而且客户端调用时需要注意传参的顺序。</p>
+<h2 id="使用-Builder-模式"><a href="#使用-Builder-模式" class="headerlink" title="使用 Builder 模式"></a>使用 Builder 模式</h2><p>通过 @Builder 注解生成的 User 类。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> int age;</span><br><span class="line">    <span class="keyword">private</span> String phone;</span><br><span class="line">    <span class="keyword">private</span> Address address;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//User 只需要一个接收全部参数的构造函数即可，剩下的工作交给 UserBuilder。</span></span><br><span class="line">    User(String var1, int var2, String var3, Address var4) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = var1;</span><br><span class="line">        <span class="keyword">this</span>.age = var2;</span><br><span class="line">        <span class="keyword">this</span>.phone = var3;</span><br><span class="line">        <span class="keyword">this</span>.address = var4;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//这里之所以将方法定义为 static，是为了方便客户端通过 User.builder() 的形式来生成 UserBuilder 对象。</span></span><br><span class="line">    <span class="keyword">public</span> static User.UserBuilder builder() &#123;</span><br><span class="line">        <span class="keyword">return</span> new User.UserBuilder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> static <span class="class"><span class="keyword">class</span> <span class="title">UserBuilder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String name;</span><br><span class="line">        <span class="keyword">private</span> int age;</span><br><span class="line">        <span class="keyword">private</span> String phone;</span><br><span class="line">        <span class="keyword">private</span> Address address;</span><br><span class="line"></span><br><span class="line">        UserBuilder() &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//通过链式调用避免了 User 中繁杂的构造函数</span></span><br><span class="line">        <span class="keyword">public</span> User.UserBuilder name(String var1) &#123;</span><br><span class="line">            <span class="keyword">this</span>.name = var1;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.UserBuilder age(int var1) &#123;</span><br><span class="line">            <span class="keyword">this</span>.age = var1;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.UserBuilder phone(String var1) &#123;</span><br><span class="line">            <span class="keyword">this</span>.phone = var1;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.UserBuilder address(Address var1) &#123;</span><br><span class="line">            <span class="keyword">this</span>.address = var1;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//最后通过 build 方法构建出指定的 User 对象，然后返回给客户端。</span></span><br><span class="line">        <span class="keyword">public</span> User build() &#123;</span><br><span class="line">            <span class="keyword">return</span> new User(<span class="keyword">this</span>.name, <span class="keyword">this</span>.age, <span class="keyword">this</span>.phone, <span class="keyword">this</span>.address);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> String toString() &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"User.UserBuilder(name="</span> + <span class="keyword">this</span>.name + <span class="string">", age="</span> + <span class="keyword">this</span>.age + <span class="string">", phone="</span> + <span class="keyword">this</span>.phone + <span class="string">", address="</span> + <span class="keyword">this</span>.address + <span class="string">")"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而客户端只需要一行代码就可以生成任意入参的 User 对象，十分方便。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User<span class="built_in"> user </span>= User.builder().name(<span class="string">"小明"</span>).age(13).build();</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Builder 模式可以避免繁杂的构造函数。</li>
+<li>Builder 模式可以简洁客户端的代码。</li>
+</ul>
+<h2 id="项目代码"><a href="#项目代码" class="headerlink" title="项目代码"></a>项目代码</h2><p><a href="https://github.com/huminxicn/commandline" target="_blank" rel="noopener">github 地址</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://jlordiales.me/2012/12/13/the-builder-pattern-in-practice/" target="_blank" rel="noopener">The builder pattern in practice</a></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Builder/" rel="tag"># Builder</a>
+          
+            <a href="/tags/建造模式/" rel="tag"># 建造模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/18/怎么在命令行编译和执行 Java 程序/" rel="next" title="怎么在命令行编译和执行 Java 程序">
+                <i class="fa fa-chevron-left"></i> 怎么在命令行编译和执行 Java 程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -323,6 +485,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -343,8 +519,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -424,6 +609,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#User-类"><span class="nav-number">1.</span> <span class="nav-text">User 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不用-Builder-模式"><span class="nav-number">2.</span> <span class="nav-text">不用 Builder 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Builder-模式"><span class="nav-number">3.</span> <span class="nav-text">使用 Builder 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目代码"><span class="nav-number">5.</span> <span class="nav-text">项目代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -564,6 +765,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
@@ -581,6 +786,17 @@
       <script id="dsq-count-scr" src="https://huminxi.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.identifier = '2018/12/19/Builder/';
+          this.page.title = 'Builder';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huminxi.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
