@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[macOS 编译 OpenJDK 10]]></title>
+    <url>%2F2019%2F01%2F03%2FmacOS%20%E7%BC%96%E8%AF%91%20OpenJDK%2010%2F</url>
+    <content type="text"><![CDATA[最近在阅读 《深入理解 Java 虚拟机》 一书，于是想跟书中一样编译一个自己的 JDK 出来。 前期准备开始前建议阅读一下 OpenJDK 的官方构建文档 Building OpenJDK。 下载 OpenJDK 源码因为 OpenJDK 源码是用的 Mercurial 管理的，所以需要先安装一下 Mercurial 工具。1brew install mercurial 安装完成后按顺序执行下面的命令。123hg clone http://hg.openjdk.java.net/jdk10/jdk10cd jdk10bash ./get_source.sh (或 chmod +x get_source.sh &amp;&amp; ./get_source.sh) 注意 get_source.sh 脚本下载时间较长，而且容易中断。需要多次执行 bash ./get_source.sh 命令。 execute ./get_source.sh before execute ./get_source.sh complete boot JDK Paradoxically, building OpenJDK requires a pre-existing JDK. This is called the “boot JDK”. The boot JDK does not have to be OpenJDK, though. 所以这里准备的 boot JDK 是 OracleJDK 8u191。 boot JDK Xcode因为之前没用过 Xcode，于是就去 AppStore 中下载了一个最新版的 Xcode(10.1)，结果就被坑了。原来是 c++ 相关的 stdlibc++ 库被替换 成了 libc++，只能去 官网 重新下载了 Xcode(9.4.1)。 freetype FreeType2 from The FreeType Project is required on all platforms. At least version 2.3 is required. 1brew install freetype 1brew reinstall freetype 环境描述 OS: macOS Mojave 10.14.1 Boot JDK: 1.8.0_191 freetype: 2.9.1 Xcode: 9.4.1 开始编译初始化先清理一下之前的编译结果，如果是第一次编译的话可以跳过这步。1make clean 配置参数1sh configure --with-debug-level=slowdebug --disable-warnings-as-errors --with-freetype-include=/usr/local/Cellar/freetype/2.9.1/include/freetype2 --with-freetype-lib=/usr/local/Cellar/freetype/2.9.1/lib 这里我用的 freetype 版本是 2.9.1，记得替换版本号。 具体的编译参数通过 sh configure -h 查看，可以自行定义。 编译1make all 验证123cd cd build/macosx-x86_64-normal-server-slowdebug/jdk/bin./java -versionjava -version 总结 不要放弃 如果今天编译不出来，那就明天再来。 如果 OpenJDK 10 编译不出来，那就换 OpenJDK 9。还不行，那就用 9u。我自己就是从 7 一直试到了 10。 不要用 Xcode 10，建议用 Xcode 9 因为 10 中将 c++ 的依赖库由 stdlibc++ 替换成了 libc++。我自己还没有解决这个依赖问题，干脆就重新下载了 Xcode 9.4.1。 善用 Google 这只是在我的环境中编译成功了，在你们的环境中也许还会遇到其它的问题，这时候就要自己去问 Google。 引用 Building OpenJDK 自己动手，在macOS High Sierra中编译一个可debug的JDK Xcode 10 beta 4 - stdlibc++ headers not found]]></content>
+      <categories>
+        <category>编程实践</category>
+      </categories>
+      <tags>
+        <tag>macOS</tag>
+        <tag>openJDK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[2018 总结]]></title>
     <url>%2F2018%2F12%2F29%2F2018%20%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[成功只有一种：按照自己的方式，去度过人生。 ——《明朝那些事》 变化才是永恒回头看看自己在年初的时候立的那些目标。 现在想想，只完成了第三条。哈哈 工作上半年还在农分期按部就班地上着班，当时心想：明年一定要出去看看，毕竟已经在农分期呆的够久，有点过于安逸了。没想到，8 月份的时候公司突然裁员，干脆乘此机会休息一阵子，好好思考下一步该往哪走。于是乎，先回外婆家休息了一个多月的时间(顺便把之前一直拖着的驾照考完了)。随后重整旗鼓，回到南京准备面试，最后加入了领添。说句实话，今年下半年从农分期的离职是出乎我的意料的，这也正说明了世事难料。 学习今年通过《计算机网络-自顶向下方法》一书恶补了网络这块的基础知识，对现存的计算机网络结构有了个深刻的理解。同时还阅读了《图解设计模式》等应用类的书籍。阅读完这些书籍给我的一个直观感受就是，计算机基础知识很重要。打算明年继续恶补算法和计算机系统相关的基础知识。 明年目标 至少写 40 篇技术博客。 做眼睛的激光手术。 去杭州看看。]]></content>
