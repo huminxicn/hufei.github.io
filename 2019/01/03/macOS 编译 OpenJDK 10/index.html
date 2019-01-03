@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="最近在阅读 《深入理解 Java 虚拟机》 一书，于是想跟书中一样编译一个自己的 JDK 出来。">
+<meta name="description" content="最近在阅读 《深入理解 Java 虚拟机》 一书，于是就想跟书中一样编译一个自己的 JDK 出来。">
 <meta name="keywords" content="macOS,openJDK">
 <meta property="og:type" content="article">
 <meta property="og:title" content="macOS 编译 OpenJDK 10">
 <meta property="og:url" content="//huminxi.netlify.com/2019/01/03/macOS 编译 OpenJDK 10/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="最近在阅读 《深入理解 Java 虚拟机》 一书，于是想跟书中一样编译一个自己的 JDK 出来。">
+<meta property="og:description" content="最近在阅读 《深入理解 Java 虚拟机》 一书，于是就想跟书中一样编译一个自己的 JDK 出来。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201901/jdk10-before.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201901/jdk10-complete.png">
@@ -97,10 +97,10 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201901/make-all.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201901/hufei-jdk.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201901/jdk-n.png">
-<meta property="og:updated_time" content="2019-01-03T06:43:47.034Z">
+<meta property="og:updated_time" content="2019-01-03T07:00:11.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="macOS 编译 OpenJDK 10">
-<meta name="twitter:description" content="最近在阅读 《深入理解 Java 虚拟机》 一书，于是想跟书中一样编译一个自己的 JDK 出来。">
+<meta name="twitter:description" content="最近在阅读 《深入理解 Java 虚拟机》 一书，于是就想跟书中一样编译一个自己的 JDK 出来。">
 <meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201901/jdk10-before.png">
 
 
@@ -403,7 +403,7 @@
       
 
       
-        <p>最近在阅读 <a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a> 一书，于是想跟书中一样编译一个自己的 JDK 出来。</p>
+        <p>最近在阅读 <a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a> 一书，于是就想跟书中一样编译一个自己的 JDK 出来。</p>
 <a id="more"></a>
 <h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><p>开始前建议阅读一下 OpenJDK 的官方构建文档 <a href="http://cr.openjdk.java.net/~ihse/demo-new-build-readme/common/doc/building.html#boot-jdk-requirements" target="_blank" rel="noopener">Building OpenJDK</a>。</p>
 <h3 id="下载-OpenJDK-源码"><a href="#下载-OpenJDK-源码" class="headerlink" title="下载 OpenJDK 源码"></a>下载 OpenJDK 源码</h3><p>因为 OpenJDK 源码是用的 <a href="https://zh.wikipedia.org/wiki/Mercurial" target="_blank" rel="noopener">Mercurial</a> 管理的，所以需要先安装一下 Mercurial 工具。<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>mercurial</span><br></pre></td></tr></table></figure></p>
@@ -416,7 +416,7 @@
 <p>Paradoxically, building OpenJDK requires a pre-existing JDK. This is called the “boot JDK”. The boot JDK does not have to be OpenJDK, though.</p>
 </blockquote>
 </blockquote>
-<p>所以这里准备的 boot JDK 是 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">OracleJDK 8u191</a>。</p>
+<p>所以这里准备的 boot JDK 是 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">Oracle JDK 8u191</a>。</p>
 <p><code>boot JDK</code><br><img boot-jdk="" src="/img/hufei/201901/boot-jdk.png" width="100%" height="50%"></p>
 <h3 id="Xcode"><a href="#Xcode" class="headerlink" title="Xcode"></a>Xcode</h3><p>因为之前没用过 Xcode，于是就去 AppStore 中下载了一个最新版的 Xcode(10.1)，结果就被坑了。原来是 c++ 相关的 <code>stdlibc++</code> <a href="https://forums.developer.apple.com/message/322208#322208" target="_blank" rel="noopener">库被替换</a> 成了 <code>libc++</code>，只能去 <a href="https://developer.apple.com/" target="_blank" rel="noopener">官网</a> 重新下载了 Xcode(9.4.1)。</p>
 <h3 id="freetype"><a href="#freetype" class="headerlink" title="freetype"></a>freetype</h3><blockquote>
@@ -456,7 +456,7 @@
 <p><img jdk-n="" src="/img/hufei/201901/jdk-n.png" width="50%" height="50%"></p>
 <ul>
 <li>不要用 Xcode 10，建议用 Xcode 9<ul>
-<li>因为 10 中将 c++ 的依赖库由 stdlibc++ 替换成了 libc++。我自己还没有解决这个依赖问题，干脆就重新下载了 Xcode 9.4.1。</li>
+<li>因为 10 中将 c++ 相关的依赖库由 stdlibc++ 替换成了 libc++。我自己还没有解决这个依赖问题，干脆就重新下载了 Xcode 9.4.1。</li>
 </ul>
 </li>
 <li>善用 Google<ul>
