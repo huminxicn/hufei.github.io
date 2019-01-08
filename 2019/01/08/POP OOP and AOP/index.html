@@ -89,7 +89,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201901/pop-oop.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201901/aggregation-extension.png">
-<meta property="og:updated_time" content="2019-01-08T14:05:20.046Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201901/aop.png">
+<meta property="og:updated_time" content="2019-01-08T15:19:07.546Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="POP OOP and AOP">
 <meta name="twitter:description" content="POP(Procedural Oriented Programming) 面向过程编程；OOP(Object Oriented Programming) 面向对象编程；AOP(Aspect Oriented Programming) 面向切面编程。这三组单词代表了三种不同的编程思想，今天我们就一起来研究一下它们具体的含义吧。">
@@ -439,7 +440,16 @@
 </ul>
 </li>
 </ul>
-<p>在新问题面前，前面提及的两种解决方案都已经束手无策了，那么该如何解决呢？事实上我们知道诸如日志、权限、事务、性能监测等业务几乎涉及到了所有的核心业务。如果把这些通用业务的代码直接写入核心业务的代码中就会造成上述的问题，所以工程师希望的是这些通用模块可以实现热插拔特性，这样日后的维护和扩展工作也更加容易进行。</p>
+<p>在新问题面前，前面提及的两种解决方案都已经束手无策了，那么该如何解决呢？事实上我们知道诸如日志、权限、事务、性能监测等业务几乎涉及到了所有的核心业务。如果把这些通用业务的代码直接写入核心业务的代码中就会造成上述的问题， <strong>所以工程师希望的是这些通用业务模块可以实现 <a href="https://zh.wikipedia.org/wiki/%E7%86%B1%E6%8F%92%E6%8B%94" target="_blank" rel="noopener">热插拔</a> 特性</strong> 。</p>
+<p>假设现在我们把日志、权限、事务、性能监测等通用业务看作单独的模块(关注点)，每个模块都可以在需要它们的时刻及时被运用且无需提前整合到核心模块中，这种形式相当于下图所示。</p>
+<p><code>AOP</code><br><img aop="" src="/img/hufei/201901/aop.png" width="100%" height="50%"></p>
+<p>从图可以看出，每个关注点与核心业务模块分离，作为单独的功能，进而横切了几个核心业务模块。这样的做的好处是显而易见的——核心模块只需关注自己相关的业务，当需要通用业务(日志，权限，性能监测、事务控制)时，这些通用业务会通过一种特殊的技术自动应用到核心模块中，而这种技术的名称就叫作 AOP。</p>
+<p>AOP 的实现技术有多种，其中与 Java 无缝对接的是一种称为 <a href="https://www.eclipse.org/aspectj/doc/next/progguide/starting.html" target="_blank" rel="noopener">AspectJ</a> 的技术。那么这种 AspectJ 是如何在 Java 中的应用呢？它与 Spring AOP 又有什么关联呢？咱们下次再聊。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>无论是 POP OOP 还是 AOP，都只是程序设计的一种指导思想而已，本身并没有什么高低之分。也没有 OOP AOP 就一定比 POP 好用的说法，这需要具体程序具体分析。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://blog.csdn.net/javazejian/article/details/56267036#aspectj%E7%9A%84%E7%BB%87%E5%85%A5%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%8E%9F%E7%90%86%E6%A6%82%E8%A6%81" target="_blank" rel="noopener">关于 Spring AOP (AspectJ) 你该知晓的一切</a></li>
+<li><a href="https://www.eclipse.org/aspectj/doc/next/progguide/starting.html" target="_blank" rel="noopener">Getting Started with AspectJ</a></li>
+</ul>
 
       
     </div>
@@ -644,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#POP-and-OOP"><span class="nav-number">1.</span> <span class="nav-text">POP and OOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOP-and-AOP"><span class="nav-number">2.</span> <span class="nav-text">OOP and AOP</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#POP-and-OOP"><span class="nav-number">1.</span> <span class="nav-text">POP and OOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOP-and-AOP"><span class="nav-number">2.</span> <span class="nav-text">OOP and AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
