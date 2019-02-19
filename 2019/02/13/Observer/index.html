@@ -90,7 +90,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/weather.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/observer-pattern.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/result.png">
-<meta property="og:updated_time" content="2019-02-13T09:43:59.028Z">
+<meta property="og:updated_time" content="2019-02-19T03:56:43.511Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Observer">
 <meta name="twitter:description" content="看过直播的同学都知道，直播房间里有个订阅按钮，当你点击订阅之后，下次主播再开播时你就能在第一时间收到通知，以免你错过精彩内容。这里就运用了观察者模式。">
@@ -414,11 +414,10 @@
 <h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><ul>
 <li>JDK 内置了 Observer 模式，但是却在 JDK9 之后将其标记为 @Deprecated，为什么呢？<ul>
 <li>Observable 被定义成一个类，而不是接口。由于 Java 是单继承的，JDK 内置的实现不够灵活(比如你还想额外继承一个自己的类)，无法满足特定场景。</li>
-<li>Observable 没有实现 Serializable 接口，无法进行序列化，导致其无法适用网络编程。</li>
+<li>Observable 没有实现 Serializable 接口，无法进行序列化，导致其无法适用于网络编程。</li>
 </ul>
 </li>
-<li>既然如此，有能替代它的吗？<ul>
-<li>有，在 java.beans 包中。</li>
+<li>既然如此，有能替代它的吗？有，在 java.beans 包中。<ul>
 <li>PropertyChangeListener(Observer)。</li>
 <li>PropertyChangeSupport(Observable)。</li>
 </ul>
