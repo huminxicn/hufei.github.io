@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="最近在开发支付系统，对接支付渠道时面临一个问题：我的电脑无法收到渠道服务器发出的异步回调通知——因为它们根本就不在同一个子网中，要想解决这个问题，就需要进行内网穿透。于是在内网穿透工具 frp 的帮助下，成功的解决了这个问题。">
+<meta name="description" content="最近在开发支付系统，在和第三方支付渠道联调出现一个问题：我的电脑是在公司的内网中，无法收到渠道发出的异步回调通知。要想解决这个问题，就需要进行内网穿透，于是在内网穿透工具 frp 的帮助下，成功的解决了这个问题。">
 <meta name="keywords" content="NAT,内网穿透">
 <meta property="og:type" content="article">
 <meta property="og:title" content="聊聊内网穿透">
 <meta property="og:url" content="//huminxi.netlify.com/2019/02/28/聊聊内网穿透/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="最近在开发支付系统，对接支付渠道时面临一个问题：我的电脑无法收到渠道服务器发出的异步回调通知——因为它们根本就不在同一个子网中，要想解决这个问题，就需要进行内网穿透。于是在内网穿透工具 frp 的帮助下，成功的解决了这个问题。">
+<meta property="og:description" content="最近在开发支付系统，在和第三方支付渠道联调出现一个问题：我的电脑是在公司的内网中，无法收到渠道发出的异步回调通知。要想解决这个问题，就需要进行内网穿透，于是在内网穿透工具 frp 的帮助下，成功的解决了这个问题。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/ifconfig.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/hardware-port.png">
@@ -100,10 +100,10 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/localhost-8080.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/remote-8080.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/nat-8080.png">
-<meta property="og:updated_time" content="2019-03-01T08:20:52.499Z">
+<meta property="og:updated_time" content="2019-03-01T08:50:43.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊内网穿透">
-<meta name="twitter:description" content="最近在开发支付系统，对接支付渠道时面临一个问题：我的电脑无法收到渠道服务器发出的异步回调通知——因为它们根本就不在同一个子网中，要想解决这个问题，就需要进行内网穿透。于是在内网穿透工具 frp 的帮助下，成功的解决了这个问题。">
+<meta name="twitter:description" content="最近在开发支付系统，在和第三方支付渠道联调出现一个问题：我的电脑是在公司的内网中，无法收到渠道发出的异步回调通知。要想解决这个问题，就需要进行内网穿透，于是在内网穿透工具 frp 的帮助下，成功的解决了这个问题。">
 <meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201902/ifconfig.png">
 
 
@@ -406,7 +406,7 @@
       
 
       
-        <p>最近在开发支付系统，对接支付渠道时面临一个问题：我的电脑无法收到渠道服务器发出的异步回调通知——因为它们根本就不在同一个子网中，要想解决这个问题，就需要进行内网穿透。于是在内网穿透工具 <a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="noopener">frp</a> 的帮助下，成功的解决了这个问题。</p>
+        <p>最近在开发支付系统，在和第三方支付渠道联调出现一个问题：我的电脑是在公司的内网中，无法收到渠道发出的异步回调通知。要想解决这个问题，就需要进行内网穿透，于是在内网穿透工具 <a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="noopener">frp</a> 的帮助下，成功的解决了这个问题。</p>
 <a id="more"></a>
 <h2 id="什么是内网"><a href="#什么是内网" class="headerlink" title="什么是内网"></a>什么是内网</h2><h3 id="网络进程间怎么通信"><a href="#网络进程间怎么通信" class="headerlink" title="网络进程间怎么通信"></a>网络进程间怎么通信</h3><p>我们知道，IP 地址相当于每个计算机在网络中的唯一编号，端口号(Port)则是运行在这台计算机中的进程的唯一编号。所以，利用 IP + Port 就能在互联网中实现进程间的通信。</p>
 <h3 id="私有-IP-地址"><a href="#私有-IP-地址" class="headerlink" title="私有 IP 地址"></a>私有 IP 地址</h3><p>在互联网的地址架构中，有一些 IP 地址是私有 IP 地址，这些地址无法直接连接互联网。与公网 IP 地址相比，私有 IP 是免费的，常用于家庭、学校和企业的局域网。</p>
