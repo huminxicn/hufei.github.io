@@ -100,7 +100,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/localhost-8080.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/remote-8080.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201902/nat-8080.png">
-<meta property="og:updated_time" content="2019-03-01T09:00:55.312Z">
+<meta property="og:updated_time" content="2019-03-01T10:16:59.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊内网穿透">
 <meta name="twitter:description" content="最近在开发支付系统，在和第三方支付渠道联调出现一个问题：我的电脑是在公司的内网中，无法收到渠道发出的异步回调通知。要想解决这个问题，就需要进行内网穿透，于是在内网穿透工具 frp 的帮助下，成功的解决了这个问题。">
@@ -532,7 +532,7 @@
 <h3 id="frp-使用"><a href="#frp-使用" class="headerlink" title="frp 使用"></a>frp 使用</h3><h4 id="step0"><a href="#step0" class="headerlink" title="step0"></a>step0</h4><p>建议先看一下 <a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="noopener">README.md</a>。</p>
 <h4 id="step1"><a href="#step1" class="headerlink" title="step1"></a>step1</h4><p>去 github 上下载 <a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">RELESAE</a> 包。</p>
 <p><img frp-darwin="" src="/img/hufei/201902/frp-darwin.png" width="100%" height="50%"></p>
-<p>利用 ssh 命令登录到 Linux 服务器然后按顺序执行一下命令。</p>
+<p>利用 ssh 命令登录到 Linux 服务器然后按顺序执行以下命令。</p>
 <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0<span class="meta">.24</span><span class="meta">.1</span>/frp_0<span class="meta">.24</span>.1_linux_amd64.tar.gz</span><br><span class="line">tar -zxvf frp_0<span class="meta">.24</span>.1_linux_amd64.tar.gz</span><br><span class="line">cd frp_0<span class="meta">.24</span>.1_linux_amd64</span><br></pre></td></tr></table></figure>
 <p>解压之后的目录<br><img frp-linux="" src="/img/hufei/201902/frp-linux.png" width="100%" height="50%"></p>
 <h4 id="step3"><a href="#step3" class="headerlink" title="step3"></a>step3</h4><p>修改 frps.ini 文件<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#frps.ini</span></span><br><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="number">7000</span></span><br><span class="line"><span class="attr">vhost_http_port</span> = <span class="number">8080</span></span><br></pre></td></tr></table></figure></p>
