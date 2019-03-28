@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/112017/fourbitfulladder.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/012018/-2-in-memory.png">
-<meta property="og:updated_time" content="2019-03-25T08:19:27.391Z">
+<meta property="og:updated_time" content="2019-03-28T08:07:30.423Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈谈计算机中的四则运算">
 <meta name="twitter:description" content="经过前面 从零开始造一台自己的加法器 的学习，现在我们已经能造出一台简易的二进制加法器，可以利用它来做四位二进制的加法。那么减法、乘法和除法呢，难道我们也要一一构造减法器、乘法器和除法器吗？">
@@ -408,7 +408,7 @@
 <p>如何才能通过一连串逻辑门来实现这个反逻辑呢？<br>然而，我们并不打算这样做。相反，我们打算利用一个小技巧来让减法不涉及借位。</p>
 </blockquote>
 <h3 id="模"><a href="#模" class="headerlink" title="模"></a>模</h3><blockquote>
-<p>在日常生活当中，如果你仔细观察的话会发现:<br>把某物体左转 90 度，和右转 270 度，在不考虑圈数的条件下，最终的效果是相同的；<br>把分针顺时针拨 20 分钟，和逆时针拨 40 分钟，在不考虑时针的条件下，效果也是相同的；<br>把数字 87，减去 25，和加上 75，在不考虑百位数的条件下，效果也是相同的；<br>……<br>…<br>上述几组数字，有这样的关系：<br>　　90 + 270 = 360<br>　　20 + 40 = 60<br>　　25 + 75 = 100<br>式中的 360、60 和 100，就是『模』。</p>
+<p>在日常生活当中，如果你仔细观察的话会发现:<br>把某物体左转 90 度，和右转 270 度，在不考虑圈数的条件下，最终的效果是相同的；<br>把分针顺时针拨 20 分钟，和逆时针拨 40 分钟，在不考虑时针的条件下，效果也是相同的；<br>把数字 87，减去 25，和加上 75，在不考虑百位数的条件下，效果也是相同的；<br>……<br>…<br>上述几组数字，有这样的关系：<br>　　90 + 270 = 360<br>　　20 + 40 = 60<br>　　25 + 75 = 100<br>式中的 360、60 和 100，就是『模』。假如提前就知道模的值，我们可以把减法化为加法。</p>
 </blockquote>
 <h3 id="自定义编码"><a href="#自定义编码" class="headerlink" title="自定义编码"></a>自定义编码</h3><blockquote>
 <p>让我们来想一想。通常用来表示正数和负数的方法，其好处就在于能表示所有的正数、负数。我们将 0 想象为这个无限延伸的序列的中点。这个序列中正数沿着一个方向延伸，而负数则按照另一个方向延伸:</p>
