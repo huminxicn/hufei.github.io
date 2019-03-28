@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="C 语言中编码整数有两种不同的方式，一种只能表示非负数，称为无符号数；另一种能够表示负数、零和正数，称为有符号数。而 Java 语言中没有无符号数，所有的整数都是有符号数。但现实世界中不止有整数，还有小数，那小数应该怎么表示呢。计算机采用了 IEEE 754 标准来规定浮点数的格式和运算规则。">
+<meta name="description" content="C 语言中编码整数有两种不同的方式，一种只能表示非负数；另一种能够表示负数、零和正数。而 Java 语言中没有无符号数，所有的整数都是有符号数。但现实世界中不止有整数，还有小数，那小数应该怎么表示呢。计算机采用了 IEEE 754 标准来规定浮点数的格式和运算规则。">
 <meta name="keywords" content="整数,浮点数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="整数和浮点数">
 <meta property="og:url" content="//huminxi.netlify.com/2019/03/28/整数和浮点数/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="C 语言中编码整数有两种不同的方式，一种只能表示非负数，称为无符号数；另一种能够表示负数、零和正数，称为有符号数。而 Java 语言中没有无符号数，所有的整数都是有符号数。但现实世界中不止有整数，还有小数，那小数应该怎么表示呢。计算机采用了 IEEE 754 标准来规定浮点数的格式和运算规则。">
+<meta property="og:description" content="C 语言中编码整数有两种不同的方式，一种只能表示非负数；另一种能够表示负数、零和正数。而 Java 语言中没有无符号数，所有的整数都是有符号数。但现实世界中不止有整数，还有小数，那小数应该怎么表示呢。计算机采用了 IEEE 754 标准来规定浮点数的格式和运算规则。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/32-bit.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/64-bit.png">
-<meta property="og:updated_time" content="2019-03-28T10:07:13.746Z">
+<meta property="og:updated_time" content="2019-03-28T10:37:16.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="整数和浮点数">
-<meta name="twitter:description" content="C 语言中编码整数有两种不同的方式，一种只能表示非负数，称为无符号数；另一种能够表示负数、零和正数，称为有符号数。而 Java 语言中没有无符号数，所有的整数都是有符号数。但现实世界中不止有整数，还有小数，那小数应该怎么表示呢。计算机采用了 IEEE 754 标准来规定浮点数的格式和运算规则。">
+<meta name="twitter:description" content="C 语言中编码整数有两种不同的方式，一种只能表示非负数；另一种能够表示负数、零和正数。而 Java 语言中没有无符号数，所有的整数都是有符号数。但现实世界中不止有整数，还有小数，那小数应该怎么表示呢。计算机采用了 IEEE 754 标准来规定浮点数的格式和运算规则。">
 <meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201903/32-bit.png">
 
 
@@ -384,16 +384,16 @@
       
 
       
-        <p>C 语言中编码整数有两种不同的方式，一种只能表示非负数，称为无符号数；另一种能够表示负数、零和正数，称为有符号数。而 Java 语言中没有无符号数，所有的整数都是有符号数。但现实世界中不止有整数，还有小数，那小数应该怎么表示呢。计算机采用了 <a href="https://zh.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">IEEE 754</a> 标准来规定浮点数的格式和运算规则。</p>
+        <p>C 语言中编码整数有两种不同的方式，一种只能表示非负数；另一种能够表示负数、零和正数。而 Java 语言中没有无符号数，所有的整数都是有符号数。但现实世界中不止有整数，还有小数，那小数应该怎么表示呢。计算机采用了 <a href="https://zh.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">IEEE 754</a> 标准来规定浮点数的格式和运算规则。</p>
 <a id="more"></a>
 <h2 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h2><h3 id="整数数据类型"><a href="#整数数据类型" class="headerlink" title="整数数据类型"></a>整数数据类型</h3><p>C 语言支持多种整数数据类型。下图给出了典型的 32 位和 64 位机器上的取值范围。其中 long 类型的取值范围与机器相关。</p>
 <p><code>32 位机器</code><br><img 32-bit="" src="/img/hufei/201903/32-bit.png" width="100%" height="100%"></p>
 <p><code>64 位机器</code><br><img 64-bit="" src="/img/hufei/201903/64-bit.png" width="100%" height="100%"></p>
 <p>我们注意到 <strong>负数和正数的取值范围是不对称的，负数范围比正数范围大 1。</strong></p>
-<h3 id="无符号数"><a href="#无符号数" class="headerlink" title="无符号数"></a>无符号数</h3><p>假设一个整数数据类型有 w 位，每一位取值为 0 或 1。那么一个 w 位的比特串总共有 2ᵂ 种组合。如果我们把这些组合与整数一一对应起来，我们可以表示 2ᵂ 个整数。<strong>这个过程就叫编码。</strong></p>
+<h3 id="无符号整数"><a href="#无符号整数" class="headerlink" title="无符号整数"></a>无符号整数</h3><p>假设一个整数数据类型有 w 位，每一位取值为 0 或 1。那么一个 w 位的比特串总共有 2ᵂ 种组合。如果我们把这些组合与整数一一对应起来，我们可以表示 2ᵂ 个整数。其中一种映射关系如下所示。</p>
 <p>[0001] = 0x2³ + 0x2² + 0x2¹ + 1x2⁰ = 0 + 0 + 0 + 1 = 1<br>[0101] = 0x2³ + 1x2² + 0x2¹ + 1x2⁰ = 0 + 4 + 0 + 1 = 5<br>[1010] = 1x2³ + 0x2² + 1x2¹ + 0x2⁰ = 8 + 0 + 2 + 0 = 10<br>[1111] = 1x2³ + 1x2² + 1x2¹ + 1x2⁰ = 8 + 4 + 2 + 1 = 15</p>
-<p>w 位的二进制数可以表示的无符号数范围是 0 ~ 2ᵂ-1。 </p>
-<h3 id="有符号数"><a href="#有符号数" class="headerlink" title="有符号数"></a>有符号数</h3><p>不知道是从哪里听到过一种说法，说可以把最高位当做是符号位，这样就能区分正负数了。但是，把最高位当做符号位只是人为规定，计算机并不知情。</p>
+<p><strong>在整数和比特串之间建立映射关系的过程就是编码的过程。</strong> w 位的二进制数可以表示的无符号整数范围是 0 ~ 2ᵂ-1。 </p>
+<h3 id="有符号整数"><a href="#有符号整数" class="headerlink" title="有符号整数"></a>有符号整数</h3><p>不知道是从哪里听到过一种说法，说可以把最高位当做是符号位，这样就能区分正负数了。但是，把最高位当做符号位只是人为规定的，计算机并不知情。</p>
 <h4 id="模"><a href="#模" class="headerlink" title="模"></a>模</h4><p>在日常生活中，仔细观察会发现</p>
 <ul>
 <li>把物体左转 90 度和右转 270 度，在不考虑圈数的情况下，最终的效果是相同的。</li>
@@ -611,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#整数"><span class="nav-number">1.</span> <span class="nav-text">整数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#整数数据类型"><span class="nav-number">1.1.</span> <span class="nav-text">整数数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无符号数"><span class="nav-number">1.2.</span> <span class="nav-text">无符号数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有符号数"><span class="nav-number">1.3.</span> <span class="nav-text">有符号数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模"><span class="nav-number">1.3.1.</span> <span class="nav-text">模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义编码"><span class="nav-number">1.3.2.</span> <span class="nav-text">自定义编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点数"><span class="nav-number">2.</span> <span class="nav-text">浮点数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#整数"><span class="nav-number">1.</span> <span class="nav-text">整数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#整数数据类型"><span class="nav-number">1.1.</span> <span class="nav-text">整数数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无符号整数"><span class="nav-number">1.2.</span> <span class="nav-text">无符号整数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有符号整数"><span class="nav-number">1.3.</span> <span class="nav-text">有符号整数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模"><span class="nav-number">1.3.1.</span> <span class="nav-text">模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义编码"><span class="nav-number">1.3.2.</span> <span class="nav-text">自定义编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点数"><span class="nav-number">2.</span> <span class="nav-text">浮点数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
