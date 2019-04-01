@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="浮点数,IEEE 754," />
 
 
 
@@ -79,13 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="黄枫谷">
-<meta property="og:url" content="//huminxi.netlify.com/tags/Maven/index.html">
+<meta name="description" content="现实世界中不仅有整数，还有小数，有没有一种编码，能同时表示它们呢。IEEE 754 是 20 世纪 80 年代以来最广泛使用的浮点数运算标准，为许多 CPU 与浮点运算器所采用，简单来说，它采用了类似科学记数法的形式来表示整数和小数。该标准的设计者，William Morton Kahan 教授在 1989 年获得图灵">
+<meta name="keywords" content="浮点数,IEEE 754">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浮点数在计算机中的表示">
+<meta property="og:url" content="//huminxi.netlify.com/2019/03/29/浮点数在计算机中的表示/index.html">
 <meta property="og:site_name" content="黄枫谷">
+<meta property="og:description" content="现实世界中不仅有整数，还有小数，有没有一种编码，能同时表示它们呢。IEEE 754 是 20 世纪 80 年代以来最广泛使用的浮点数运算标准，为许多 CPU 与浮点运算器所采用，简单来说，它采用了类似科学记数法的形式来表示整数和小数。该标准的设计者，William Morton Kahan 教授在 1989 年获得图灵奖。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/float-type.png">
+<meta property="og:updated_time" content="2019-04-01T09:38:13.309Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黄枫谷">
+<meta name="twitter:title" content="浮点数在计算机中的表示">
+<meta name="twitter:description" content="现实世界中不仅有整数，还有小数，有没有一种编码，能同时表示它们呢。IEEE 754 是 20 世纪 80 年代以来最广泛使用的浮点数运算标准，为许多 CPU 与浮点运算器所采用，简单来说，它采用了类似科学记数法的形式来表示整数和小数。该标准的设计者，William Morton Kahan 教授在 1989 年获得图灵奖。">
+<meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201903/float-type.png">
 
 
 
@@ -115,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="//huminxi.netlify.com/tags/Maven/"/>
+  <link rel="canonical" href="//huminxi.netlify.com/2019/03/29/浮点数在计算机中的表示/"/>
 
 
 
 
 
-  <title>标签: Maven | 黄枫谷</title>
+  <title>浮点数在计算机中的表示 | 黄枫谷</title>
   
 
 
@@ -140,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -268,54 +275,208 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h2>Maven<small>标签</small>
-        </h2>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2019/03/29/浮点数在计算机中的表示/">
 
-      <h3 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡匪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/huangfenggu.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黄枫谷">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/04/01/初识 Maven/" itemprop="url">
-              
-                <span itemprop="name">初识 Maven</span>
-              
-            </a>
         
-      </h3>
+          <h2 class="post-title" itemprop="name headline">浮点数在计算机中的表示</h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-01T20:55:30+08:00"
-              content="2018-04-01" >
-          04-01
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T15:20:22+08:00">
+                2019-03-29
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机基础/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/03/29/浮点数在计算机中的表示/" class="leancloud_visitors" data-flag-title="浮点数在计算机中的表示">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<p>现实世界中不仅有整数，还有小数，有没有一种编码，能同时表示它们呢。<a href="https://zh.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">IEEE 754</a> 是 20 世纪 80 年代以来最广泛使用的浮点数运算标准，为许多 CPU 与浮点运算器所采用，简单来说，它采用了类似科学记数法的形式来表示整数和小数。该标准的设计者，William Morton Kahan 教授在 1989 年获得图灵奖。</p>
+<a id="more"></a>
+<h2 id="IEEE-754"><a href="#IEEE-754" class="headerlink" title="IEEE 754"></a>IEEE 754</h2><h3 id="产生背景"><a href="#产生背景" class="headerlink" title="产生背景"></a>产生背景</h3><p>因为 <a href="https://zh.wikipedia.org/wiki/%E5%AE%9A%E7%82%B9%E6%95%B0" target="_blank" rel="noopener">定点数</a> 存在两个缺陷</p>
+<ul>
+<li>不能有效的表示非常大的数字。<ul>
+<li>例如，表达式 5x2¹⁰⁰ 是 101 后面跟着 100 个零的位模式来表示，如果用定点表示法，容易产生溢出。</li>
+</ul>
+</li>
+<li>不能有效的表示小数。</li>
+</ul>
+<p>为了解决上述问题，浮点数应运而生。</p>
+<h3 id="表示方法"><a href="#表示方法" class="headerlink" title="表示方法"></a>表示方法</h3><p>参照科学记数法，一个数可以用如下形式来表示</p>
+<p>$$Value = sign \times fraction \times exponent$$</p>
+<p>IEEE 浮点标准采用如下形式来表示一个数</p>
+<p>$$V = (-1)^s \times M \times 2^E$$</p>
+<ul>
+<li>(-1)ˢ 表示符号位，当 s=0， V 为正数；当 s=1，V 为负数。</li>
+<li>M 表示有效数字，范围属于 [1,2)。</li>
+<li>2ᴱ 表示指数位。</li>
+</ul>
+<p>在单精度浮点格式(float)中，s、exp 和 fraction 字段分别为 1 位、8 位和 23 位。在双精度浮点格式(double)中，s、exp 和 fraction 字段分别为 1 位、11 位和 52 位。</p>
+<p><img float-type="" src="/img/hufei/201903/float-type.png" width="100%" height="100%"></p>
+<h3 id="舍入"><a href="#舍入" class="headerlink" title="舍入"></a>舍入</h3><p>先看看十进制数和二进制数如何相互转换。用下标表示数的基，\(d_{10}\) 表示十进制数，\(d_2\) 表示二进制数。</p>
+<p>一个具有 n+1 位整数，m 位小数的十进制数 \(d_{10}\) 表示为</p>
+<p>$$ d<em>{10} = (d</em>{n}d_{n-1}...d_1d<em>0.d</em>{-1}...d<em>{-m+1}d</em>{-m})_{10} $$</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener">《深入理解计算机系统》</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/IEEE_754#%E6%B5%AE%E9%BB%9E%E6%95%B8%E7%9A%84%E6%8D%A8%E5%85%A5" target="_blank" rel="noopener">IEEE 754</a></li>
+<li><a href="https://www.shuxuele.com/binary-decimal-hexadecimal-converter.html" target="_blank" rel="noopener">二进制、十进制和十六进制转换器</a></li>
+<li><a href="http://www.cnblogs.com/bossin/archive/2007/04/08/704567.html" target="_blank" rel="noopener">IEEE 754 浮点数的表示精度探讨</a></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/浮点数/" rel="tag"># 浮点数</a>
+          
+            <a href="/tags/IEEE-754/" rel="tag"># IEEE 754</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/28/整数在计算机中的表示/" rel="next" title="整数在计算机中的表示">
+                <i class="fa fa-chevron-left"></i> 整数在计算机中的表示
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -323,6 +484,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -343,8 +508,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -424,6 +598,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IEEE-754"><span class="nav-number">1.</span> <span class="nav-text">IEEE 754</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#产生背景"><span class="nav-number">1.1.</span> <span class="nav-text">产生背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表示方法"><span class="nav-number">1.2.</span> <span class="nav-text">表示方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#舍入"><span class="nav-number">1.3.</span> <span class="nav-text">舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -578,6 +768,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
