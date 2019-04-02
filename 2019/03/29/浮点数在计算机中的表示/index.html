@@ -91,7 +91,9 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/d10.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/b2.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/exact-express.png">
-<meta property="og:updated_time" content="2019-04-02T07:18:28.234Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/show-bytes.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/little-big-endian.png">
+<meta property="og:updated_time" content="2019-04-02T10:06:54.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浮点数在计算机中的表示">
 <meta name="twitter:description" content="现实世界中不仅有整数，还有小数，有没有一种编码，能同时表示它们呢。IEEE 754 是 20 世纪 80 年代以来最广泛使用的浮点数运算标准，为许多 CPU 与浮点运算器所采用，简单来说，它采用了类似科学记数法的形式来表示整数和小数。该标准的设计者，William Morton Kahan 教授在 1989 年获得图灵奖。">
@@ -451,9 +453,9 @@
 <p>\((0.6)_{10} = (0.1001\;1001 …)_2\) </p>
 <p>\((0.8)_{10} = (0.1100\;1100 …)_2\)</p>
 <p>这四个数也无法精确表示。同理 </p>
-<p>\((0.3)_{10}\times2 = 0.6\)</p>
-<p>\((0.7)_{10}\times2 = 1.4\)</p>
-<p>\((0.9)_{10}\times2 = 1.8\)</p>
+<p>\((0.3)_{10}\times2 = 0.6 \)</p>
+<p>\((0.7)_{10}\times2 = 1.4 \)</p>
+<p>\((0.9)_{10}\times2 = 1.8 \)</p>
 <p>这三个数也无法精确表示。 所以，从 0.1 到 0.9 这 9 个小数中，只有 0.5 可以精确表示</p>
 <p>\((0.5)_{10} = (0.1)_2\) </p>
 <h3 id="二进制小数能精确表示的十进制小数的基本规律"><a href="#二进制小数能精确表示的十进制小数的基本规律" class="headerlink" title="二进制小数能精确表示的十进制小数的基本规律"></a>二进制小数能精确表示的十进制小数的基本规律</h3><p>一个十进制小数要能用浮点数精确表示，最后一位必须是 5，因为 1 除以 2 永远是 0.5。当然，这是必要条件，并非充分条件。</p>
@@ -471,7 +473,78 @@
 <li>朝 \(-\infty\) 方向舍入</li>
 <li>朝 0 方向舍入</li>
 </ul>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<h2 id="代码验证"><a href="#代码验证" class="headerlink" title="代码验证"></a>代码验证</h2><h3 id="show-byte-c"><a href="#show-byte-c" class="headerlink" title="show-byte.c"></a>show-byte.c</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">C 语言中的 typedef 声明提供了一种给数据类型命名的方式。这能够极大地改善代码的可读性，因为深度嵌套的类型声明很难读懂。</span></span><br><span class="line"><span class="comment">typedef 的语法与声明变量的语法十分相像，除了它使用的是类型名，而不是变量名。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">1 typedef int *int_pointer;</span></span><br><span class="line"><span class="comment">2 int_pointer ip;</span></span><br><span class="line"><span class="comment">3 int *ip;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">2，3 行中的定义是等价的。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> * byte_pointer; <span class="comment">//用 byte_pointer 声明和用 unsigned char * 声明效果是相同的。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">size_t</span> len)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">size_t</span> i;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%.2x"</span>, start[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">float</span> f1=<span class="number">1.1</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\nf1 = %0.1f\n"</span>, f1);</span><br><span class="line">	show_bytes((byte_pointer)&amp;f1, <span class="keyword">sizeof</span>(f1));</span><br><span class="line">	<span class="keyword">double</span> d=<span class="number">1.1</span>;</span><br><span class="line">	show_bytes((byte_pointer)&amp;d, <span class="keyword">sizeof</span>(d));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> f2=<span class="number">1.3</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\nf2 = %0.1f\n"</span>, f2);</span><br><span class="line">	show_bytes((byte_pointer)&amp;f2, <span class="keyword">sizeof</span>(f2));</span><br><span class="line">	<span class="keyword">double</span> d2=<span class="number">1.3</span>;</span><br><span class="line">	show_bytes((byte_pointer)&amp;d2, <span class="keyword">sizeof</span>(d2));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> f3=<span class="number">1.7</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\nf3 = %0.1f\n"</span>, f3);</span><br><span class="line">	show_bytes((byte_pointer)&amp;f3, <span class="keyword">sizeof</span>(f3));</span><br><span class="line">	<span class="keyword">double</span> d3=<span class="number">1.7</span>;</span><br><span class="line">	show_bytes((byte_pointer)&amp;d3, <span class="keyword">sizeof</span>(d3));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> f4=<span class="number">1.9</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\nf4 = %0.1f\n"</span>, f4);</span><br><span class="line">	show_bytes((byte_pointer)&amp;f4, <span class="keyword">sizeof</span>(f4));</span><br><span class="line">	<span class="keyword">double</span> d4=<span class="number">1.9</span>;</span><br><span class="line">	show_bytes((byte_pointer)&amp;d4, <span class="keyword">sizeof</span>(d4));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img show-bytes="" src="/img/hufei/201903/show-bytes.png" width="100%" height="100%"></p>
+<h3 id="little-big-endian"><a href="#little-big-endian" class="headerlink" title="little-big-endian"></a>little-big-endian</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0x11223344</span>;</span><br><span class="line">	<span class="keyword">char</span> *p;</span><br><span class="line"></span><br><span class="line">	p = (<span class="keyword">char</span> *) &amp;i;</span><br><span class="line">	<span class="keyword">if</span> (*p == <span class="number">0x44</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"little endian\n"</span>);</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(*p == <span class="number">0x11</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"big endian\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img little-big-endian="" src="/img/hufei/201903/little-big-endian.png" width="100%" height="100%"></p>
+<p>我的电脑是 <a href="https://zh.wikipedia.org/wiki/%E5%AD%97%E8%8A%82%E5%BA%8F" target="_blank" rel="noopener">小端序</a>，最低位先输出。</p>
+<h3 id="1-1-10"><a href="#1-1-10" class="headerlink" title="\((1.1)_{10}\)"></a>\((1.1)_{10}\)</h3><ul>
+<li>\((3f8ccccd)_{16} = (0011\;1111\;1000\;1100\;1100\;1100\;1100\;1101)_2\) <ul>
+<li>符号位 S = 0</li>
+<li>指数 E = exp-127 = 127-127 = 0</li>
+<li>小数部分 = \(000\;\overline{1100}\)</li>
+<li>有效数字 M = 1.000 1100 1100 1100 1100 1101</li>
+<li>舍入 \(11\Rightarrow1\)</li>
+<li>\(Value = (-1)^0\times(1.000\;1100\;…\;1101)\times2^0 = 1.000\;1100\;1100\;1100\;1100\;1101\)  </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>\((3ff99999999999a)_{16} = (0011\;1111\;1111\;0001\;1001\;1001\;…\;1001\;1010)_2\) <ul>
+<li>符号位 S = 0</li>
+<li>指数位 E = exp-1023 = 1023-1023 = 0</li>
+<li>小数部分 = \(0001\;\overline{1001}\)</li>
+<li>有效数字 M = 1.0001 1001 1001 1001 … 1010</li>
+<li>舍入 \(10\Rightarrow1\)</li>
+<li>\(Value = (-1)^0\times(1.0001\;1001\;…\;1010)\times2^0 = 1.0001\;1001\;1001\;…\;1001\;1010\)</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3-10"><a href="#1-3-10" class="headerlink" title="\((1.3)_{10}\)"></a>\((1.3)_{10}\)</h3><ul>
+<li><p>\((3fa66666)_{16} = (0011\;1111\;1010\;0110\;0110\;0110\;0110\;0110)_2\) </p>
+<ul>
+<li>小数部分 = \(010\;\overline{0110}\)</li>
+<li>舍入 \(01\Rightarrow0\)</li>
+</ul>
+</li>
+<li><p>\((3ff4cccccccccccd)_{16} = (0011\;1111\;1111\;0100\;1100\;1100\;…\;1100\;1101)_2\) </p>
+<ul>
+<li>小数部分 = \(0100\;\overline{1100}\)</li>
+<li>舍入 \(11\Rightarrow1\)</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-7-10"><a href="#1-7-10" class="headerlink" title="\((1.7)_{10}\)"></a>\((1.7)_{10}\)</h3><ul>
+<li><p>\((3fd9999a)_{16} = (0011\;1111\;1101\;1001\;1001\;1001\;1001\;1001)_2\) </p>
+<ul>
+<li>小数部分 = \(101\;\overline{1001}\)</li>
+<li>舍入 \(10\Rightarrow1\)</li>
+</ul>
+</li>
+<li><p>\((3ffb333333333333)_{16} = (0011\;1111\;1111\;1011\;0011\;0011\;…\;0011\;0011)_2\) </p>
+<ul>
+<li>小数部分 = \((1011\;\overline{0011})\)</li>
+<li>舍入 \(00\Rightarrow0\)</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-9-10"><a href="#1-9-10" class="headerlink" title="\((1.9)_{10}\)"></a>\((1.9)_{10}\)</h3><ul>
+<li><p>\((3ff33333)_{16} = (0011\;1111\;1111\;0011\;0011\;0011\;0011\;0011)_2\) </p>
+<ul>
+<li>小数部分 = \(111\;\overline{0011}\)</li>
+<li>舍入 \(00\Rightarrow0\)</li>
+</ul>
+</li>
+<li><p>\((3ffe666666666666)_{16} = (0011\;1111\;1111\;1110\;0110\;0110\;…\;0110\;0110)_2\) </p>
+<ul>
+<li>小数部分 = \((1110\;\overline{0110})\)</li>
+<li>舍入 \(01\Rightarrow0\)</li>
+</ul>
+</li>
+</ul>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h3><p>为什么 exp 需要加上一个偏置值？</p>
+<h3 id="A1"><a href="#A1" class="headerlink" title="A1"></a>A1</h3><p>采用这种方式表示的目的是简化比较。因为，指数的值可能为正也可能为负，如果采用补码表示的话，全体符号位 S 和 Exp 自身的符号位将导致不能简单的进行大小比较。正因为如此，指数部分通常采用一个无符号的正数值存储。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener">《深入理解计算机系统》</a></li>
 <li><a href="https://zh.wikipedia.org/wiki/IEEE_754#%E6%B5%AE%E9%BB%9E%E6%95%B8%E7%9A%84%E6%8D%A8%E5%85%A5" target="_blank" rel="noopener">IEEE 754</a></li>
 <li><a href="https://www.shuxuele.com/binary-decimal-hexadecimal-converter.html" target="_blank" rel="noopener">二进制、十进制和十六进制转换器</a></li>
@@ -669,7 +742,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#产生背景"><span class="nav-number">1.</span> <span class="nav-text">产生背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表示方法"><span class="nav-number">2.</span> <span class="nav-text">表示方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#科学记数法"><span class="nav-number">2.1.</span> <span class="nav-text">科学记数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有效数字-M"><span class="nav-number">2.2.</span> <span class="nav-text">有效数字 M</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数-E"><span class="nav-number">2.3.</span> <span class="nav-text">指数 E</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精度问题"><span class="nav-number">3.</span> <span class="nav-text">精度问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#十进制和二进制相互转化"><span class="nav-number">3.1.</span> <span class="nav-text">十进制和二进制相互转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制小数能精确表示的十进制小数的基本规律"><span class="nav-number">3.2.</span> <span class="nav-text">二进制小数能精确表示的十进制小数的基本规律</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#舍入"><span class="nav-number">3.3.</span> <span class="nav-text">舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">4.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#产生背景"><span class="nav-number">1.</span> <span class="nav-text">产生背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表示方法"><span class="nav-number">2.</span> <span class="nav-text">表示方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#科学记数法"><span class="nav-number">2.1.</span> <span class="nav-text">科学记数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有效数字-M"><span class="nav-number">2.2.</span> <span class="nav-text">有效数字 M</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数-E"><span class="nav-number">2.3.</span> <span class="nav-text">指数 E</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精度问题"><span class="nav-number">3.</span> <span class="nav-text">精度问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#十进制和二进制相互转化"><span class="nav-number">3.1.</span> <span class="nav-text">十进制和二进制相互转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制小数能精确表示的十进制小数的基本规律"><span class="nav-number">3.2.</span> <span class="nav-text">二进制小数能精确表示的十进制小数的基本规律</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#舍入"><span class="nav-number">3.3.</span> <span class="nav-text">舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码验证"><span class="nav-number">4.</span> <span class="nav-text">代码验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#show-byte-c"><span class="nav-number">4.1.</span> <span class="nav-text">show-byte.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#little-big-endian"><span class="nav-number">4.2.</span> <span class="nav-text">little-big-endian</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-10"><span class="nav-number">4.3.</span> <span class="nav-text">\((1.1)_{10}\)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-10"><span class="nav-number">4.4.</span> <span class="nav-text">\((1.3)_{10}\)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-10"><span class="nav-number">4.5.</span> <span class="nav-text">\((1.7)_{10}\)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-9-10"><span class="nav-number">4.6.</span> <span class="nav-text">\((1.9)_{10}\)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展"><span class="nav-number">5.</span> <span class="nav-text">拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1"><span class="nav-number">5.1.</span> <span class="nav-text">Q1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A1"><span class="nav-number">5.2.</span> <span class="nav-text">A1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
