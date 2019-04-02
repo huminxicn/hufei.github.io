@@ -90,7 +90,8 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/float-type.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/d10.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/b2.png">
-<meta property="og:updated_time" content="2019-04-01T15:00:34.439Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/exact-express.png">
+<meta property="og:updated_time" content="2019-04-02T02:39:22.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浮点数在计算机中的表示">
 <meta name="twitter:description" content="现实世界中不仅有整数，还有小数，有没有一种编码，能同时表示它们呢。IEEE 754 是 20 世纪 80 年代以来最广泛使用的浮点数运算标准，为许多 CPU 与浮点运算器所采用，简单来说，它采用了类似科学记数法的形式来表示整数和小数。该标准的设计者，William Morton Kahan 教授在 1989 年获得图灵奖。">
@@ -426,11 +427,18 @@
 <p><strong>一个十进制数能否用二进制浮点数精确表示，关键在于小数部分。</strong> 我们来看一个最简单的小数 \((0.1)_{10}\) 能否精确表示。<br>\((1)\;0.1\times2=0.2\;整数位是\;0 \Rightarrow .0\)<br>\((2)\;0.2\times2=0.4\;整数位是\;0 \Rightarrow .00\)<br>\((3)\;0.4\times2=0.8\;整数位是\;0 \Rightarrow .000\)<br>\((4)\;0.8\times2=1.6\;整数位是\;1 \Rightarrow .0001\)<br>\((5)\;0.6\times2=1.2\;整数位是\;1 \Rightarrow .00011\)<br>\((6)\;0.2\times2=0.4\;整数位是\;0 \Rightarrow .000110 \ 由第(2)步开始循环。\)<br>…</p>
 <p>得到一个无限循环的二进制小数 \((0.1)_{10}=(0.0\;0011\;0011\;0011\;…)_2\)。 </p>
 <p>用有限位无法表示无线循环小数，因此，\((0.1)_{10}\) 无法用 IEEE 754 浮点数精确表示。同时我们还可以得出</p>
-<p>\((0.2)<em>{10}\) 和 \((0.4)</em>{10}\)</p>
-<p>\(0.6<em>{10}\) \(0.8</em>{10}\)</p>
-<p>这四个数也无法精确表示。同理</p>
-<p>\( 0.3 \times 2<em>{10} = (0.6)</em>{10} \)</p>
-<h3 id="舍入"><a href="#舍入" class="headerlink" title="舍入"></a>舍入</h3><p><strong>其实不管是用十进制、二进制或者其它进制，都存在着用有限位数无法精确表示的数字。这时候就需要进行舍入。</strong></p>
+<p>\((0.2)_{10} = (0.0011\;0011 …)_2\) </p>
+<p>\((0.4)_{10} = (0.0110\;0110 …)_2\)</p>
+<p>\((0.6)_{10} = (0.1001\;1001 …)_2\) </p>
+<p>\((0.8)_{10} = (0.1100\;1100 …)_2\)</p>
+<p>这四个数也无法精确表示。同理<br>\((0.3)_{10}\times2 = 0.6\)</p>
+<p>\((0.7)_{10}\times2 = 1.4\)</p>
+<p>\((0.9)_{10}\times2 = 1.8\)</p>
+<p>也无法用 IEEE 754 浮点数精确表示。 所以，0.1 到 0.9 的 9 个小数中，只有 0.5 可以精确表示: \((0.5)_{10} = (0.1)_2\) </p>
+<h3 id="二进制小数能精确表示的十进制小数的基本规律"><a href="#二进制小数能精确表示的十进制小数的基本规律" class="headerlink" title="二进制小数能精确表示的十进制小数的基本规律"></a>二进制小数能精确表示的十进制小数的基本规律</h3><p>一个十进制小数要能用浮点数精确表示，最后一位必须是 5，因为 1 除以 2 永远是 0.5，当然这是必要条件，并非充分条件。</p>
+<p><img exact-express="" src="/img/hufei/201903/exact-express.png" width="50%" height="100%"></p>
+<p>一个 m 位二进制小数能够精确表示的小数有多少个呢？当然是 \(2^m\) 个。而 m 位十进制小数有 \(10^{m}\)个，因此，能精确表示的十进制小数的比例是 \(\frac{2^m}{10^{m}}=(0.2)^{m}\)，m 越大，比例越小。</p>
+<h3 id="舍入"><a href="#舍入" class="headerlink" title="舍入"></a>舍入</h3><p><strong>其实不管是用十进制、二进制或者其它进制，都存在着有限位数无法精确表示的数字。这时候就需要进行舍入。</strong></p>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener">《深入理解计算机系统》</a></li>
 <li><a href="https://zh.wikipedia.org/wiki/IEEE_754#%E6%B5%AE%E9%BB%9E%E6%95%B8%E7%9A%84%E6%8D%A8%E5%85%A5" target="_blank" rel="noopener">IEEE 754</a></li>
@@ -629,7 +637,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#产生背景"><span class="nav-number">1.</span> <span class="nav-text">产生背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表示方法"><span class="nav-number">2.</span> <span class="nav-text">表示方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精度问题"><span class="nav-number">3.</span> <span class="nav-text">精度问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#十进制和二进制相互转化"><span class="nav-number">3.1.</span> <span class="nav-text">十进制和二进制相互转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#舍入"><span class="nav-number">3.2.</span> <span class="nav-text">舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">4.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#产生背景"><span class="nav-number">1.</span> <span class="nav-text">产生背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表示方法"><span class="nav-number">2.</span> <span class="nav-text">表示方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精度问题"><span class="nav-number">3.</span> <span class="nav-text">精度问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#十进制和二进制相互转化"><span class="nav-number">3.1.</span> <span class="nav-text">十进制和二进制相互转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制小数能精确表示的十进制小数的基本规律"><span class="nav-number">3.2.</span> <span class="nav-text">二进制小数能精确表示的十进制小数的基本规律</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#舍入"><span class="nav-number">3.3.</span> <span class="nav-text">舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">4.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
