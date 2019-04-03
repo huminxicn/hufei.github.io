@@ -93,7 +93,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/exact-express.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/show-bytes.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201903/little-big-endian.png">
-<meta property="og:updated_time" content="2019-04-02T10:10:23.931Z">
+<meta property="og:updated_time" content="2019-04-03T05:23:50.010Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浮点数在计算机中的表示">
 <meta name="twitter:description" content="现实世界中不仅有整数，还有小数，有没有一种编码，能同时表示它们呢。IEEE 754 是 20 世纪 80 年代以来最广泛使用的浮点数运算标准，为许多 CPU 与浮点运算器所采用，简单来说，它采用了类似科学记数法的形式来表示整数和小数。该标准的设计者，William Morton Kahan 教授在 1989 年获得图灵奖。">
@@ -543,7 +543,7 @@
 </li>
 </ul>
 <h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h3><p>为什么 exp 需要加上一个偏置值？</p>
-<h3 id="A1"><a href="#A1" class="headerlink" title="A1"></a>A1</h3><p>采用这种方式表示的目的是简化比较。因为，指数的值可能为正也可能为负，如果采用补码表示的话，全体符号位 S 和 Exp 自身的符号位将导致不能简单的进行大小比较。正因为如此，指数部分通常采用一个无符号的正数值存储。</p>
+<h3 id="A1"><a href="#A1" class="headerlink" title="A1"></a>A1</h3><p>采用这种方式表示的目的是简化比较。因为，指数的值可能为正也可能为负，如果采用补码表示的话，符号位 S 和 Exp 自身的符号位将导致不能简单的进行大小比较。正因为如此，指数部分通常采用一个无符号的正数值存储。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener">《深入理解计算机系统》</a></li>
 <li><a href="https://zh.wikipedia.org/wiki/IEEE_754#%E6%B5%AE%E9%BB%9E%E6%95%B8%E7%9A%84%E6%8D%A8%E5%85%A5" target="_blank" rel="noopener">IEEE 754</a></li>
