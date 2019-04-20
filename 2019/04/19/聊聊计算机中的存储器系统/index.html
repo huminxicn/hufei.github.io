@@ -88,7 +88,8 @@
 <meta property="og:description" content="按照冯·诺伊曼设计的计算机模型，CPU 执行指令，存储器系统负责存放 CPU 执行的指令和数据。在现代计算机中，存储器系统由不同容量、不同成本、不同访问时间的各级存储器组成。那么，为什么会设计成这样子呢？">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201904/ram.png">
-<meta property="og:updated_time" content="2019-04-20T03:19:29.574Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201904/ssd.png">
+<meta property="og:updated_time" content="2019-04-20T04:19:43.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊计算机中的存储器系统">
 <meta name="twitter:description" content="按照冯·诺伊曼设计的计算机模型，CPU 执行指令，存储器系统负责存放 CPU 执行的指令和数据。在现代计算机中，存储器系统由不同容量、不同成本、不同访问时间的各级存储器组成。那么，为什么会设计成这样子呢？">
@@ -386,16 +387,33 @@
         <p>按照冯·诺伊曼设计的计算机模型，CPU 执行指令，存储器系统负责存放 CPU 执行的指令和数据。在现代计算机中，存储器系统由不同容量、不同成本、不同访问时间的各级存储器组成。那么，为什么会设计成这样子呢？</p>
 <a id="more"></a>
 <h2 id="存储技术"><a href="#存储技术" class="headerlink" title="存储技术"></a>存储技术</h2><p>一般来说，访问速度越快的存储器造价也越高。下面我们介绍几种常见的存储器。</p>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a><a href="https://zh.wikipedia.org/wiki/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a></h3><p>寄存器(Register)是 CPU 的组成部分，寄存器容量非常小，它们可用来暂存指令、数据和地址。</p>
 <h3 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a><a href="https://en.wikipedia.org/wiki/Random-access_memory" target="_blank" rel="noopener">RAM</a></h3><p>随机访问存储器(Random-Access Memory, RAM)分为两类，静态的和动态的。静态 RAM(SRAM) 比动态 RAM(DRAM) 更快，但也贵的多。SRAM 用来做高速缓存存储器，DRAM 用来做主存以及图形系统的帧缓存区。典型的，一个计算机系统的 SRAM 不会超过几 MB，但是 DRAM 却可以有几 GB。</p>
 <p><code>Mac-pro 15</code><br><img ram="" src="/img/hufei/201904/ram.png" width="100%" height="100%"></p>
-<h3 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a><a href="https://zh.wikipedia.org/wiki/%E7%A1%AC%E7%9B%98" target="_blank" rel="noopener">硬盘</a></h3><p>硬盘是广泛引用的保存大量数据的存储设备，现代硬盘一般都能存储几百 GB 的数据，远远大于基于 RAM 的存储器所能存储的数据。不过，从硬盘上读取信息的时间为毫秒级，比从 DRAM 读慢了 10 万倍，比从 SRAM 读慢了 100 万倍。</p>
-<p><code>硬盘内部的碟片在通电后开始高速转动</code></p>
+<p>RAM 中的信息需要通电才能维持。</p>
+<h3 id="机械硬盘"><a href="#机械硬盘" class="headerlink" title="机械硬盘"></a><a href="https://zh.wikipedia.org/wiki/%E7%A1%AC%E7%9B%98" target="_blank" rel="noopener">机械硬盘</a></h3><p>机械硬盘是常见的保存大量数据的存储设备，现代机械硬盘一般能存储几百 GB 的数据，远远大于基于 RAM 的存储器所能存储的数据。不过，从机械硬盘上读取信息的时间为毫秒级，比从 DRAM 读慢了 10 万倍，比从 SRAM 读慢了 100 万倍。</p>
+<p><code>机械硬盘内部的碟片在通电后开始高速转动</code></p>
 <video src="https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c5/HardDisk1.ogv/HardDisk1.ogv.480p.vp9.webm" controls> 你的浏览器不支持 <code>video</code> 标签。 </video>
 
-<h3 id="SSD"><a href="#SSD" class="headerlink" title="SSD"></a>SSD</h3><h2 id="存储器层次结构"><a href="#存储器层次结构" class="headerlink" title="存储器层次结构"></a>存储器层次结构</h2><h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><h3 id="局部性原理"><a href="#局部性原理" class="headerlink" title="局部性原理"></a>局部性原理</h3><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<p>机械硬盘中的信息一旦保存后，不通电也能维持。</p>
+<h3 id="SSD"><a href="#SSD" class="headerlink" title="SSD"></a><a href="https://zh.wikipedia.org/wiki/%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98" target="_blank" rel="noopener">SSD</a></h3><p>固态硬盘(Solid-state driver, SSD)是一种主要以 <a href="https://zh.wikipedia.org/wiki/%E9%97%AA%E5%AD%98" target="_blank" rel="noopener">闪存</a> 作为永久性存储器的计算机设备。由于价格及存储空间与机械硬盘有巨大差距，固态硬盘目前还无法完全取代机械硬盘。其读写速度比机械硬盘快 2-3 倍，且无噪音。</p>
+<p><code>Mac-pro 15</code><br><img ssd="" src="/img/hufei/201904/ssd.png" width="100%" height="100%"></p>
+<h2 id="局部性"><a href="#局部性" class="headerlink" title="局部性"></a>局部性</h2><p>一个编写良好的计算机程序常常具有良好的访问局部性(Locality of reference)。访问局部性分为两种基本形式，一种是时间局部性，另一种是空间局部性。</p>
+<ul>
+<li>时间局部性指的是，程序在运行时，最近刚刚被引用过的一个内存位置容易再次被引用。<ul>
+<li>比如在调取一个函数的时候，前不久才调取过的本地参数容易再度被调取使用。</li>
+</ul>
+</li>
+<li>空间局部性指的是，最近引用过的内存位置以及其周边的内存位置容易再次被使用。<ul>
+<li>空间局部性比较常见于循环中，比如在一个数列中，如果第 3 个元素在上一个循环中使用，则本次循环中极有可能会使用第 4 个元素。访问局部性这一特点在缓存中有所应用，可减少内存访问量。</li>
+</ul>
+</li>
+</ul>
+<h2 id="存储器层次结构"><a href="#存储器层次结构" class="headerlink" title="存储器层次结构"></a>存储器层次结构</h2><h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener">《深入理解计算机系统》</a></li>
 <li><a href="https://www.zhihu.com/question/20075426" target="_blank" rel="noopener">寄存器的速度为何比内存更快？</a></li>
 <li><a href="https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c5/HardDisk1.ogv/HardDisk1.ogv.480p.vp9.webm" target="_blank" rel="noopener">硬盘内部的碟片在通电后开始高速转动</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98" target="_blank" rel="noopener">固态硬盘</a></li>
 </ul>
 
       
@@ -589,7 +607,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储技术"><span class="nav-number">1.</span> <span class="nav-text">存储技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RAM"><span class="nav-number">1.1.</span> <span class="nav-text">RAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬盘"><span class="nav-number">1.2.</span> <span class="nav-text">硬盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSD"><span class="nav-number">1.3.</span> <span class="nav-text">SSD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储器层次结构"><span class="nav-number">2.</span> <span class="nav-text">存储器层次结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存"><span class="nav-number">2.1.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#局部性原理"><span class="nav-number">2.2.</span> <span class="nav-text">局部性原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储技术"><span class="nav-number">1.</span> <span class="nav-text">存储技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器"><span class="nav-number">1.1.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAM"><span class="nav-number">1.2.</span> <span class="nav-text">RAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机械硬盘"><span class="nav-number">1.3.</span> <span class="nav-text">机械硬盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSD"><span class="nav-number">1.4.</span> <span class="nav-text">SSD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部性"><span class="nav-number">2.</span> <span class="nav-text">局部性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储器层次结构"><span class="nav-number">3.</span> <span class="nav-text">存储器层次结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存"><span class="nav-number">3.1.</span> <span class="nav-text">缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
