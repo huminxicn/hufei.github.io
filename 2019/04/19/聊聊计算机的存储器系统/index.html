@@ -91,7 +91,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201904/ssd.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201904/memory-hierarchy.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201904/memory-access-time.png">
-<meta property="og:updated_time" content="2019-04-20T08:16:22.115Z">
+<meta property="og:updated_time" content="2019-04-22T05:57:54.940Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊计算机的存储器系统">
 <meta name="twitter:description" content="按照冯·诺伊曼设计的计算机模型，CPU 执行指令，存储器系统负责存放 CPU 执行的指令和数据。在现代计算机中，存储器系统由不同容量、不同成本、不同访问时间的各级存储器组成。那么，为什么会设计成这样子呢？">
@@ -389,8 +389,8 @@
         <p>按照冯·诺伊曼设计的计算机模型，CPU 执行指令，存储器系统负责存放 CPU 执行的指令和数据。在现代计算机中，存储器系统由不同容量、不同成本、不同访问时间的各级存储器组成。那么，为什么会设计成这样子呢？</p>
 <a id="more"></a>
 <h2 id="存储技术"><a href="#存储技术" class="headerlink" title="存储技术"></a>存储技术</h2><p>一般来说，访问速度越快的存储器造价也越高。下面我们介绍几种常见的存储器。</p>
-<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a><a href="https://zh.wikipedia.org/wiki/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a></h3><p>寄存器(Register)是 CPU 的组成部分，寄存器容量非常小，它们可用来暂存指令、数据和地址。</p>
-<h3 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a><a href="https://en.wikipedia.org/wiki/Random-access_memory" target="_blank" rel="noopener">RAM</a></h3><p>随机访问存储器(Random-Access Memory, RAM)分为两类，静态的和动态的。静态 RAM(SRAM) 比动态 RAM(DRAM) 更快，但也贵的多。SRAM 用来做高速缓存存储器，DRAM 用来做主存以及图形系统的帧缓存区。典型的，一个计算机系统的 SRAM 不会超过几 MB，但是 DRAM 却可以有几 GB。</p>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a><a href="https://zh.wikipedia.org/wiki/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a></h3><p>寄存器(Register)是 CPU 的组成部分。寄存器容量非常小，它们可用来暂存指令、数据和地址。</p>
+<h3 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a><a href="https://en.wikipedia.org/wiki/Random-access_memory" target="_blank" rel="noopener">RAM</a></h3><p>随机访问存储器(Random-Access Memory, RAM)分为两类，静态的和动态的。静态 RAM (SRAM) 比动态 RAM (DRAM) 更快，但也贵的多。SRAM 用来做高速缓存，DRAM 用来做主存以及图形系统的帧缓存区。通常来说，一个计算机系统的 SRAM 不会超过几 MB，但是 DRAM 却可以有几 GB。</p>
 <p><code>Mac-pro 15</code><br><img ram="" src="/img/hufei/201904/ram.png" width="100%" height="100%"></p>
 <p>RAM 中的信息需要通电才能维持。</p>
 <h3 id="机械硬盘"><a href="#机械硬盘" class="headerlink" title="机械硬盘"></a><a href="https://zh.wikipedia.org/wiki/%E7%A1%AC%E7%9B%98" target="_blank" rel="noopener">机械硬盘</a></h3><p>机械硬盘是常见的保存大量数据的存储设备，现代机械硬盘一般能存储几百 GB 的数据，远远大于基于 RAM 的存储器所能存储的数据。不过，从机械硬盘上读取信息的时间为毫秒级，比从 DRAM 读慢了 10 万倍，比从 SRAM 读慢了 100 万倍。</p>
