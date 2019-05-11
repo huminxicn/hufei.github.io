@@ -94,7 +94,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-and-iteration-query.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-query.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/dns-rr.png">
-<meta property="og:updated_time" content="2019-05-11T09:11:39.262Z">
+<meta property="og:updated_time" content="2019-05-11T09:19:16.475Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS">
 <meta name="twitter:description" content="我们知道，身份证号码可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号码，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP 地址，同时，它们也有一个主机名(hostname)，如 www.google.com www.wikipedia.org 等。由于计算机只认识 IP 地址，所以我们需要一种能将主机名转换到 IP 地址的 目录服务，这就是 DNS(Domain Na">
@@ -476,18 +476,16 @@
 <p>图 2-21 所示的例子利用了递归查询(recursive query)和迭代查询(iterative query)。从 cis.poly.edu 到 dns.poly.edu 发出的查询是递归查询，而后继的 3 个查询是迭代查询。从理论上讲，任何 DNS 查询既可以是迭代的也可能是递归的。例如，下图显示了一条 DNS 查询链，其中的所有查询都是递归的。实际中，一般都是遵循图 2-21 中的模式。从请求主机到本地 DNS 服务器的查询是递归的，其余的查询是迭代的。</p>
 <p><code>图 2-22  DNS 中的递归查询</code><br><img recursive-query="" src="/img/hufei/032018/recursive-query.png" width="50%" height="50%"></p>
 <h4 id="DNS-缓存"><a href="#DNS-缓存" class="headerlink" title="DNS 缓存"></a>DNS 缓存</h4><p>在图 2-21 的例子中，我们注意到，<strong>为了获得一台主机名的映射，我们共发送了 8 份报文，效率实在太低了！</strong> 实际上，为了改善时延性能并减少因特网上到处传输的 DNS 报文数量， DNS 技术广泛使用了缓存技术。</p>
-<p>DNS 缓存的原理非常简单。在一个请求链中，当某 DNS 服务器接收到一个 DNS 回答(例如，包含主机名到 IP 地址的映射)，它能将该回答中的信息缓存在自己的存储器中。这样，下次再有相同的 DNS 请求时，可以直接将缓存的内容作为 DNS 回答发送过去，即使它不是该主机名的权威服务器。由于主机名与 IP 地址间的映射并不是永久的，DNS 服务器一般会给缓存设置一个超时时间(通常设置为两天)。</p>
-<p><strong>这就是本地 DNS 服务器为什么如此重要的原因。</strong></p>
+<p>DNS 缓存的原理非常简单。在一个请求链中，当某 DNS 服务器接收到一个 DNS 回答时(例如，包含主机名到 IP 地址的映射)，它能将该回答中的信息缓存在自己的存储器中。这样，下次再有相同的 DNS 请求时，可以直接将缓存的内容作为 DNS 回答发送过去，即使它不是该主机名的权威服务器。由于主机名与 IP 地址间的映射并不是永久的，DNS 服务器一般会给缓存设置一个超时时间(通常设置为两天)。<strong>这就是本地 DNS 服务器为什么如此重要的原因。</strong></p>
 <h4 id="DNS-记录"><a href="#DNS-记录" class="headerlink" title="DNS 记录"></a>DNS 记录</h4><p>实现 DNS 分布式数据库的所有 DNS 服务器存储着资源记录(Resource Record，RR)，RR 提供了主机名到 IP 地址的映射。每个 DNS 回答报文包含了一条或多条资源记录。资源记录是一个包含了下列字段的 4 元组:</p>
 <p>[Name, Value, Type, TTL]</p>
 <p>TTL 是该记录的生存时间，它决定了资源记录应当从缓存中删除的时间。Name 和 Value 的值取决于 Type:</p>
 <ul>
 <li>Type = A，Address Mapping record，则 Name 是个主机名，Value 是该主机名对应的 IP 地址。例如(relay1.bar.foo.com, 145.37.93.126, A)就是一条类型 A 记录。</li>
-<li>Type = NS，Name Server record，则 Name 是个域(如 foo.com)，而 Value 是个知道如何获得该域主机 IP 的权威 DNS 服务器的主机名。这个记录用于沿着查询链来路由 DNS 查询。例如(foo.com, dns.foo.com, NS)就是一条类型为 NS 的记录。</li>
 <li>Type = CNAME，Canonical Name record，则 Value 是别名为 Name 的主机对应的规范主机名。该记录能够向查询的主机提供一个主机名对应的规范主机名。例如(foo.com, relay1.bar.foo.com, CNAME)就是一条 CNAME 类型的记录。</li>
 <li>Type = MX，Mail exchanger record，则 Value 是别名为 Name 的邮件服务器的规范主机名。例如(foo.com, mail.bar.foo.com, MX)就是一条 MX 记录。<br>…</li>
 </ul>
-<p><code>阿里提供的 DNS 记录</code><br><img dns-rr="" src="/img/hufei/032018/dns-rr.png" width="100%" height="50%"></p>
+<p><code>阿里提供的 DNS 解析</code><br><img dns-rr="" src="/img/hufei/032018/dns-rr.png" width="100%" height="50%"></p>
 <p>现在，大家应该对 DNS 这三个字不陌生了吧。 </p>
 <h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><h3 id="hosts-文件-和-DNS-之间是什么关系"><a href="#hosts-文件-和-DNS-之间是什么关系" class="headerlink" title="hosts 文件 和 DNS 之间是什么关系"></a><a href="https://zh.wikipedia.org/wiki/Hosts%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">hosts 文件</a> 和 DNS 之间是什么关系</h3><blockquote>
 <p>hosts 文件（域名解析文件）是一个用于储存计算机网络中各节点信息的计算机文件。这个文件负责将主机名称映射到相应的 IP 地址。hosts 文件通常用于补充或取代网络中 DNS 的功能。和 DNS 不同的是，计算机的用户可以直接对 hosts 文件进行控制。</p>
