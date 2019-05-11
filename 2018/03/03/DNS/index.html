@@ -94,7 +94,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-and-iteration-query.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-query.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/dns-rr.png">
-<meta property="og:updated_time" content="2019-05-11T08:51:39.203Z">
+<meta property="og:updated_time" content="2019-05-11T09:05:52.117Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS">
 <meta name="twitter:description" content="我们知道，身份证号码可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号码，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP 地址，同时，它们也有一个主机名(hostname)，如 www.google.com www.wikipedia.org 等。由于计算机只认识 IP 地址，所以我们需要一种能将主机名转换到 IP 地址的 目录服务，这就是 DNS(Domain Na">
@@ -452,7 +452,7 @@
 </ul>
 </li>
 <li>顶级域 DNS 服务器<ul>
-<li>这些服务器负责顶级域名如 com org net edu 和 gov，以及所有国家的顶级域名如 uk fr jp 和 cn。<a href="https://www.iana.org/domains/root/db" target="_blank" rel="noopener">所有顶级域列表</a></li>
+<li>这些服务器负责顶级域名如 com、org、net、edu、gov 等，以及所有国家的顶级域名如 uk、fr、jp、cn 等。<a href="https://www.iana.org/domains/root/db" target="_blank" rel="noopener">所有顶级域列表</a></li>
 </ul>
 </li>
 <li>权威 DNS 服务器<ul>
@@ -461,7 +461,7 @@
 </li>
 </ul>
 <p><code>验证根 DNS 服务器的 IP 地址</code><br><img root-dns-server-ip="" src="/img/hufei/032018/root-dns-server-ip.png" width="100%" height="50%"></p>
-<h4 id="本地-DNS-服务器"><a href="#本地-DNS-服务器" class="headerlink" title="本地 DNS 服务器"></a>本地 DNS 服务器</h4><p>除了上述几种 DNS 服务器。还有另一类重要的 DNS 服务器，称为本地 DNS 服务器(local DNS server)。一个本地 DNS 服务器严格来说并不属于 DNS 服务器的层次结构，但它对 DNS 层次结构是重要的。每个 ISP(如一个大学、一个公司或一个居民区)都有一台本地 DNS 服务器(也叫默认 DNS 服务器)。</p>
+<h4 id="本地-DNS-服务器"><a href="#本地-DNS-服务器" class="headerlink" title="本地 DNS 服务器"></a>本地 DNS 服务器</h4><p>除了上述几种 DNS 服务器。还有另一类重要的 DNS 服务器，称为本地 DNS 服务器(local DNS server)。一个本地 DNS 服务器严格来说并不属于 DNS 服务器的层次结构，但它却极为重要。每个 ISP(如一个大学、一个公司或一个居民区)都有一台本地 DNS 服务器(也叫默认 DNS 服务器)。</p>
 <p><code>mac 上使用 cat /etc/resolv.conf 命令查看默认的 DNS 服务器地址</code><br><img default-dns-server-ip="" src="/img/hufei/032018/default-dns-server-ip.png" width="100%" height="50%"></p>
 <p>一般来说，主机的本地 DNS 服务器通常『临近』本主机。对于某机构 IPS 而言，本地 DNS 服务器可能就与主机在同一个局域网中；对于某居民区 ISP 来说，本地 DNS 服务器通常与主机相隔不超过几台路由器。当主机发出 DNS 请求时，该请求被发往本地 DNS 服务器，它起着代理的作用，并将该请求发送到 DNS 服务器层次结构中。怎么理解这段话，我们来看一个简单的例子。</p>
 <p>假设主机 cis.poly.edu 想知道 gaia.cs.umass.edu 的 IP 地址。同时假设主机 cis.poly.edu 的本地 DNS 服务器为 dns.poly.edu，gaia.cs.umass.edu 的权威 DNS 服务器为 dns.umass.edu。</p>
