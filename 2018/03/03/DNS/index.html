@@ -94,7 +94,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-and-iteration-query.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-query.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/dns-rr.png">
-<meta property="og:updated_time" content="2019-05-11T08:41:25.533Z">
+<meta property="og:updated_time" content="2019-05-11T08:51:39.203Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS">
 <meta name="twitter:description" content="我们知道，身份证号码可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号码，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP 地址，同时，它们也有一个主机名(hostname)，如 www.google.com www.wikipedia.org 等。由于计算机只认识 IP 地址，所以我们需要一种能将主机名转换到 IP 地址的 目录服务，这就是 DNS(Domain Na">
@@ -407,7 +407,7 @@
 <p>从这个例子中，我们可以看到 DNS 给使用它的因特网带来了额外的时延(而且有时候还不低)。除了进行主机名到 IP 地址的转换之外，DNS 还提供了一些重要的服务</p>
 <ul>
 <li>主机别名(host aliasing) <ul>
-<li>有着复杂主机名的主机能拥有一个或多个别名。例如，一台名为 relay1.west-coast.enterprise.com 的主机，可能还有两个别名为 enterprise.com 和 www.enterprise.com。 在这种情况下 relay1.west-coast.enterprise.com 也称为规范主机名(canonical hostname)。主机别名比主机规范名更加容易记忆。应用程序可以调用 DNS 来获的主机别名对应的规范主机名以及主机的 IP 地址。</li>
+<li>有着复杂主机名的主机能拥有一个或多个别名。例如，一台名为 relay1.west-coast.enterprise.com 的主机，可能还有两个别名为 enterprise.com 和 www.enterprise.com。 在这种情况下 relay1.west-coast.enterprise.com 也称为 <a href="https://www.cnblogs.com/kaishirenshi/p/10249072.html" target="_blank" rel="noopener">规范主机名</a>(canonical hostname)。别名比规范名更加容易记忆。应用程序可以调用 DNS 来获的主机别名对应的规范主机名以及主机的 IP 地址。</li>
 </ul>
 </li>
 <li>邮件服务器别名(mail server aliasing)<ul>
@@ -415,7 +415,7 @@
 </ul>
 </li>
 <li>负载分配(load distribution)<ul>
-<li>DNS 可以用于冗余服务器之间的负载分配。繁忙的站点(如 cnn.com)被冗余分布在多台服务器上，每台服务器运行在不同的端系统上，每个都有着不同的 IP 地址。由于这些冗余的 Web 服务器，一个 IP 地址集合因此与一个规范主机名相关联。DNS 数据库中存储着这些 IP 地址集合。当客户发出一个 DNS 请求时，该 DNS 服务器会用 IP 地址的整个集合进行响应，但在每个回答中循环这些地址的次序(客户通常是向排在最前面的 IP 地址服务器发送 HTTP 请求报文)。</li>
+<li>DNS 可以用于冗余服务器之间的负载分配。繁忙的站点(如 cnn.com)被冗余分布在多台服务器上，每台服务器运行在不同的端系统上，每个都有着不同的 IP 地址。由于这些冗余 Web 服务器的存在，一个规范主机名可能与一个 IP 地址集合相关联。DNS 数据库中存储着这些 IP 地址集合。当客户发出一个 DNS 请求时，该 DNS 服务器会用 IP 地址的整个集合进行响应，但在每个回答中循环这些地址的次序(客户通常是向排在最前面的 IP 地址服务器发送 HTTP 请求报文)。</li>
 </ul>
 </li>
 </ul>
@@ -499,6 +499,7 @@
 <li><a href="https://www.cnblogs.com/cxz2009/archive/2010/11/19/1881611.html" target="_blank" rel="noopener">gethostbyname() 函数说明</a></li>
 <li><a href="https://ns1.com/resources/dns-types-records-servers-and-queries" target="_blank" rel="noopener">TYPES OF DNS RECORDS, DNS SERVERS AND DNS QUERY TYPES</a></li>
 <li><a href="https://zh.wikipedia.org/wiki/Hosts%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">hosts 文件</a></li>
+<li><a href="https://www.cnblogs.com/kaishirenshi/p/10249072.html" target="_blank" rel="noopener">主机名命名规范</a></li>
 </ul>
 
       
