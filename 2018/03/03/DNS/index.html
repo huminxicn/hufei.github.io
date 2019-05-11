@@ -94,7 +94,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-and-iteration-query.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/recursive-query.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/032018/dns-rr.png">
-<meta property="og:updated_time" content="2019-05-11T09:05:52.117Z">
+<meta property="og:updated_time" content="2019-05-11T09:11:39.262Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS">
 <meta name="twitter:description" content="我们知道，身份证号码可以唯一标识一个人。但我们在相互介绍时通常不会使用身份证号码，而是报上姓名。因特网上的主机也和人类一样，有一个可以唯一标识的 IP 地址，同时，它们也有一个主机名(hostname)，如 www.google.com www.wikipedia.org 等。由于计算机只认识 IP 地址，所以我们需要一种能将主机名转换到 IP 地址的 目录服务，这就是 DNS(Domain Na">
@@ -463,14 +463,14 @@
 <p><code>验证根 DNS 服务器的 IP 地址</code><br><img root-dns-server-ip="" src="/img/hufei/032018/root-dns-server-ip.png" width="100%" height="50%"></p>
 <h4 id="本地-DNS-服务器"><a href="#本地-DNS-服务器" class="headerlink" title="本地 DNS 服务器"></a>本地 DNS 服务器</h4><p>除了上述几种 DNS 服务器。还有另一类重要的 DNS 服务器，称为本地 DNS 服务器(local DNS server)。一个本地 DNS 服务器严格来说并不属于 DNS 服务器的层次结构，但它却极为重要。每个 ISP(如一个大学、一个公司或一个居民区)都有一台本地 DNS 服务器(也叫默认 DNS 服务器)。</p>
 <p><code>mac 上使用 cat /etc/resolv.conf 命令查看默认的 DNS 服务器地址</code><br><img default-dns-server-ip="" src="/img/hufei/032018/default-dns-server-ip.png" width="100%" height="50%"></p>
-<p>一般来说，主机的本地 DNS 服务器通常『临近』本主机。对于某机构 IPS 而言，本地 DNS 服务器可能就与主机在同一个局域网中；对于某居民区 ISP 来说，本地 DNS 服务器通常与主机相隔不超过几台路由器。当主机发出 DNS 请求时，该请求被发往本地 DNS 服务器，它起着代理的作用，并将该请求发送到 DNS 服务器层次结构中。怎么理解这段话，我们来看一个简单的例子。</p>
-<p>假设主机 cis.poly.edu 想知道 gaia.cs.umass.edu 的 IP 地址。同时假设主机 cis.poly.edu 的本地 DNS 服务器为 dns.poly.edu，gaia.cs.umass.edu 的权威 DNS 服务器为 dns.umass.edu。</p>
-<p><code>图 2-21  各种 DNS 服务器的交互</code><br><img recursive-and-iteration-query="" src="/img/hufei/032018/recursive-and-iteration-query.png" width="50%" height="50%"></p>
+<p>一般来说，主机的本地 DNS 服务器通常『临近』本主机。对于某机构 IPS 而言，本地 DNS 服务器可能就与主机在同一个局域网中；对于某居民区 ISP 来说，本地 DNS 服务器通常与主机相隔不超过几台路由器。当主机发出 DNS 请求时，该请求被发往本地 DNS 服务器，它起着代理的作用，并将该请求发送到 DNS 服务器层次结构中。</p>
+<p>怎么理解这段话，我们来看一个简单的例子。假设主机 cis.poly.edu 想知道 gaia.cs.umass.edu 的 IP 地址。同时假设主机 cis.poly.edu 的本地 DNS 服务器为 dns.poly.edu，gaia.cs.umass.edu 的权威 DNS 服务器为 dns.umass.edu。</p>
+<p><code>图 2-21  各种 DNS 服务器之间的交互</code><br><img recursive-and-iteration-query="" src="/img/hufei/032018/recursive-and-iteration-query.png" width="50%" height="50%"></p>
 <p>如上图所示，主机 cis.poly.edu 首先向它的本地 DNS 服务器 dns.poly.edu 发送一个 DNS 查询报文，报文中含有待转换的主机名 gaia.cs.umass.edu。</p>
 <ul>
 <li>本地 DNS 服务器将该报文转发到根 DNS 服务器。根 DNS 服务器注意到其 edu 前缀并向本地 DNS 服务器返回负责 edu 的 TLD 的 IP 地址列表。</li>
 <li>本地 DNS 服务器再向这些 TLD 服务器之一发送查询报文。该 TLD 服务器注意到 umass.edu 前缀，并返回权威 DNS 服务器的 IP 地址列表。</li>
-<li>最后，本地 DNS 服务器向 dns.emass.edu 重发查询报文， dns.umass.eud 用 gaia.cs.umass.edu 的 IP 地址进行响应</li>
+<li>最后，本地 DNS 服务器向 dns.umass.edu 重发查询报文， dns.umass.eud 用 gaia.cs.umass.edu 的 IP 地址进行响应</li>
 </ul>
 <p><strong>注意，在本例中，为了获得一台主机名的映射，共发送了 8 份 DNS 报文：4 份查询报文和 4 份回答报文。</strong> 而且例子中的 TLD 服务器知道主机的权威 DNS 服务器的 IP 地址。一般而言，这种假设并不正确。相反，TLD 服务器只是知道中间的某个 DNS 服务器，该中间的 DNS 服务器依次才能知道用于该主机的权威 DNS 服务器。 <strong>所以正常情况下，我们发送的 DNS 报文将不止 8 份！</strong></p>
 <p>图 2-21 所示的例子利用了递归查询(recursive query)和迭代查询(iterative query)。从 cis.poly.edu 到 dns.poly.edu 发出的查询是递归查询，而后继的 3 个查询是迭代查询。从理论上讲，任何 DNS 查询既可以是迭代的也可能是递归的。例如，下图显示了一条 DNS 查询链，其中的所有查询都是递归的。实际中，一般都是遵循图 2-21 中的模式。从请求主机到本地 DNS 服务器的查询是递归的，其余的查询是迭代的。</p>
