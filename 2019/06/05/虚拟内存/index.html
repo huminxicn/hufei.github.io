@@ -89,7 +89,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/physical-addressing.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/virtual-addressing.png">
-<meta property="og:updated_time" content="2019-06-10T09:08:06.840Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/vm-cache.png">
+<meta property="og:updated_time" content="2019-06-10T10:04:40.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="虚拟内存">
 <meta name="twitter:description" content="一个系统中的进程是与其它进程共享 CPU 和内存资源的。然而，共享内存会形成一些特殊的挑战。如果有太多的进程占用内存，内存很快就会被占满，当一个新来的进程没有内存空间可用时，那它就无法运行。内存中的数据还很容易被破坏，例如，当某个进程不小心写了另一个进程使用的内存，原来的数据就被覆盖，这可能会导致非业务逻辑上的程序错误，而这些错误往往难以定位。为了更加有效地管理内存并且减少出错，现代操作系统对其提">
@@ -392,7 +393,7 @@
 <li>它为每个进程提供了一致的地址空间， 从而简化了内存管理。</li>
 <li>它保护了每个进程的地址空间不被其他进程破坏。</li>
 </ul>
-<h2 id="虚拟内存的原理"><a href="#虚拟内存的原理" class="headerlink" title="虚拟内存的原理"></a>虚拟内存的原理</h2><h3 id="物理寻址和虚拟寻址"><a href="#物理寻址和虚拟寻址" class="headerlink" title="物理寻址和虚拟寻址"></a>物理寻址和虚拟寻址</h3><p>计算机系统的内存被组织成一个由 M 个连续的字节大小的单元组成的数组。每字节都有一个唯一的物理地址(Physical Address, PA)。第一个字节的地址为 0，接下来的字节地址为 1，再下一个为 2，以此类推。给定这种简单的结构，CPU 访问内存的最自然的方式就是使用物理地址。</p>
+<h2 id="虚拟内存的实现"><a href="#虚拟内存的实现" class="headerlink" title="虚拟内存的实现"></a>虚拟内存的实现</h2><h3 id="物理寻址和虚拟寻址"><a href="#物理寻址和虚拟寻址" class="headerlink" title="物理寻址和虚拟寻址"></a>物理寻址和虚拟寻址</h3><p>计算机系统的内存被组织成一个由 M 个连续的字节大小的单元组成的数组。每字节都有一个唯一的物理地址(Physical Address, PA)。第一个字节的地址为 0，接下来的字节地址为 1，再下一个为 2，以此类推。给定这种简单的结构，CPU 访问内存的最自然的方式就是使用物理地址。</p>
 <p><code>图 1-1 物理寻址</code><br><img physical-addressing="" src="/img/hufei/201906/physical-addressing.png" width="100%" height="100%"></p>
 <p><strong>我们把这种方式称为物理寻址(physical addressing)。</strong> 图 1-1 展示了一个物理寻址的示例，该示例的上下文是一条加载指令，它读取从物理地址 4 开始的 4 字节数据。当 CPU 执行这条加载指令时，会生成一个有效物理地址，通过内存总线，把它传递给内存。内存取出从物理地址 4 开始的 4 字节数据，并将它返回给 CPU，CPU 会将它存放在一个寄存器里。</p>
 <p>早期的 PC 使用物理寻址，而且诸如数字信号处理器、嵌入式微控制器以及 Cray 超级计算机这样的系统仍然继续使用这种寻址方式。 然而，<strong>现代处理器使用的是一种称为虚拟寻址(virtual addressing)的寻址形式。</strong> 如图 1-2 所示</p>
@@ -402,10 +403,18 @@
 <p>$$ \{0,\;1,\;2,\; …\} $$</p>
 <p>在一个带虚拟内存的系统中，CPU 从一个有 N=2ⁿ 个地址的地址空间中生成虚拟地址，这个地址空间称为虚拟地址空间(virtual address space)。</p>
 <p>$$ \{0,\;1,\;2,\; …,\;N-1\} $$</p>
-<p>一个地址空间的大小是由表示最大地址所需要的位数来描述的。例如，一个包含 N=2ⁿ 个地址的虚拟地址空间就叫做一个 n 位地址空间。现代系统通常支持 32 位或者 64 位虚拟地址空间。</p>
-<p>一个系统还有一个物理地址空间(physical address space)，对应于系统中物理内存的 M 个字节：</p>
+<p>一个地址空间的大小是由表示最大地址所需要的位数来描述的。例如，一个包含 N=2ⁿ 个地址的虚拟地址空间就叫做一个 n 位地址空间。现代系统通常支持 32 位或者 64 位虚拟地址空间。一个系统还有一个物理地址空间(physical address space)，对应于系统中物理内存的 M 个字节：</p>
 <p>$$ \{0,\;1,\;2,\; …,\;M-1\} $$</p>
 <p>地址空间的概念是很重要的，因为它清楚地区分了数据对象和地址。一旦认识到了这种区别，那么我们就可以将其推广，<strong>允许每个数据对象有多个独立的地址，其中每个地址都选自一个不同的地址空间。</strong> 这就是虚拟内存的基本思想。主存中的每个字节都有一个选自虚拟地址空间的虚拟地址和一个选自物理地址空间的物理地址。</p>
+<h3 id="虚拟内存作为缓存的工具"><a href="#虚拟内存作为缓存的工具" class="headerlink" title="虚拟内存作为缓存的工具"></a>虚拟内存作为缓存的工具</h3><p>从概念上讲，虚拟内存是一个由存放在磁盘上的 N 个连续的字节单元组成的数组，每字节都有一个唯一的虚拟地址。磁盘上数组的内容被缓存在主存中。和存储器层次结构中其他缓存一样，磁盘（较低层）上的数据被分割成块，这些块作为磁盘和主存（较高层）之间的传输单元。VM 系统通过将虚拟内存分割为虚拟页(Virtual Page, VP)来处理这个问题，每个虚拟页的大小为 P=2ᴾ 字节。类似地，物理内存被分割为物理页(Physical Page, PP)，大小也为 P 字节。</p>
+<p>在任意时刻，虚拟页面的集合都分为三个不相交的子集：</p>
+<ul>
+<li>未分配的：VM 系统还未分配或者创建页。未分配的块没有任何数据和它们相关联，因此也就不占用任何磁盘空间。</li>
+<li>已缓存的：当前已缓存在物理内存中的已分配页。</li>
+<li>未缓存的：未缓存在物理内存中的已分配页。</li>
+</ul>
+<p><code>图 1-3 主存作为缓存</code><br><img vm-cache="" src="/img/hufei/201906/vm-cache.png" width="100%" height="100%"></p>
+<p>图 1-3 的示例展示了一个有 8 个虚拟页的虚拟内存。虚拟页 0 和 3 还没有被分配，因此在磁盘上还不存在。虚拟页 1、4 和 6 被缓存在物理内存中。页 2、5 和 7 已经被分配了，但是当前并未缓存在内存中。</p>
 
       
     </div>
@@ -616,7 +625,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是虚拟内存"><span class="nav-number">1.</span> <span class="nav-text">什么是虚拟内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟内存的原理"><span class="nav-number">2.</span> <span class="nav-text">虚拟内存的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#物理寻址和虚拟寻址"><span class="nav-number">2.1.</span> <span class="nav-text">物理寻址和虚拟寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址空间"><span class="nav-number">2.2.</span> <span class="nav-text">地址空间</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是虚拟内存"><span class="nav-number">1.</span> <span class="nav-text">什么是虚拟内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟内存的实现"><span class="nav-number">2.</span> <span class="nav-text">虚拟内存的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#物理寻址和虚拟寻址"><span class="nav-number">2.1.</span> <span class="nav-text">物理寻址和虚拟寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址空间"><span class="nav-number">2.2.</span> <span class="nav-text">地址空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟内存作为缓存的工具"><span class="nav-number">2.3.</span> <span class="nav-text">虚拟内存作为缓存的工具</span></a></li></ol></li></ol></div>
             
 
           </div>
