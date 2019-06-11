@@ -90,7 +90,11 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/physical-addressing.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/virtual-addressing.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/vm-cache.png">
-<meta property="og:updated_time" content="2019-06-10T10:04:40.655Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/page-table.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/page-hit.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/page-fault-before.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/page-fault-after.png">
+<meta property="og:updated_time" content="2019-06-11T03:58:14.254Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="虚拟内存">
 <meta name="twitter:description" content="一个系统中的进程是与其它进程共享 CPU 和内存资源的。然而，共享内存会形成一些特殊的挑战。如果有太多的进程占用内存，内存很快就会被占满，当一个新来的进程没有内存空间可用时，那它就无法运行。内存中的数据还很容易被破坏，例如，当某个进程不小心写了另一个进程使用的内存，原来的数据就被覆盖，这可能会导致非业务逻辑上的程序错误，而这些错误往往难以定位。为了更加有效地管理内存并且减少出错，现代操作系统对其提">
@@ -389,7 +393,7 @@
 <a id="more"></a>
 <h2 id="什么是虚拟内存"><a href="#什么是虚拟内存" class="headerlink" title="什么是虚拟内存"></a>什么是虚拟内存</h2><p>虚拟内存是硬件异常、硬件地址翻译、内存、磁盘文件和内核软件的完美交互，它为每个进程提供了一个大的、一致的、私有的地址空间。虚拟内存机制提供了三个重要的能力：</p>
 <ul>
-<li>它将内存看成是磁盘地址的高速缓存，在内存中只保存活动区域，并根据需要在磁盘和内存之间来回传送数据，通过这种方式，它高效地使用了内存。</li>
+<li>它将内存看成是磁盘的高速缓存，在内存中只保存磁盘的活动区域，并根据需要在磁盘和内存之间来回传送数据，通过这种方式，它高效地使用了内存。</li>
 <li>它为每个进程提供了一致的地址空间， 从而简化了内存管理。</li>
 <li>它保护了每个进程的地址空间不被其他进程破坏。</li>
 </ul>
@@ -405,16 +409,31 @@
 <p>$$ \{0,\;1,\;2,\; …,\;N-1\} $$</p>
 <p>一个地址空间的大小是由表示最大地址所需要的位数来描述的。例如，一个包含 N=2ⁿ 个地址的虚拟地址空间就叫做一个 n 位地址空间。现代系统通常支持 32 位或者 64 位虚拟地址空间。一个系统还有一个物理地址空间(physical address space)，对应于系统中物理内存的 M 个字节：</p>
 <p>$$ \{0,\;1,\;2,\; …,\;M-1\} $$</p>
-<p>地址空间的概念是很重要的，因为它清楚地区分了数据对象和地址。一旦认识到了这种区别，那么我们就可以将其推广，<strong>允许每个数据对象有多个独立的地址，其中每个地址都选自一个不同的地址空间。</strong> 这就是虚拟内存的基本思想。主存中的每个字节都有一个选自虚拟地址空间的虚拟地址和一个选自物理地址空间的物理地址。</p>
-<h3 id="虚拟内存作为缓存的工具"><a href="#虚拟内存作为缓存的工具" class="headerlink" title="虚拟内存作为缓存的工具"></a>虚拟内存作为缓存的工具</h3><p>从概念上讲，虚拟内存是一个由存放在磁盘上的 N 个连续的字节单元组成的数组，每字节都有一个唯一的虚拟地址。磁盘上数组的内容被缓存在主存中。和存储器层次结构中其他缓存一样，磁盘（较低层）上的数据被分割成块，这些块作为磁盘和主存（较高层）之间的传输单元。VM 系统通过将虚拟内存分割为虚拟页(Virtual Page, VP)来处理这个问题，每个虚拟页的大小为 P=2ᴾ 字节。类似地，物理内存被分割为物理页(Physical Page, PP)，大小也为 P 字节。</p>
+<p>地址空间的概念是很重要的，因为它清楚地区分了数据对象和地址。一旦认识到了这种区别，那么我们就可以将其推广，<strong>允许每个数据对象有多个独立的地址，其中每个地址都选自一个不同的地址空间。</strong> 这就是虚拟内存的基本思想。内存中的每个字节都有一个选自虚拟地址空间的虚拟地址和一个选自物理地址空间的物理地址。</p>
+<h3 id="虚拟内存作为缓存的工具"><a href="#虚拟内存作为缓存的工具" class="headerlink" title="虚拟内存作为缓存的工具"></a>虚拟内存作为缓存的工具</h3><p>从概念上来说，虚拟内存被组织为一个由存放在磁盘上的 N 个连续的字节大小的单元组成的数组，每字节都有一个唯一的虚拟地址。磁盘上数组的内容被缓存在内存中。和存储器层次结构中其他缓存一样，磁盘（较低层）上的数据被分割成块，这些块作为磁盘和内存（较高层）之间的传输单元。VM 系统通过将虚拟内存分割为虚拟页(Virtual Page, VP)来处理这个问题，每个虚拟页的大小为 P=2ᴾ 字节。类似地，物理内存被分割为物理页(Physical Page, PP)，大小也为 P 字节。</p>
 <p>在任意时刻，虚拟页面的集合都分为三个不相交的子集：</p>
 <ul>
-<li>未分配的：VM 系统还未分配或者创建页。未分配的块没有任何数据和它们相关联，因此也就不占用任何磁盘空间。</li>
+<li>未分配的：VM 系统还未分配或者创建页。未分配的页没有任何数据和它们相关联，因此也就不占用任何磁盘空间。</li>
 <li>已缓存的：当前已缓存在物理内存中的已分配页。</li>
 <li>未缓存的：未缓存在物理内存中的已分配页。</li>
 </ul>
-<p><code>图 1-3 主存作为缓存</code><br><img vm-cache="" src="/img/hufei/201906/vm-cache.png" width="100%" height="100%"></p>
+<p><code>图 1-3 内存作为缓存</code><br><img vm-cache="" src="/img/hufei/201906/vm-cache.png" width="100%" height="100%"></p>
 <p>图 1-3 的示例展示了一个有 8 个虚拟页的虚拟内存。虚拟页 0 和 3 还没有被分配，因此在磁盘上还不存在。虚拟页 1、4 和 6 被缓存在物理内存中。页 2、5 和 7 已经被分配了，但是当前并未缓存在内存中。</p>
+<h3 id="DRAM-缓存的组织结构"><a href="#DRAM-缓存的组织结构" class="headerlink" title="DRAM 缓存的组织结构"></a>DRAM 缓存的组织结构</h3><p>为了清晰理解 <a href="https://www.huminxi.com/2019/04/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%AD%98%E5%82%A8%E5%99%A8%E7%B3%BB%E7%BB%9F/" target="_blank" rel="noopener">存储层次结构</a> 中不同的缓存概念，我们将使用术语 SRAM 缓存来表示位于 CPU 和内存之间的 L1、L2 和 L3 高速缓存，并且用术语 DRAM 缓存来表示虚拟内存系统的缓存，它在内存中缓存虚拟页。</p>
+<p>在存储层次结构中，DRAM 缓存的位置对它的组织结构有很大的影响。回想一下，DRAM 比 SRAM 要慢大约 10 倍，而磁盘要比 DRAM 慢大约 100 000 多倍。因此，DRAM 缓存中的不命中比起 SRAM 缓存中的不命中要昂贵得多，这是因为 DRAM 缓存不命中要由磁盘来服务，而 SRAM 缓存不命中通常是由基于 DRAM 的内存来服务的。 而且，从磁盘的一个扇区读取第一个字节的时间开销比起读这个扇区中连续的字节要慢大约 100 000 倍。归根到底，DRAM 缓存的组织结构完全是由巨大的不命中开销驱动的。</p>
+<p><strong>因为大的不命中处罚和访问第一个字节的开销，虚拟页往往很大，通常是 4KB-2MB。</strong> 由于大的不命中处罚，DRAM 缓存是全相联的，即任何虚拟页都可以放置在任何的物理页中。不命中时的替换策略也很重要，因为替换错了虚拟页的处罚也非常之高。因此，与硬件对 SRAM 缓存相比，操作系统对 DRAM 缓存使用了更复杂精密的替换算法。最后，因为对磁盘的访问时间很长，DRAM 缓存总是使用写回，而不是直写。</p>
+<h3 id="页表"><a href="#页表" class="headerlink" title="页表"></a>页表</h3><p>同任何缓存一样，虚拟内存系统必须有某种方法来判定一个虚拟页是否缓存在 DRAM 中的某个地方。如果命中，系统还必须确定这个虚拟页存放在哪个物理页中。如果不命中，系统必须判断这个虚拟页存放在磁盘的哪个位置，然后在物理内存中选择一个牺牲页，再将虚拟页从磁盘复制到 DRAM 中，替换这个牺牲页。</p>
+<p>这些功能是由软硬件联合提供的，包括操作系统软件、地址翻译硬件和一个存放在物理内存中叫做页表(page table)的数据结构，页表将虚拟页映射到物理页。每当地址翻译硬件将一个虚拟地址转换为物理地址时，都会读取页表。操作系统负责维护页表的内容，以及在磁盘与 DRAM 之间来回传送页。</p>
+<p><code>图 1-4 页表</code><br><img page-table="" src="/img/hufei/201906/page-table.png" width="100%" height="100%"></p>
+<p>图 1-4 展示了一个页表的基本组织结构。页表就是一个页表条目(Page Table Entry, PTE)的数组。<strong>虚拟地址空间中的每个页在页表中一个固定偏移量处都有一个 PTE。</strong> 为了方便描述，我们将假设每个 PTE 是由一个有效位(valid bit)和一个 n 位地址字段组成的。有效位表明了该虚拟页当前是否被缓存在 DRAM 中。如果设置了有效位，那么地址字段就表示 DRAM 中相应的物理页的起始位置，这个物理页中缓存了该虚拟页。如果没有设置有效位，如果这是一个空地址，则表示这个虚拟页还未被分配；否则，这个地址就指向该虚拟页在磁盘上的起始位置。</p>
+<p>示例中展示了一个有 8 个虚拟页和 4 个物理页的系统的页表。四个虚拟页(VP 1、VP 2、VP 4、VP 7)当前被缓存在 DRAM 中。两个页(VP 0、VP 5)还未被分配，而剩下的页(VP 3、VP 6)已经被分配了，但是当前还未被缓存。</p>
+<h4 id="页命中"><a href="#页命中" class="headerlink" title="页命中"></a>页命中</h4><p>考虑一下当 CPU 想要读包含在 VP 2 中的虚拟内存的一个字时会发生什么(图 1-5)，VP 2 被缓存在 DRAM 中。地址翻译硬件将虚拟地址作为一个索引来定位 PTE 2，并从内存中读取它。因为设置了有效位，那么地址翻译硬件就知道 VP 2 是缓存在内存中的了。所以它使用 PTE 中的物理内存地址(该地址指向 PP 1 的起始位置)，构造出这个字的物理地址。</p>
+<p><code>图 1-5 页命中</code><br><img page-hit="" src="/img/hufei/201906/page-hit.png" width="100%" height="100%"></p>
+<h4 id="缺页"><a href="#缺页" class="headerlink" title="缺页"></a>缺页</h4><p>在虚拟内存的习惯说法中，DRAM 缓存不命中称为缺页(page fault)。图 1-6 展示了在缺页之前页表的状态。CPU 引用了 VP 3 中的一个字，VP 3 并未缓存在 DRAM 中。地址翻译硬件从内存中读取 PTE 3，从有效位推断出 VP 3 未被缓存，这时触发一个缺页异常。缺页异常调用内核中的缺页异常处理程序，该程序会选择一个牺牲页，假定是存放在 PP 3 中的 VP 4。如果 VP 4 已经被修改了，那么内核就会将它复制回磁盘。同时，内核也会修改 VP 4 的页表条目信息，用来反映 VP 4 不再缓存在主存中这一事实。</p>
+<p><code>图 1-6 VM 缺页之前</code><br><img page-fault-before="" src="/img/hufei/201906/page-fault-before.png" width="100%" height="100%"></p>
+<p>接下来，内核从磁盘复制 VP 3 到内存中的 PP 3，更新 PTE 3，随后返回。当异常处理程序返回时，它会重新启动导致缺页的指令，该指令会把导致缺页的虚拟地址重发送到地址翻译硬件。现在 VP 3 已经缓存在主存中了，那么页命中也能由地址翻译硬件正常处理了。图 1-7 展示了在缺页之后页表的状态。</p>
+<p><code>图 1-7 VM 缺页之后</code><br><img page-fault-after="" src="/img/hufei/201906/page-fault-after.png" width="100%" height="100%"></p>
+<p>虚拟内存是在 20 世纪 60 年代早期发明的，远在 CPU-内存之间差距的加大引发产生 SRAM 缓存之前。因此，虚拟内存系统使用了和 SRAM 缓存不同的术语，即使它们的许多概念是相似的。在虚拟内存的习惯说法中，块被称为页。在磁盘和内存之间传送页的活动叫做交换(swapping)或者页面调度(paging)。页从磁盘换入(或者页面调入)DRAM 和从 DRAM 换出(或者页面调出磁盘。一直等待，直到最后时刻，也就是当有不命中发生时，才换入页面的这种策略称为按需页面调度(demand paging)。也可以采用其他的方法，例如尝试着预测不命中，在页面实际被引用之前就换入页面。然而，所有现代系统都使用的是按需页面调度的方式。</p>
 
       
     </div>
@@ -625,7 +644,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是虚拟内存"><span class="nav-number">1.</span> <span class="nav-text">什么是虚拟内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟内存的实现"><span class="nav-number">2.</span> <span class="nav-text">虚拟内存的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#物理寻址和虚拟寻址"><span class="nav-number">2.1.</span> <span class="nav-text">物理寻址和虚拟寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址空间"><span class="nav-number">2.2.</span> <span class="nav-text">地址空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟内存作为缓存的工具"><span class="nav-number">2.3.</span> <span class="nav-text">虚拟内存作为缓存的工具</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是虚拟内存"><span class="nav-number">1.</span> <span class="nav-text">什么是虚拟内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟内存的实现"><span class="nav-number">2.</span> <span class="nav-text">虚拟内存的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#物理寻址和虚拟寻址"><span class="nav-number">2.1.</span> <span class="nav-text">物理寻址和虚拟寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址空间"><span class="nav-number">2.2.</span> <span class="nav-text">地址空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟内存作为缓存的工具"><span class="nav-number">2.3.</span> <span class="nav-text">虚拟内存作为缓存的工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DRAM-缓存的组织结构"><span class="nav-number">2.4.</span> <span class="nav-text">DRAM 缓存的组织结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页表"><span class="nav-number">2.5.</span> <span class="nav-text">页表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#页命中"><span class="nav-number">2.5.1.</span> <span class="nav-text">页命中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺页"><span class="nav-number">2.5.2.</span> <span class="nav-text">缺页</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
