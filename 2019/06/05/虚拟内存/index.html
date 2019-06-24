@@ -101,7 +101,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/process-address-space.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/page-table-with-flag.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201906/malloc-heap.png">
-<meta property="og:updated_time" content="2019-06-21T11:59:00.342Z">
+<meta property="og:updated_time" content="2019-06-24T08:35:11.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="虚拟内存">
 <meta name="twitter:description" content="一个系统中的进程是与其它进程共享 CPU 和内存资源的。然而，共享内存会形成一些特殊的挑战。如果有太多的进程占用内存，内存很快就会被占满，当一个新来的进程没有内存空间可用时，那它就无法运行。内存中的数据还很容易被破坏，例如，当某个进程不小心写了另一个进程使用的内存，原来的数据就被覆盖，这可能会导致非业务逻辑上的程序错误，这些错误往往都难以定位原因。为了更加有效地管理内存并且减少出错，现代操作系统提">
@@ -398,7 +398,7 @@
       
         <p>一个系统中的进程是与其它进程共享 CPU 和内存资源的。然而，共享内存会形成一些特殊的挑战。如果有太多的进程占用内存，内存很快就会被占满，当一个新来的进程没有内存空间可用时，那它就无法运行。内存中的数据还很容易被破坏，例如，当某个进程不小心写了另一个进程使用的内存，原来的数据就被覆盖，这可能会导致非业务逻辑上的程序错误，这些错误往往都难以定位原因。为了更加有效地管理内存并且减少出错，现代操作系统提出了一个抽象的概念，叫做虚拟内存(Virtual Memory)。</p>
 <a id="more"></a>
-<h2 id="什么是虚拟内存"><a href="#什么是虚拟内存" class="headerlink" title="什么是虚拟内存"></a>什么是虚拟内存</h2><p>虚拟内存是硬件异常、硬件地址翻译、内存、磁盘文件和内核软件的完美交互，它为每个进程提供了一个大的、一致的、私有的地址空间。虚拟内存机制提供了三个重要的能力：</p>
+<h2 id="什么是虚拟内存"><a href="#什么是虚拟内存" class="headerlink" title="什么是虚拟内存"></a>什么是虚拟内存</h2><p>虚拟内存是硬件异常、地址翻译硬件、内存、磁盘文件和内核软件的完美交互，它为每个进程提供了一个大的、一致的、私有的地址空间。虚拟内存机制提供了三个重要的能力：</p>
 <ul>
 <li>它将内存看成是磁盘的高速缓存，在内存中只保留磁盘的活动区域，并根据需要在磁盘和内存之间来回传送数据，通过这种方式，它高效地使用了内存。</li>
 <li>它为每个进程提供了一致的虚拟地址空间， 从而简化了内存管理。</li>
