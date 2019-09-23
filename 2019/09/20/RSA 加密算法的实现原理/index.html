@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/hufei/fei.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/hufei/fei.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/hufei/fei.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/img/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="RSA,加密算法," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="RSA 加密算法 是一种非对称加密算法，在公开密钥加密中被广泛使用。RSA 是 1977 年由 Ron Rivest、Adi Shamir、Leonard Adleman 一起提出的，RSA 就是他们三人姓氏开头字母拼在一起组成的。">
+<meta name="keywords" content="RSA,加密算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA 加密算法的实现原理">
+<meta property="og:url" content="//huminxi.netlify.com/2019/09/20/RSA 加密算法的实现原理/index.html">
+<meta property="og:site_name" content="黄枫谷">
+<meta property="og:description" content="RSA 加密算法 是一种非对称加密算法，在公开密钥加密中被广泛使用。RSA 是 1977 年由 Ron Rivest、Adi Shamir、Leonard Adleman 一起提出的，RSA 就是他们三人姓氏开头字母拼在一起组成的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201909/rsa-prove.png">
+<meta property="og:updated_time" content="2019-09-23T13:24:19.296Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RSA 加密算法的实现原理">
+<meta name="twitter:description" content="RSA 加密算法 是一种非对称加密算法，在公开密钥加密中被广泛使用。RSA 是 1977 年由 Ron Rivest、Adi Shamir、Leonard Adleman 一起提出的，RSA 就是他们三人姓氏开头字母拼在一起组成的。">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="//huminxi.netlify.com/2019/09/20/RSA 加密算法的实现原理/"/>
+
+
+
+
+
+  <title>RSA 加密算法的实现原理 | 黄枫谷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黄枫谷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">勿在浮沙筑高台。</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2019/09/20/RSA 加密算法的实现原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡匪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/huangfenggu.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黄枫谷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">RSA 加密算法的实现原理</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T18:51:51+08:00">
+                2019-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数学/" itemprop="url" rel="index">
+                    <span itemprop="name">数学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/09/20/RSA 加密算法的实现原理/" class="leancloud_visitors" data-flag-title="RSA 加密算法的实现原理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<p><a href="https://zh.wikipedia.org/wiki/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">RSA 加密算法</a> 是一种非对称加密算法，在公开密钥加密中被广泛使用。RSA 是 1977 年由 Ron Rivest、Adi Shamir、Leonard Adleman 一起提出的，RSA 就是他们三人姓氏开头字母拼在一起组成的。</p>
+<a id="more"></a>
+<h2 id="杨辉三角形和二项式系数"><a href="#杨辉三角形和二项式系数" class="headerlink" title="杨辉三角形和二项式系数"></a>杨辉三角形和二项式系数</h2><p>杨辉三角形，又称帕斯卡三角形，是二项式系数在三角形中的一种几何排列。出现在南宋数学家杨辉所著的《详解九章算法》一书中。<br><img pascaltriangleanimated.gif="" src="https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif" width="30%" height="30%"></p>
+<p>二项式 \((x+1)^n \) 的各项展开式系数就是第 n 行杨辉三角形排列的数字。<br>$$<br>(x+1)^0=1 \\<br>(x+1)^1=x+1 \\<br>(x+1)^2=x^2+2x+1 \\<br>(x+1)^3=x^3+3x^2+3x+1 \\<br>(x+1)^4=x^4+4x^3+6x^2+4x+1 \\<br>… \\<br>(x+1)^n=x^n+nx^{n-1}+\frac{n(n-1)}{2}x^{n-2}+\frac{n(n-1)(n-2)}{2\times3}x^{n-3}+…+1<br>$$</p>
+<p>其中每一项的系数都是一个组合数 \( C_n^p \)，可以表示成如下形式</p>
+<p>$$ C_n^p={\tbinom {n}{p}}={\tfrac {n!}{p!(n-p)!}} $$</p>
+<p><strong>特性</strong> 当 n 为质数，除了第一项和最后一项，所有中间项的系数均为 n 的倍数。</p>
+<p><strong>证明</strong> p 不为 n 或 0 时，由于分子有质数 n，但分母不含 n，故分子的 n 能保留，不会因约分而除去。即 \( {\tbinom {n}{p}} \) 恒为 n 的倍数。</p>
+<h2 id="费马小定理"><a href="#费马小定理" class="headerlink" title="费马小定理"></a>费马小定理</h2><p>假如 a 是一个整数，p 是一个质数，那么 \( a^p-a\) 是 p 的倍数，可以表示为</p>
+<p>$$ a^p \equiv a \pmod p $$</p>
+<p>例如，<br>$$  7^3-7=343-7=336=7\times48 \\<br> 6^5-6=7776-6=7770=6\times1296$$</p>
+<p>皮埃尔·德·费马于 1636 年发现了这个定理。在一封 1640 年 10 月 18 日的信中他第一次使用了上面的书写方式。 </p>
+<p><strong>证明</strong> 可以利用杨辉三角形来证明。</p>
+<p>如果 a 不是 p 的倍数，这个定理也可以写成</p>
+<p>$$ a^{p-1} \equiv 1 \pmod p \,\,\,\,\,\,\,\,\,(费马小定理) $$</p>
+<h2 id="欧拉-varphi-函数"><a href="#欧拉-varphi-函数" class="headerlink" title="欧拉 \( \varphi \) 函数"></a>欧拉 \( \varphi \) 函数</h2><p>在数论中，对于正整数 n，<a href="https://zh.wikipedia.org/wiki/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B" target="_blank" rel="noopener">欧拉函数</a> \( \varphi (n) \) 是小于或等于 n 的正整数中与 n 互质的数的数量。</p>
+<p>例如，\( \varphi (8) =4 \)，因为 1，3，5，7 均与 8 互质。由此可以推出，当 n 为素数时， \( \varphi (n) = (n-1) \)。</p>
+<p><strong>性质</strong> 欧拉 \(\varphi\) 函数是积性函数。即是说若 m,n 互质，则 \( \varphi(mn)=\varphi(m) \varphi(n) \)。</p>
+<h2 id="费马-欧拉定理"><a href="#费马-欧拉定理" class="headerlink" title="费马-欧拉定理"></a>费马-欧拉定理</h2><p>1736 年，欧拉证明了费马小定理。同时还对其进行了拓展，拓展之后的定理被称为 <a href="https://zh.wikipedia.org/wiki/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86_(%E6%95%B0%E8%AE%BA" target="_blank" rel="noopener">『费马-欧拉定理』</a>)。</p>
+<p>若 n，a 为正整数，且 n，a 互素，则</p>
+<p>$$ a^{\varphi(n)}\equiv 1\pmod n \,\,\,\,\,\,\,\,\,(费马-欧拉定理)$$</p>
+<p>当 n 为素数，\(\varphi(n)=n-1\)，这时就变成了费马小定理</p>
+<p>$$ a^{p-1} \equiv 1 \pmod p $$</p>
+<h2 id="RSA-算法"><a href="#RSA-算法" class="headerlink" title="RSA 算法"></a>RSA 算法</h2><h3 id="公钥与私钥的产生"><a href="#公钥与私钥的产生" class="headerlink" title="公钥与私钥的产生"></a>公钥与私钥的产生</h3><p>假设 Alice 想要通过一个不可靠的媒体接收 Bob 的一条私人消息。她可以用下面的方法来产生一对公私钥:</p>
+<ul>
+<li>选择任意两个大素数 p 和 q，p 不等于 q，计算 \( N=pq \)。</li>
+<li>求出 \(\varphi(N)\)，令 \(r = \varphi(N)=\varphi(m) \varphi(n)=(p-1)(q-1)\)。</li>
+<li>选择一个小于 r 且与 r 互质的整数 e。</li>
+<li>选择一个数 d，使得 \(ed-1=r\,的倍数\)。即 d 是 e 关于 r 的<a href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E5%8F%8D%E5%85%83%E7%B4%A0" target="_blank" rel="noopener">模逆元</a>。</li>
+<li>销毁 p 和 q。</li>
+</ul>
+<p>\((N,e)\) 是公钥， \((N,d)\) 是私钥。Alice 将公钥传给 Bob，而将私钥藏起来。</p>
+<h3 id="加密消息"><a href="#加密消息" class="headerlink" title="加密消息"></a>加密消息</h3><p>假设 Bob 想给 Alice 发送一个消息 m (m&lt;N)，需要先找到一个数 c，使得 \(m^e-c=N\,的倍数 \) ①。这个 c 就是加密后的密文。</p>
+<h3 id="解密消息"><a href="#解密消息" class="headerlink" title="解密消息"></a>解密消息</h3><p>Alice 拿到密文 c 后，需要找到一个数 x。使得 \(c^d-x=N\,的倍数 \) ②。然后你会发现，在小于 N 的数中，只有 m 这一个解。</p>
+<p>怎么样，加解密过程是不是特别简单？</p>
+<h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><p>其实只需要证明从式子 ① 可以变换到式子 ② 即可。</p>
+<p><img rsa-prove="" src="/img/hufei/201909/rsa-prove.png" width="100%" height="100%"></p>
+<p><code>Latex 语句</code><br><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">&#123;align*&#125;</span></span>  </span><br><span class="line"></span><br><span class="line">&amp; m^e-c=N的倍数 <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">quad</span></span> (1)将<span class="tag">\<span class="name">,</span></span>c<span class="tag">\<span class="name">,</span></span>提至一边 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c=m^e-N的倍数 <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">quad</span></span> (2)两边同时进行<span class="tag">\<span class="name">,</span></span>d<span class="tag">\<span class="name">,</span></span>次方 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c^d=(m^e-N的倍数)^d <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">quad</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span> (3)将<span class="tag">\<span class="name">,</span></span>(m^e-N的倍数)^d<span class="tag">\<span class="name">,</span></span>展开，并且将包含<span class="tag">\<span class="name">,</span></span>N的倍数<span class="tag">\<span class="name">,</span></span>项合并<span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c^d=m^&#123;ed&#125;-N的倍数 <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">,</span></span> (4)将<span class="tag">\<span class="name">,</span></span>ed=1+r的倍数<span class="tag">\<span class="name">,</span></span>带入式中 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c^d=m^&#123;1+r的倍数&#125;<span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span>-N的倍数 <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">,</span></span> (5)将指数<span class="tag">\<span class="name">,</span></span>1<span class="tag">\<span class="name">,</span></span>提出来 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c^d=m <span class="tag">\<span class="name">cdot</span></span> m^&#123;r的倍数&#125;<span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span>-N的倍数 <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">quad</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span> (6)将<span class="tag">\<span class="name">,</span></span>r=<span class="tag">\<span class="name">varphi</span></span>(N)<span class="tag">\<span class="name">,</span></span>带入式中 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c^d=m <span class="tag">\<span class="name">cdot</span></span> m^&#123;<span class="tag">\<span class="name">varphi</span></span>(N)的倍数&#125;<span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span>-N的倍数 <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span> (7)根据<span class="tag">\<span class="name">,</span></span>费马-欧拉定理，将<span class="tag">\<span class="name">,</span></span>m^&#123;<span class="tag">\<span class="name">varphi</span></span>(N)&#125;=1+N的倍数<span class="tag">\<span class="name">,</span></span>带入式子 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c^d=m <span class="tag">\<span class="name">cdot</span></span> (1+N的倍数)^&#123;<span class="tag">\<span class="name">varphi</span></span>(N)的倍数-1&#125;<span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span>-N的倍数 <span class="tag">\<span class="name">quad</span></span> (8) 重复第<span class="tag">\<span class="name">,</span></span>(7)<span class="tag">\<span class="name">,</span></span>步 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c^d=m <span class="tag">\<span class="name">cdot</span></span> (1+N的倍数)-N的倍数 <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span> (9)将<span class="tag">\<span class="name">,</span></span>(1+N的倍数)^&#123;<span class="tag">\<span class="name">varphi</span></span>(N)的倍数-1&#125;<span class="tag">\<span class="name">quad</span></span>展开，并且合并<span class="tag">\<span class="name">,</span></span>N的倍数 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">&amp; c^d=m+N的倍数 <span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">qquad</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span><span class="tag">\<span class="name">,</span></span> (10) 证毕。</span><br><span class="line"></span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">&#123;align*&#125;</span></span></span><br></pre></td></tr></table></figure></p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p><strong>提问 1</strong> 如果消息 m 过长，即 m &gt; N 时怎么办？</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://www.bilibili.com/video/av33920079" target="_blank" rel="noopener">素数（五）费马是如何检验素数的？杨辉三角形和素数有什么关系？</a></li>
+<li><a href="https://www.bilibili.com/video/av35557954/?spm_id_from=333.788.videocard.0" target="_blank" rel="noopener">素数（六）基于欧拉函数的RSA算法加密原理是什么？RSA算法详解</a></li>
+<li><a href="https://www.bilibili.com/video/av53094516?from=search&amp;seid=3287942284086449926" target="_blank" rel="noopener">二项式定理</a> </li>
+<li><a href="http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html" target="_blank" rel="noopener">RSA算法原理（二）</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">RSA加密算法</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RSA/" rel="tag"># RSA</a>
+          
+            <a href="/tags/加密算法/" rel="tag"># 加密算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/05/虚拟内存/" rel="next" title="虚拟内存">
+                <i class="fa fa-chevron-left"></i> 虚拟内存
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/huangfenggu.png"
+                alt="胡匪" />
+            
+              <p class="site-author-name" itemprop="name">胡匪</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">74</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:huminxi0214@qq.com" target="_blank" title="Email">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>Email</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/huminxicn" target="_blank" title="Github">
+                    
+                      <i class="fa fa-fw fa-github"></i>Github</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#杨辉三角形和二项式系数"><span class="nav-number">1.</span> <span class="nav-text">杨辉三角形和二项式系数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#费马小定理"><span class="nav-number">2.</span> <span class="nav-text">费马小定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#欧拉-varphi-函数"><span class="nav-number">3.</span> <span class="nav-text">欧拉 \( \varphi \) 函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#费马-欧拉定理"><span class="nav-number">4.</span> <span class="nav-text">费马-欧拉定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA-算法"><span class="nav-number">5.</span> <span class="nav-text">RSA 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公钥与私钥的产生"><span class="nav-number">5.1.</span> <span class="nav-text">公钥与私钥的产生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加密消息"><span class="nav-number">5.2.</span> <span class="nav-text">加密消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解密消息"><span class="nav-number">5.3.</span> <span class="nav-text">解密消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证明"><span class="nav-number">5.4.</span> <span class="nav-text">证明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展"><span class="nav-number">6.</span> <span class="nav-text">拓展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">7.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">胡匪</span>
+
+  
+</div>
+
+
+  <div class="powered-by">采用 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 博客框架</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("FvvQKKiX5WpG9xSaVCpACeaJ-gzGzoHsz", "jlG7zUKtYqrmyfUYTERxSN60");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
