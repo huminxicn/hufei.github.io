@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201909/rsa-prove.png">
-<meta property="og:updated_time" content="2019-09-23T14:32:22.301Z">
+<meta property="og:updated_time" content="2019-09-23T15:08:46.548Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RSA 加密算法的实现原理">
 <meta name="twitter:description" content="RSA 加密算法 是一种非对称加密算法，在公开密钥加密中被广泛使用。RSA 是 1977 年由 Ron Rivest、Adi Shamir、Leonard Adleman 一起提出的，RSA 就是他们三人姓氏开头字母拼在一起组成的。">
@@ -420,8 +420,8 @@
 <li>销毁 p 和 q。</li>
 </ul>
 <p>\((N,e)\) 是公钥， \((N,d)\) 是私钥。Alice 将公钥传给 Bob，而将私钥藏起来。</p>
-<h3 id="加密消息"><a href="#加密消息" class="headerlink" title="加密消息"></a>加密消息</h3><p>假设 Bob 想给 Alice 发送一个消息 m (m&lt;N)，需要先找到一个数 c，使得 \(m^e-c=N\,的倍数 \) ①。这个 c 就是加密后的密文。</p>
-<h3 id="解密消息"><a href="#解密消息" class="headerlink" title="解密消息"></a>解密消息</h3><p>Alice 拿到密文 c 后，需要找到一个数 x。使得 \(c^d-x=N\,的倍数 \) ②。然后你会发现，在小于 N 的数中，只有 m 这一个解。</p>
+<h3 id="加密消息"><a href="#加密消息" class="headerlink" title="加密消息"></a>加密消息</h3><p>假设 Bob 想给 Alice 发送一个消息 m (m&lt;N)，需要先找到一个正整数 c，使得 \(m^e-c=N\,的倍数 \) ①。这个 c 就是加密后的密文。</p>
+<h3 id="解密消息"><a href="#解密消息" class="headerlink" title="解密消息"></a>解密消息</h3><p>Alice 拿到密文 c 后，需要找到一个数 x。使得 \(c^d-x=N\,的倍数 \) ②。然后你会发现，在小于 N 的正整数中，只有 m 这一个解。</p>
 <p>怎么样，加解密过程是不是特别简单？</p>
 <h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><p>其实只需要证明从式子 ① 可以变换到式子 ② 即可。</p>
 <p><img rsa-prove="" src="/img/hufei/201909/rsa-prove.png" width="100%" height="100%"></p>
