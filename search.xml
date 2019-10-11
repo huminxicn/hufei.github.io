@@ -110,18 +110,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[2018 总结]]></title>
-    <url>%2F2018%2F12%2F29%2F2018%20%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[成功只有一种：按照自己的方式，去度过人生。 ——《明朝那些事》 变化才是永恒回头看看自己在年初的时候立的那些目标。 现在想想，只完成了第三条。哈哈 工作上半年还在农分期按部就班地上着班，当时心想：明年一定要出去看看，毕竟已经在农分期呆的够久，有点过于安逸了。没想到，8 月份的时候公司突然裁员，干脆乘此机会休息一阵子，好好思考下一步该往哪走。于是乎，先回外婆家休息了一个多月的时间(顺便把之前一直拖着的驾照考完了)。随后重整旗鼓，回到南京准备面试，最后加入了领添。说句实话，今年下半年从农分期的离职是出乎我的意料的，这也正说明了世事难料。 学习今年通过《计算机网络-自顶向下方法》一书恶补了网络这块的基础知识，对现存的计算机网络结构有了个深刻的理解。同时还阅读了《图解设计模式》等应用类的书籍。阅读完这些书籍给我的一个直观感受就是，计算机基础知识很重要。打算明年继续恶补算法和计算机系统相关的基础知识。 明年目标 至少写 40 篇技术博客。 做眼睛的激光手术。 去杭州看看。]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>总结</tag>
-        <tag>2018</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Bridge]]></title>
     <url>%2F2018%2F12%2F24%2FBridge%2F</url>
     <content type="text"><![CDATA[在现实世界中，桥梁的功能是将河流的两侧连接起来。Bridge 模式的作用也是将两样东西连接起来，它们分别是『类的功能层次结构』和『类的实现层次结构』。那么，『类的功能层次结构』和『类的实现层次结构』分别指的是什么呢？ 类的层次结构在开始阅读 Bridge 模式的示例代码之前，我们需要先来理解一下这两种层次结构。这是因为如果不能理解河流两边的土地，也就无法理解桥梁存在的意义了。 划分增加新的功能假设有一个类 Something。当我们想在 Something 中增加新功能时(想增加一个具体的方法)，会编写一个 Something 类的子类，即 SomethingGood 类。这样就构成了一个小小的层次结构。 12Something SomethingGood 这就是为了增加新的功能而产生的层次结构。 父类具有基础功能 在子类中增加新的功能 以上这种层次结构被称为『类的功能层次结构』。 增加新的实现在 Template Method 模式中，我们学习了抽象类的作用。抽象类声明了一些抽象方法，定义好 API，然后由子类去负责实现这些抽象方法。 这里其实也存在层次结构。例如，当子类 ConcreteClass 实现了父类 AbstractClass 类的抽象方法时，他们之间就构成了一个小小的层次结构。 12AbstractClass concreteClass 但是，这里的类的层次结构并非用于增加功能。它的真正作用是帮助我们实现下面这样的任务分担。 父类通过声明抽象方法来定义接口 子类通过实现具体方法来实现接口 这种层次结构被称为『类的实现层次结构』。 作用通过前面的学习，大家应该理解了类的功能层次结构与类的实现层次结构。那么，当我们想要编写子类时，就需要像这样先确认自己的意图：我是要增加功能呢？还是要增加实现呢？ 示例程序下面我们来看一段使用了 Bridge 模式的示例程序。这段程序的功能是『显示一些东西』。 在桥的哪一侧 类名 说明 功能层次 Display 负责『显示』的类 功能层次 CountDisplay 增加了『指定显示次数』功能 实现层次 DisplayImpl 负责『显示』的类 实现层次 StringDisplayImpl 『用字符串显示』的类 Main 测试程序行为 类结构图 功能_Display123456789101112131415161718192021public class Display &#123; private DisplayImpl impl; public Display(DisplayImpl impl) &#123; this.impl = impl; &#125; public void open() &#123; impl.rawOpen(); &#125; public void print() &#123; impl.rawPrint(); &#125; public void close() &#123; impl.rawClose(); &#125; public final void display() &#123; open(); print(); close(); &#125;&#125; Display 类的功能是抽象的，负责『显示一些东西』。该类位于『类的功能层次结构』的最上层。 impl 字段中保存的是实现了 Display 类的具体功能的实例。impl 字段即是类的两个层次结构之间的桥梁。 open、print、close 这三个方法是 Display 类提供的接口，他们表示显示的步骤。这三个方法都调用了 impl 字段的实现方法。这样，Display 的接口就被转换成为了 DisplayImpl 的接口。 功能_CountDisplay1234567891011121314public class CountDisplay extends Display &#123; public CountDisplay(DisplayImpl impl) &#123; super(impl); &#125; //循环显示 times 次。 public void multiDisplay(int times) &#123; open(); for (int i = 0; i &lt; times; i++) &#123; print(); &#125; close(); &#125;&#125; CountDisplay 类在 Display 类的基础上增加了一个新功能。Display 类只具有『显示』的功能，CountDisplay 类则具有『显示规定次数』的功能，这就是 multiDisplay 方法。 实现_DisplayImpl12345public abstract class DisplayImpl &#123; public abstract void rawOpen(); public abstract void rawPrint(); public abstract void rawClose();&#125; DisplayImpl 类位于『类的实现层次结构』的最上层。DisplayImpl 是抽象类，它声明了 rawOpen、rawPrint、rawClose 这三个抽象方法，他们分别与 Display 类中的 open、print、close 方法相对应。 实现_StringDisplayImpl12345678910111213141516171819202122232425262728public class StringDisplayImpl extends DisplayImpl &#123; private String string; private int width; public StringDisplayImpl(String s) &#123; this.string = s; this.width = s.getBytes().length; &#125; @Override public void rawOpen() &#123; printLine(); &#125; @Override public void rawPrint() &#123; System.out.println("|" + string + "|"); &#125; @Override public void rawClose() &#123; printLine(); &#125; private void printLine() &#123; System.out.print("+"); for (int i = 0; i &lt; width; i++) &#123; System.out.print("-"); &#125; System.out.println("+"); &#125;&#125; StringDisplayImpl 是真正的实现类。它继承了 DisplayImpl 类，实现了 DisplayImpl 中定义的接口。 Main1234567891011public class Main &#123; public static void main(String[] args) &#123; Display d1 = new Display(new StringDisplayImpl("Hello, China.")); Display d2 = new CountDisplay(new StringDisplayImpl("Hello, World.")); CountDisplay d3 = new CountDisplay(new StringDisplayImpl("Hello, Universe.")); d1.display(); d2.display(); d3.display(); d3.multiDisplay(5); &#125;&#125; 运行结果 Bridge 中的角色Bridge 中的角色介绍 总结分开后更容易扩展Bridge 模式的特征是将『类的功能层次结构』与『类的实现层次结构』分离开了。将类的这两个层次结构分离开有利于独立地对它们进行扩展(见习题)。当想要增加功能时，只需要在『类的功能层次结构』一侧增加类即可，不必对『类的实现层次结构』做任何修改。而且，增加后的功能可以被所有的实现使用。 例如，我们可以将『类的功能层次结构』应用于软件所运行的操作系统上。如果我们将某个程序中依赖于操作系统的部分划分为 Windows 版、Macintosh 版、Unix 版，那么我们就可以用 Bridge 模式中的『类的实现层次结构』来表现这些依赖于操作系统的部分。也就是说，我们需要编写一个定义这些操作系统的共同接口(API)的 Implementor 角色，然后编写 Windows 版、Macintosh 版、Unix 版的 3 个 ConcreteImplementor 角色。这样一来，无论在『类的功能层次结构』中增加多少个功能，它们都可以工作于这 3 个操作系统上。 习题(1) 请在本章的示例程序中增加一个类，实现『显示字符串若干（随机）次』的功能。请注意此时应当扩展（继承）哪个类。提示用于显示的方法是 void randomDisplay(int times)，它的作用是将字符串随机显示 0-times 次。 (2) 请在本章的示例程序中增加一个类，实现『显示文本文件的内容』的功能。请注意此时应当扩展（继承）哪个类。 (3) 请在本章的示例程序中增加类，以实现下图的输出效果。 输出结果示例1输出结果示例2 请思考我们是应当在『类的功能层次结构』中增加类呢？还是应当在『类的实现层次结构』中增加类呢？ 需要一种新的显示方式，那么应当是在『类的功能层次结构』中增加类吧？不过，又好像只要增加一个新的显示字符串的方法就可以了，那么还是在『类的实现层次结构』中增加类会更好吧？究竟应该如何在 Bridge 模式中增加这个类呢？ 答案github 地址 引用 图解设计模式]]></content>
@@ -216,18 +204,6 @@
       <tags>
         <tag>Web</tag>
         <tag>页面请求</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[2018 半年总结]]></title>
-    <url>%2F2018%2F06%2F20%2F2018%20%E5%B9%B4%E4%B8%AD%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[合抱之木，生于毫末。九层之台，起于累土。千里之行，始于足下。 –《道德经》 目标进度预期目标 参加一次马拉松(最好是半程或以上) 看完《深入理解计算机系统》和《算法》这两本书 去一趟深圳 已完成 参加一次马拉松(最好是半程或以上) 根据小渊的建议，累计跑完 200km 之后就可以尝试参加半马了。 目前已经跑了 85km，还剩 115km。按照每次跑 5km 计算，还需要跑 23 次，如果每周跑两次，预计在 10 月份左右能全部跑完，到时候刚好去参加 2018-10-21 举办的南京马拉松。 累计跑程 看完《深入理解计算机系统》和《算法》这两本书 因为《深入理解计算机系统》这本书太晦涩了点，于是先看了《计算机网络–自顶向下方法》这本书。目前已经看到了第五章(链路层)。打算在 2018-06-31 号之前把第五章看完。 打算下半年再开始看《深入理解计算机系统》这本书。 计算机网络 deadline 去一趟深圳 ✅ 就着端午小长假(2018-06-16~2018-06-19)，去了趟深圳。 小伙伴带我逛了一天的深圳，其中印象最深的就是深圳图书馆，因为里面读书的氛围实在是太浓厚了。 最后一天上午还去了趟香港。 16 小伙伴 17 街道 深圳图书馆 18 胡匪 19 公交站台 尖沙咀码头 尖沙咀码头 尖沙咀码头 钟楼 龙城大药房 红花油 港币 目标更新 参加一次马拉松(最好是半程或以上) 看完《深入理解计算机系统》这本书 机器学习入门]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>总结</tag>
-        <tag>2018</tag>
       </tags>
   </entry>
   <entry>
@@ -431,18 +407,6 @@
       </categories>
       <tags>
         <tag>个人博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[2017 总结]]></title>
-    <url>%2F2017%2F12%2F24%2F2017%20%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[时间过得跟狗一样的快! –鲁迅 年度事件转正述职原先预定的是 1 月 13 号的转正述职，后因为开”月需求讨论会”而推迟到了 14 号。我记得来到农分期的第一天就是 23 点钟下班的，黑牛、建国、孟铀、忠泽、嘟嘟 5 位后端小伙伴用实际行动告诉了我什么才叫做自愿加班。当时农人帮系统在重构，整个系统重构了大概 7、8 个月的时间。一直到 2016-10-10 才上线。开始的 3 个月基本上都是自己在看张龙老师的 java 教学视频，收益颇丰。后面的 3 个月才开始慢慢的接触需求开发，在建国的指导下也完成了几个功能的上线。当然，后面用了 N 多版本来修复 bug，N &gt;=10 。在实习期间，老韩的以身作则、黑牛的精益求精、孟铀的诲人不倦、建国的勇往直前、忠泽的积极乐观、嘟嘟的善解人意让我感触良多。因为和你们一比较，发现我一无是处。而且整个技术部的氛围是自由和温暖，这是最打动我的地方。后面也勉强达到了公司的及格线，幸运的留在了公司。 与孟铀合租房子1 月 18 号的时候与孟铀合租了位于南京市栖霞区尧林仙居碧水苑的一套两居室。月租 1900，水电不免，燃气自包。孟铀为了照顾我，他出 1000+每月网费，我 900。当时签的是一年的合同，现在也快要到期续租了。 年中考核具体的考核内容已经记不清了，现在只记得老韩对我说过的一句话:你可以多尝试，做更多的事情。 一周年2017-7-4 号，来农分期一周年了。公司送给我一张写满了同事祝福语的生日祝福卡、一个实用的枕头、一张价值 100 元的苏果购物卡。感谢我期。 青岛之行2017-11-18 至 2017-11-20 号去青岛玩了三天。顺带参加了一下青岛马拉松的 12.3 公里的体验跑。许多人一起跑步，旁边有志愿者帮你准备补给，还帮你喊加油的感觉真不错。明年也要参加至少一次的马拉松。 个人博客2017-11-22 利用 Hexo 框架和 Git Pages 搭建了个人博客。 明年目标 参加一次马拉松(最好是半程或以上) 看完《深入理解计算机系统》和《算法》这两本书 去一趟深圳]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>2017</tag>
-        <tag>总结</tag>
       </tags>
   </entry>
   <entry>
