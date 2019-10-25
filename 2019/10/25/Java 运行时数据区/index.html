@@ -88,7 +88,7 @@
 <meta property="og:description" content="Java 虚拟机规范定义了在程序运行期间使用的各种数据区域。其中一些数据区域是在 Java 虚拟机启动时创建的，仅在 Java 虚拟机退出时才被销毁。其它的数据区域是属于线程私有的，在线程创建时创建，线程退出时销毁。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/jvm-runtime-data-areas.png">
-<meta property="og:updated_time" content="2019-10-25T09:57:34.888Z">
+<meta property="og:updated_time" content="2019-10-25T11:47:06.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 运行时数据区域">
 <meta name="twitter:description" content="Java 虚拟机规范定义了在程序运行期间使用的各种数据区域。其中一些数据区域是在 Java 虚拟机启动时创建的，仅在 Java 虚拟机退出时才被销毁。其它的数据区域是属于线程私有的，在线程创建时创建，线程退出时销毁。">
@@ -386,16 +386,33 @@
         <p>Java 虚拟机规范定义了在程序运行期间使用的各种数据区域。其中一些数据区域是在 Java 虚拟机启动时创建的，仅在 Java 虚拟机退出时才被销毁。其它的数据区域是属于线程私有的，在线程创建时创建，线程退出时销毁。</p>
 <a id="more"></a>
 <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><img jvm-runtime-data-areas="" src="/img/hufei/201910/jvm-runtime-data-areas.png" width="100%" height="100%"></p>
-<h2 id="PC-寄存器"><a href="#PC-寄存器" class="headerlink" title="PC 寄存器"></a>PC 寄存器</h2><p>PC 寄存器(Program Counter Register)，又称程序计数器。Java 虚拟机可以同时运行多个线程，每个线程都有自己的 PC 寄存器。如果线程执行的不是 native 方法，则该 PC 寄存器保存着当前正在执行的 Java 虚拟机指令的地址。如果线程执行的是 native 方法，则 PC 寄存器的值未知。</p>
-<h2 id="Java-虚拟机栈"><a href="#Java-虚拟机栈" class="headerlink" title="Java 虚拟机栈"></a>Java 虚拟机栈</h2><p>Java 虚拟机栈(JVM Stack)。每个线程都有一个 Java 虚拟机栈，它与该线程同时创建。Java 虚拟机栈用来保存局部变量和部分结果，并参与方法调用和返回。Java 虚拟机栈的内存可以不连续。</p>
+<h2 id="线程共享区域"><a href="#线程共享区域" class="headerlink" title="线程共享区域"></a>线程共享区域</h2><h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>堆(Heap)。Java 虚拟机维护一个在所有线程间共享的堆。堆是运行时数据区域，从中分配所有类实例和数组的内存。</p>
+<p>堆是在虚拟机启动时创建的。自动存储管理系统(俗称 垃圾收集器)可以回收对象的堆存储。堆的大小可以是固定的，也可以根据需要进行扩展。堆的内存可以不连续。</p>
+<ul>
+<li>如果计算需要的堆多于自动存储管理系统可以提供的堆，则 Java 虚拟机将抛出一个 OutOfMemoryError。</li>
+</ul>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">Xms20M /<span class="regexp">/JVM 启动时申请的初始 Heap 为 20MB。</span></span></span><br><span class="line"><span class="ruby">-Xmx40M /<span class="regexp">/JVM 可申请的最大 Heap 为 40MB。</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="方法区域"><a href="#方法区域" class="headerlink" title="方法区域"></a>方法区域</h3><p>方法区域(Method Area)，又称方法区。Java 虚拟机维护一个在所有线程间共享的方法区域。方法区域类似于 C 语言的已编译代码的存储区域，或类似于操作系统进程中的 text segment。</p>
+<p>方法区域存储每个类的结构，例如运行时常量池、字段、方法数据、方法代码、构造函数代码。方法区域是在 Java 虚拟机启动时创建的。</p>
+<ul>
+<li>如果方法区域中的内存不满足分配请求，则 Java 虚拟机将抛出 OutOfMemoryError。</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="string">XX:</span>PermSize=<span class="number">20</span>M <span class="comment">//方法区初始为 20MB。 </span></span><br><span class="line">-<span class="string">XX:</span>MaxPermSize=<span class="number">64</span>M <span class="comment">//方法区最大为 64MB。</span></span><br></pre></td></tr></table></figure>
+<h2 id="线程私有区域"><a href="#线程私有区域" class="headerlink" title="线程私有区域"></a>线程私有区域</h2><h3 id="PC-寄存器"><a href="#PC-寄存器" class="headerlink" title="PC 寄存器"></a>PC 寄存器</h3><p>PC 寄存器(Program Counter Register)，又称程序计数器。Java 虚拟机可以同时运行多个线程，每个线程都有自己的 PC 寄存器。如果线程执行的不是 native 方法，则该 PC 寄存器保存着当前正在执行的 Java 虚拟机指令的地址。如果线程执行的是 native 方法，则 PC 寄存器的值未知。</p>
+<h3 id="Java-虚拟机栈"><a href="#Java-虚拟机栈" class="headerlink" title="Java 虚拟机栈"></a>Java 虚拟机栈</h3><p>Java 虚拟机栈(JVM Stack)。每个线程都有一个 Java 虚拟机栈，它与该线程同时创建。Java 虚拟机栈用来保存局部变量和部分结果，并参与方法调用和返回。Java 虚拟机栈的内存可以不连续。</p>
 <p>Java 虚拟机规范允许 Java 虚拟机栈具有固定大小或能根据要求进行动态扩展。如果 Java 虚拟机栈的大小固定，则在创建每个 Java 虚拟机栈时可以指定其大小。</p>
 <ul>
 <li>如果计算时所需的 Java 虚拟机栈超出允许的范围，则 Java 虚拟机将抛出 StackOverflowError。</li>
 <li>如果可以动态扩展 Java 虚拟机栈，并且尝试进行扩展，但是此时没有足够的内存来实现扩展，或者是没有足够的内存来为新线程创建初始的 Java 虚拟机栈，则 Java 虚拟机机器抛出一个 OutOfMemoryError。</li>
 </ul>
 <p>Java HotSpot VM 没有实现动态扩展，但可以用下面的参数来指定线程栈大小。</p>
-<p><code>-XX:ThreadStackSize=512</code></p>
-<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方法栈(Native Method Stack)。Java 虚拟机可以使用传统栈(俗称 C 栈)来支持 native 方法。如果 Java 虚拟机无需加载 native 方法而且自身不依赖传统栈，那么该 Java 虚拟机无需提供本地方法栈。而如果提供，通常在创建每个线程时为每个线程分配本机方法栈。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-<span class="string">XX:</span>ThreadStackSize=<span class="number">512</span> <span class="comment">//虚拟机栈大小。以 KB 为单位，0 表示使用默认的堆栈大小。</span></span><br></pre></td></tr></table></figure>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>本地方法栈(Native Method Stack)。Java 虚拟机可以使用传统栈(俗称 C 栈)来支持 native 方法。如果 Java 虚拟机无法加载 native 方法而且自身不依赖传统栈，那么该 Java 虚拟机无需提供本地方法栈。如果提供，通常在创建线程时为它们分配本地方法栈。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
+<li><a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.5" target="_blank" rel="noopener">The Structure of the Java Virtual Machine</a></li>
+<li><a href="https://www.oracle.com/technetwork/articles/java/vmoptions-jsp-140102.html" target="_blank" rel="noopener">Java HotSpot VM 选项</a></li>
+</ul>
 
       
     </div>
@@ -602,7 +619,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PC-寄存器"><span class="nav-number">2.</span> <span class="nav-text">PC 寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-虚拟机栈"><span class="nav-number">3.</span> <span class="nav-text">Java 虚拟机栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地方法栈"><span class="nav-number">4.</span> <span class="nav-text">本地方法栈</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程共享区域"><span class="nav-number">2.</span> <span class="nav-text">线程共享区域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆"><span class="nav-number">2.1.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法区域"><span class="nav-number">2.2.</span> <span class="nav-text">方法区域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程私有区域"><span class="nav-number">3.</span> <span class="nav-text">线程私有区域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PC-寄存器"><span class="nav-number">3.1.</span> <span class="nav-text">PC 寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-虚拟机栈"><span class="nav-number">3.2.</span> <span class="nav-text">Java 虚拟机栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地方法栈"><span class="nav-number">3.3.</span> <span class="nav-text">本地方法栈</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
