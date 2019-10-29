@@ -90,7 +90,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-1.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-2.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-result.png">
-<meta property="og:updated_time" content="2019-10-29T09:37:55.900Z">
+<meta property="og:updated_time" content="2019-10-29T09:58:18.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 垃圾收集器与内存分配策略">
 <meta name="twitter:description" content="Java 与 C++ 之间有一堵有内存动态分配和垃圾收集技术所围成的『高墙』，墙外面的人想进去，墙里面的人想出来。">
@@ -398,7 +398,7 @@
 <blockquote>
 <p>经过半个多世纪的发展，目前内存的动态分配与内存回收技术已经相当成熟，一切看起来都进入了『自动化』时代，那为什么我们还要去了解 GC 和内存分配呢？答案很简单：当需要排查各种内存溢出、内存泄漏问题时；当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些『自动化』的技术实施必要的监控和调节。</p>
 </blockquote>
-<p>把时间从半个多世纪前回拨到现在，回到我们熟悉的 Java 语言。<a href="https://www.huminxi.com/2019/10/25/java%20%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA/#more" target="_blank" rel="noopener">《Java 运行时数据区域》</a> 介绍了 Java 运行时的各个内存区域。其中程序计数器、Java 虚拟机栈、本地方法栈 3 个区域随线程而生，随线程而灭，这几个区域的内存分配和回收都具有确定性。而堆和方法区则不一样，一个接口中的多个实现类需要的内存可能不一样，一个方法中的多个分支需要的内存也可能不一样，只有在运行期间才能知道程序要创建哪些对象。因此这部分内存分配和回收都是动态的，同时也是垃圾收集器关注的部分。</p>
+<p>把时间从半个多世纪前回拨到现在，回到我们熟悉的 Java 语言。<a href="https://www.huminxi.com/2019/10/25/java%20%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA/#more" target="_blank" rel="noopener">《Java 运行时数据区域》</a> 介绍了 Java 运行时的各个内存区域。其中程序计数器、Java 虚拟机栈、本地方法栈 3 个区域随线程而生，随线程而灭，这几个区域的内存分配和回收都具有确定性。而堆和方法区则不一样，一个接口中的多个实现类需要的内存可能不一样，一个方法中的多个分支需要的内存也可能不一样，JVM 只有在程序运行期间才能知道要创建哪些对象。因此这部分内存分配和回收都是动态的，同时也是垃圾收集器关注的部分。</p>
 <h2 id="对象已经死了吗"><a href="#对象已经死了吗" class="headerlink" title="对象已经死了吗"></a>对象已经死了吗</h2><p>在堆里面存放着 Java 世界中几乎所有的对象实例，垃圾收集器在对它们进行回收前，第一件事情就是要确认哪些对象还『存活』着，哪些已经『死去』(即不可能再被任何途径使用的对象)。</p>
 <h3 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h3><p>一个简单的实现就是给对象添加一个引用计数器，每当有一个地方引用它时，计数器值就加 1；当引用失效时，计数器值就减 1；任何时刻计数器为 0 的就是不可能再被使用的对象。</p>
 <p>引用计数算法(Reference Counting)的实现简单，判定效率也很高。但是主流的 Java 虚拟机里面没有选用引用计数算法来管理内存，因为它很难解决对象之间循环引用的问题。看个例子：</p>
