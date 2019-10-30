@@ -91,7 +91,10 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-2.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-result.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reachable-analysis.png">
-<meta property="og:updated_time" content="2019-10-30T06:11:54.639Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/mark-sweep.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/copying.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/mark-compact.png">
+<meta property="og:updated_time" content="2019-10-30T09:20:06.314Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 垃圾收集器">
 <meta name="twitter:description" content="Java 与 C++ 之间有一堵有内存动态分配和垃圾收集技术所围成的『高墙』，墙外面的人想进去，墙里面的人想出来。">
@@ -441,8 +444,24 @@
 <li>reference 3 -&gt; 对象 4 -&gt; 对象 6；</li>
 </ul>
 <p>因此可得对象 1、2、4、6 都具有 GC Roots 可达性，也就是存活对象。而对象 3、5 之间虽然有引用，但它们与 GC Roots 之间没有引用链，这便是 GC Roots 不可达的对象，也是需要进行 GC 的对象。</p>
-<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><p>这里只介绍几种垃圾收集算法的思想及其发展过程。</p>
-<h3 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><h3 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>最基础的收集算法是『标记-清除』(Mark-Sweep)算法，如同它的名字，算法分为『标记』和『清除』两个阶段：首先标记出所有需要回收的对象，然后统一回收所有被标记的对象。</p>
+<p>之所以说它是最基础的收集算法，是因为后续的收集算法都是基于这种思路并对其不足之处进行改进而得到的。它的主要不足之处有两个：</p>
+<ul>
+<li>一个是效率问题，标记和清除这两个过程的效率都不高；</li>
+<li>一个是空间问题，标记清除之后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后在程序运行过程中需要分配较大对象时，无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。</li>
+</ul>
+<p><code>标记—清除算法的执行过程</code><br><img mark-sweep="" src="/img/hufei/201910/mark-sweep.png" width="100%" height="100%"></p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>为了解决效率问题，一种称为『复制』(Copying)的收集算法出现了，它将内存按容量划分为大小相等的两块，每次只使用其中的一块。当某一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次性清理掉。这样一来，每次都是对整个半区进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。只是这种算法将可用内存缩小为了原来的一半，代价未免太高了一点。</p>
+<p><code>复制算法的执行过程</code><br><img copying="" src="/img/hufei/201910/copying.png" width="100%" height="100%"></p>
+<blockquote>
+<p>现在的商业虚拟机都采用这种收集算法来回收新生代，IBM 公司的专门研究表明，新生代中的对象 98% 是『朝生夕死』的，所以并不需要按照 1:1 的比例来划分内存空间，而是将内存分为一块较大的 Eden 空间和两块较小的 Survivor 空间，每次使用 Eden 和其中一块 Survivor。当回收时，将 Eden 和 Survivor 中还存活着的对象一次性地复制到另外一块 Survivor 空间上，最后清理掉 Eden 和刚才用过的 Survivor 空间。HotSpot 虚拟机默认 Eden 和 Survivor 的大小比例是 8:1。也就是说，每次新生代中可用内存空间为整个新生代容量的 90%(80%+10%)，只有 10%的内存会被『浪费』。当然，98% 的对象可回收只是一般场景下的数据，我们没有办法保证每次回收都只有不多于 10% 的对象存活，当 Survivor 空间不够用时，需要依赖其他内存(这里指老年代)进行分配担保(Handle Promotion)。</p>
+</blockquote>
+<h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>复制收集算法在对象存活率较高时就要进行较多的复制操作，效率将会变低。更关键的是，如果不想浪费 50% 的空间，就需要有额外的空间进行分配担保，以应对被使用的内存中所有对象都存活(即 100% 存活)的极端情况，所以在老年代一般不能直接选用这种算法。</p>
+<p>根据老年代的特点，有人提出了另外一种『标记-整理』(Mark-Compact)算法，标记过程仍然与『标记-清除』算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
+<p><code>标记-整理算法的执行过程</code><br><img mark-compact="" src="/img/hufei/201910/mark-compact.png" width="100%" height="100%"></p>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>当前商业虚拟机的垃圾收集都采用『分代收集』(Generational Collection)算法，这种算法并没有什么新的思想，只是根据对象存活周期的不同将内存划分为几块。一般是把 Java 堆分为新生代和老年代，这样就可以根据各个年代的特点采用的收集算法。</p>
+<p>在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用『标记—清理』或者『标记—整理』算法来进行回收。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
 <li><a href="https://www.zhihu.com/question/21539353" target="_blank" rel="noopener">垃圾回收机制中，引用计数法是如何维护所有对象引用的？</a></li>
 <li><a href="https://www.w3resource.com/java-tutorial/garbage-collection-in-java.php" target="_blank" rel="noopener">Garbage Collection in Java</a></li>
@@ -653,7 +672,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象已经死了吗"><span class="nav-number">2.</span> <span class="nav-text">对象已经死了吗</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数算法"><span class="nav-number">2.1.</span> <span class="nav-text">引用计数算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可达性分析算法"><span class="nav-number">2.2.</span> <span class="nav-text">可达性分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集算法"><span class="nav-number">3.</span> <span class="nav-text">垃圾收集算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标记-清除算法"><span class="nav-number">3.1.</span> <span class="nav-text">标记-清除算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集器"><span class="nav-number">4.</span> <span class="nav-text">垃圾收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象已经死了吗"><span class="nav-number">2.</span> <span class="nav-text">对象已经死了吗</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数算法"><span class="nav-number">2.1.</span> <span class="nav-text">引用计数算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可达性分析算法"><span class="nav-number">2.2.</span> <span class="nav-text">可达性分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集算法"><span class="nav-number">3.</span> <span class="nav-text">垃圾收集算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标记-清除算法"><span class="nav-number">3.1.</span> <span class="nav-text">标记-清除算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制算法"><span class="nav-number">3.2.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记-整理算法"><span class="nav-number">3.3.</span> <span class="nav-text">标记-整理算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分代收集算法"><span class="nav-number">3.4.</span> <span class="nav-text">分代收集算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
