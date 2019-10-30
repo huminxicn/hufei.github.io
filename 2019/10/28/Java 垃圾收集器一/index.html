@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JVM,垃圾收集," />
 
 
 
@@ -79,13 +79,26 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="黄枫谷">
-<meta property="og:url" content="//huminxi.netlify.com/tags/JVM/index.html">
+<meta name="description" content="Java 与 C++ 之间有一堵有内存动态分配和垃圾收集技术所围成的『高墙』，墙外面的人想进去，墙里面的人想出来。">
+<meta name="keywords" content="JVM,垃圾收集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 垃圾收集器一">
+<meta property="og:url" content="//huminxi.netlify.com/2019/10/28/Java 垃圾收集器一/index.html">
 <meta property="og:site_name" content="黄枫谷">
+<meta property="og:description" content="Java 与 C++ 之间有一堵有内存动态分配和垃圾收集技术所围成的『高墙』，墙外面的人想进去，墙里面的人想出来。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-1.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-2.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-result.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/reachable-analysis.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/mark-sweep.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/copying.png">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/mark-compact.png">
+<meta property="og:updated_time" content="2019-10-30T09:17:08.788Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黄枫谷">
+<meta name="twitter:title" content="Java 垃圾收集器一">
+<meta name="twitter:description" content="Java 与 C++ 之间有一堵有内存动态分配和垃圾收集技术所围成的『高墙』，墙外面的人想进去，墙里面的人想出来。">
+<meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201910/reference-counting-1.png">
 
 
 
@@ -115,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="//huminxi.netlify.com/tags/JVM/"/>
+  <link rel="canonical" href="//huminxi.netlify.com/2019/10/28/Java 垃圾收集器一/"/>
 
 
 
 
 
-  <title>标签: JVM | 黄枫谷</title>
+  <title>Java 垃圾收集器一 | 黄枫谷</title>
   
 
 
@@ -140,7 +153,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -268,82 +281,252 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h2>JVM<small>标签</small>
-        </h2>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2019/10/28/Java 垃圾收集器一/">
 
-      <h3 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡匪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/huangfenggu.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黄枫谷">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/10/28/Java 垃圾收集器一/" itemprop="url">
-              
-                <span itemprop="name">Java 垃圾收集器一</span>
-              
-            </a>
         
-      </h3>
+          <h2 class="post-title" itemprop="name headline">Java 垃圾收集器一</h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-10-28T13:35:52+08:00"
-              content="2019-10-28" >
-          10-28
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-28T13:35:52+08:00">
+                2019-10-28
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/10/28/Java 垃圾收集器一/" class="leancloud_visitors" data-flag-title="Java 垃圾收集器一">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2019/10/25/Java 运行时数据区域/" itemprop="url">
-              
-                <span itemprop="name">Java 运行时数据区域</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-10-25T15:25:07+08:00"
-              content="2019-10-25" >
-          10-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>Java 与 C++ 之间有一堵有内存动态分配和垃圾收集技术所围成的『高墙』，墙外面的人想进去，墙里面的人想出来。</p>
+<a id="more"></a>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>说起垃圾收集(Garbage Collection,GC)，大部分人都把这项技术当做 Java 语言的伴生产物。事实上，GC 的历史比 Java 久远，1960 年诞生于 MIT 的 Lisp 是第一门真正使用内存动态分配和垃圾收集技术的语言。当 Lisp 还在胚胎时期时，人们就在思考 GC 需要完成的 3 件事情：</p>
+</blockquote>
+<ul>
+<li>哪些内存需要回收</li>
+<li>什么时候回收</li>
+<li>如何回收</li>
+</ul>
+<blockquote>
+<p>经过半个多世纪的发展，目前内存的动态分配与内存回收技术已经相当成熟，一切看起来都进入了『自动化』时代，那为什么我们还要去了解 GC 和内存分配呢？答案很简单：当需要排查各种内存溢出、内存泄漏问题时；当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些『自动化』的技术实施必要的监控和调节。</p>
+</blockquote>
+<p>把时间从半个多世纪前回拨到现在，回到我们熟悉的 Java 语言。<a href="https://www.huminxi.com/2019/10/25/java%20%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA/#more" target="_blank" rel="noopener">《Java 运行时数据区域》</a> 介绍了 Java 运行时的各个内存区域。其中程序计数器、Java 虚拟机栈、本地方法栈 3 个区域随线程而生，随线程而灭，这几个区域的内存分配和回收都具有确定性。而堆和方法区则不一样，一个接口中的多个实现类需要的内存可能不一样，一个方法中的多个分支需要的内存也可能不一样，JVM 只有在程序运行期间才能知道要创建哪些对象。因此这部分内存分配和回收都是动态的，同时也是垃圾收集器关注的部分。</p>
+<h2 id="对象已经死了吗"><a href="#对象已经死了吗" class="headerlink" title="对象已经死了吗"></a>对象已经死了吗</h2><p>在堆里面存放着 Java 世界中几乎所有的对象实例，垃圾收集器在对它们进行回收前，第一件事情就是要确认哪些对象还『存活』着，哪些已经『死去』(即不可能再被任何途径使用的对象)。</p>
+<h3 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h3><p>一个简单的实现就是给对象添加一个引用计数器，每当有一个地方引用它时，计数器值就加 1；当引用失效时，计数器值就减 1；任何时刻计数器为 0 的就是不可能再被使用的对象。</p>
+<p>引用计数算法(Reference Counting)的实现简单，判定效率也很高。但是主流的 Java 虚拟机里面没有选用引用计数算法来管理内存，因为它很难解决对象之间循环引用的问题。</p>
+<p>来看个例子：对象 objA 和 objB 都有字段 instance。赋值 objA.instance = objB 及 objB.instance = objA，除此之外，这两个对象无任何引用。实际上这两个对象不可能再被访问，但因为他们互相引用着对方，导致它们的引用计数都不为 0，于是引用计数算法无法通过 GC 收集器回收它们。</p>
+<p><code>代码 1</code></p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * jvm 运行参数: -verbose:gc -XX:+PrintGCDetails</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReferenceCountingGC</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">    </span><br><span class="line">        GCObject objA = <span class="keyword">new</span> GCObject(); <span class="comment">// Step1</span></span><br><span class="line">        GCObject objB = <span class="keyword">new</span> GCObject(); <span class="comment">// Step2</span></span><br><span class="line"></span><br><span class="line">        objA.instance = objB; <span class="comment">// Step3</span></span><br><span class="line">        objB.instance = objA; <span class="comment">// Step4</span></span><br><span class="line"></span><br><span class="line">        objA = <span class="keyword">null</span>; <span class="comment">// Step5</span></span><br><span class="line">        objB = <span class="keyword">null</span>; <span class="comment">// Step6</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//假设在这行发生 GC，objA 和 objB 能否被回收？</span></span><br><span class="line">        System.gc(); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">GCObject</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> GCObject instance = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1MB = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 这个属性的唯一意义就是占点内存，以便能在 GC 日志中看清楚是否回收过。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">byte</span>[] bigSize = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1MB];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果采用的是引用计数算法，会产生什么结果呢？我们一起来分析一下。</p>
+<p><img reference-counting-1="" src="/img/hufei/201910/reference-counting-1.png" width="100%" height="100%"></p>
+<p>来看 main 方法的前 6 个步骤：</p>
+<ul>
+<li>Step1：GCObject 实例 1 的引用计数加 1，实例 1 的引用计数=1；</li>
+<li>Step2：GCObject 实例 2 的引用计数加 1，实例 2 的引用计数=1；</li>
+<li>Step3：GCObject 实例 2 的引用计数再加 1，实例 2 的引用计数=2；</li>
+<li>Step4：GCObject 实例 1 的引用计数再加 1，实例 1 的引用计数=2；</li>
+</ul>
+<p>执行到 Step4 时，GCObject 实例 1 和 实例 2 的引用计数都等于 2。</p>
+<p>继续执行 Step5 和 Step6 之后结果图</p>
+<p><img reference-counting-2="" src="/img/hufei/201910/reference-counting-2.png" width="100%" height="100%"></p>
+<ul>
+<li>Step5：栈帧中 objA 不再指向堆，GCObject 实例 1 的引用计数减 1，实例 1 引用计数=1；</li>
+<li>Step6：栈帧中 objB 不再指向堆，GCObject 实例 2 的引用计数减 1，实例 2 引用计数=1。</li>
+</ul>
+<p>至此，发现 GCObject 实例 1 和实例 2 的引用计数都不为 0。如果采用引用计数算法的话，这两个实例所占的内存将得不到释放，这便发生了内存泄露。</p>
+<p><code>代码 1 的执行结果</code><br><img reference-counting-result="" src="/img/hufei/201910/reference-counting-result.png" width="100%" height="100%"></p>
+<p>从日志中可以看到 6717K-&gt;560K，这意味着 Java 虚拟机并没有因为这两个对象互相引用就不回收它们，侧面说明了 Java 虚拟机并不是通过引用计数算法来判断对象是否存活的。</p>
+<h3 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p>在一些语言(Java、C#，Lisp)的主流实现中，都号称是通过可达性分析(Reachability Analysis)来判定对象是否存活的。这个算法的基本思路就是通过一系列称为『GC Roots』的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链(Reference Chain)。当一个对象到 『GC Roots』没有任何引用链相连时(用图论的话来说，就是从『GC Roots』到这个对象不可达)，则证明此对象是不可用的。</p>
+<p>在 Java 语言中，可作为『GC Roots』的包括以下几种：</p>
+<ul>
+<li>方法区中静态变量和常量</li>
+<li>虚拟机栈中栈帧的局部变量</li>
+<li>本地方法栈中的 JNI </li>
+</ul>
+<p><img reachable-analysis="" src="/img/hufei/201910/reachable-analysis.png" width="100%" height="100%"></p>
+<p>由上图可知，reference 1、reference 2、reference 3 都是 GC Roots，可以看出：</p>
+<ul>
+<li>reference 1 -&gt; 对象 1；</li>
+<li>reference 2 -&gt; 对象 2；</li>
+<li>reference 3 -&gt; 对象 4；</li>
+<li>reference 3 -&gt; 对象 4 -&gt; 对象 6；</li>
+</ul>
+<p>因此可得对象 1、2、4、6 都具有 GC Roots 可达性，也就是存活对象。而对象 3、5 之间虽然有引用，但它们与 GC Roots 之间没有引用链，这便是 GC Roots 不可达的对象，也是需要进行 GC 的对象。</p>
+<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><h3 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>最基础的收集算法是『标记-清除』(Mark-Sweep)算法，如同它的名字，算法分为『标记』和『清除』两个阶段：首先标记出所有需要回收的对象，然后统一回收所有被标记的对象。</p>
+<p>之所以说它是最基础的收集算法，是因为后续的收集算法都是基于这种思路并对其不足之处进行改进而得到的。它的主要不足之处有两个：</p>
+<ul>
+<li>一个是效率问题，标记和清除这两个过程的效率都不高；</li>
+<li>一个是空间问题，标记清除之后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后在程序运行过程中需要分配较大对象时，无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。</li>
+</ul>
+<p><code>标记—清除算法的执行过程</code><br><img mark-sweep="" src="/img/hufei/201910/mark-sweep.png" width="100%" height="100%"></p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>为了解决效率问题，一种称为『复制』(Copying)的收集算法出现了，它将内存按容量划分为大小相等的两块，每次只使用其中的一块。当某一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次性清理掉。这样一来，每次都是对整个半区进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。只是这种算法将可用内存缩小为了原来的一半，代价未免太高了一点。</p>
+<p><code>复制算法的执行过程</code><br><img copying="" src="/img/hufei/201910/copying.png" width="100%" height="100%"></p>
+<blockquote>
+<p>现在的商业虚拟机都采用这种收集算法来回收新生代，IBM 公司的专门研究表明，新生代中的对象 98% 是『朝生夕死』的，所以并不需要按照 1:1 的比例来划分内存空间，而是将内存分为一块较大的 Eden 空间和两块较小的 Survivor 空间，每次使用 Eden 和其中一块 Survivor。当回收时，将 Eden 和 Survivor 中还存活着的对象一次性地复制到另外一块 Survivor 空间上，最后清理掉 Eden 和刚才用过的 Survivor 空间。HotSpot 虚拟机默认 Eden 和 Survivor 的大小比例是 8:1。也就是说，每次新生代中可用内存空间为整个新生代容量的 90%(80%+10%)，只有 10%的内存会被『浪费』。当然，98% 的对象可回收只是一般场景下的数据，我们没有办法保证每次回收都只有不多于 10% 的对象存活，当 Survivor 空间不够用时，需要依赖其他内存(这里指老年代)进行分配担保(Handle Promotion)。</p>
+</blockquote>
+<h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>复制收集算法在对象存活率较高时就要进行较多的复制操作，效率将会变低。更关键的是，如果不想浪费 50% 的空间，就需要有额外的空间进行分配担保，以应对被使用的内存中所有对象都存活(即 100% 存活)的极端情况，所以在老年代一般不能直接选用这种算法。</p>
+<p>根据老年代的特点，有人提出了另外一种『标记-整理』(Mark-Compact)算法，标记过程仍然与『标记-清除』算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
+<p><code>标记-整理算法的执行过程</code><br><img mark-compact="" src="/img/hufei/201910/mark-compact.png" width="100%" height="100%"></p>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>当前商业虚拟机的垃圾收集都采用『分代收集』(Generational Collection)算法，这种算法并没有什么新的思想，只是根据对象存活周期的不同将内存划分为几块。一般是把 Java 堆分为新生代和老年代，这样就可以根据各个年代的特点采用的收集算法。</p>
+<p>在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用『标记—清理』或者『标记—整理』算法来进行回收。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
+<li><a href="https://www.zhihu.com/question/21539353" target="_blank" rel="noopener">垃圾回收机制中，引用计数法是如何维护所有对象引用的？</a></li>
+<li><a href="https://www.w3resource.com/java-tutorial/garbage-collection-in-java.php" target="_blank" rel="noopener">Garbage Collection in Java</a></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag"># JVM</a>
+          
+            <a href="/tags/垃圾收集/" rel="tag"># 垃圾收集</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/25/Java 运行时数据区域/" rel="next" title="Java 运行时数据区域">
+                <i class="fa fa-chevron-left"></i> Java 运行时数据区域
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -351,6 +534,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -371,8 +558,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -466,6 +662,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象已经死了吗"><span class="nav-number">2.</span> <span class="nav-text">对象已经死了吗</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数算法"><span class="nav-number">2.1.</span> <span class="nav-text">引用计数算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可达性分析算法"><span class="nav-number">2.2.</span> <span class="nav-text">可达性分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集算法"><span class="nav-number">3.</span> <span class="nav-text">垃圾收集算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标记-清除算法"><span class="nav-number">3.1.</span> <span class="nav-text">标记-清除算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制算法"><span class="nav-number">3.2.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记-整理算法"><span class="nav-number">3.3.</span> <span class="nav-text">标记-整理算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分代收集算法"><span class="nav-number">3.4.</span> <span class="nav-text">分代收集算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -620,6 +832,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 

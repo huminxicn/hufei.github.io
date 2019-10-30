@@ -88,7 +88,7 @@
 <meta property="og:description" content="Java 虚拟机规范定义了在程序运行期间使用的各种数据区域。其中一些数据区域是在 Java 虚拟机启动时创建的，仅在 Java 虚拟机退出时才被销毁。其它的数据区域是属于线程私有的，在线程创建时创建，线程退出时销毁。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/jvm-runtime-data-areas.png">
-<meta property="og:updated_time" content="2019-10-29T08:47:20.021Z">
+<meta property="og:updated_time" content="2019-10-30T08:10:45.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 运行时数据区域">
 <meta name="twitter:description" content="Java 虚拟机规范定义了在程序运行期间使用的各种数据区域。其中一些数据区域是在 Java 虚拟机启动时创建的，仅在 Java 虚拟机退出时才被销毁。其它的数据区域是属于线程私有的，在线程创建时创建，线程退出时销毁。">
@@ -392,7 +392,7 @@
 <li>如果方法区域中的内存不满足分配请求，则 Java 虚拟机将抛出 OutOfMemoryError。</li>
 </ul>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="string">XX:</span>PermSize=<span class="number">20</span>M <span class="comment">//方法区初始为 20MB。 </span></span><br><span class="line">-<span class="string">XX:</span>MaxPermSize=<span class="number">64</span>M <span class="comment">//方法区最大为 64MB。</span></span><br></pre></td></tr></table></figure>
-<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>堆(Heap)。Java 虚拟机维护一个在所有线程间共享的堆。堆是运行时数据区域，从中分配所有类实例和数组的内存。</p>
+<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>堆(Heap)，又称 Java 堆。Java 虚拟机维护一个在所有线程间共享的堆。堆是运行时数据区域，从中分配所有类实例和数组的内存。</p>
 <p>堆是在虚拟机启动时创建的。自动存储管理系统(俗称 垃圾收集器)可以回收对象的堆存储。堆的大小可以是固定的，也可以根据需要进行扩展。堆的内存可以不连续。</p>
 <ul>
 <li>如果计算需要的堆多于自动存储管理系统可以提供的堆，则 Java 虚拟机将抛出一个 OutOfMemoryError。</li>
@@ -455,8 +455,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/28/Java 垃圾收集器/" rel="prev" title="Java 垃圾收集器">
-                Java 垃圾收集器 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/28/Java 垃圾收集器一/" rel="prev" title="Java 垃圾收集器一">
+                Java 垃圾收集器一 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
