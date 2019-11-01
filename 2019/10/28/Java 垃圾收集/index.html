@@ -94,7 +94,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/mark-sweep.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/copying.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/mark-compact.png">
-<meta property="og:updated_time" content="2019-10-30T09:22:35.637Z">
+<meta property="og:updated_time" content="2019-11-01T06:18:57.080Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 垃圾收集">
 <meta name="twitter:description" content="Java 与 C++ 之间有一堵有内存动态分配和垃圾收集技术所围成的『高墙』，墙外面的人想进去，墙里面的人想出来。">
@@ -431,7 +431,7 @@
 <h3 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p>在一些语言(Java、C#，Lisp)的主流实现中，都号称是通过可达性分析(Reachability Analysis)来判定对象是否存活的。这个算法的基本思路就是通过一系列称为『GC Roots』的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链(Reference Chain)。当一个对象到 『GC Roots』没有任何引用链相连时(用图论的话来说，就是从『GC Roots』到这个对象不可达)，则证明此对象是不可用的。</p>
 <p>在 Java 语言中，可作为『GC Roots』的包括以下几种：</p>
 <ul>
-<li>方法区中静态变量和常量</li>
+<li>方法区中类静态属性和常量</li>
 <li>虚拟机栈中栈帧的局部变量</li>
 <li>本地方法栈中的 JNI </li>
 </ul>
@@ -507,6 +507,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/31/Java 垃圾收集续/" rel="prev" title="Java 垃圾收集续">
+                Java 垃圾收集续 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -587,7 +591,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
