@@ -94,7 +94,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/parallel-gc.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/cms-gc.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201910/g1-gc.png">
-<meta property="og:updated_time" content="2019-11-06T13:01:49.093Z">
+<meta property="og:updated_time" content="2019-11-07T02:48:32.479Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 垃圾收集续">
 <meta name="twitter:description" content="前一篇 主要介绍了垃圾收集的思路，今天来看一个垃圾收集的具体实现。HotSpot 实现了 JVM 规范。最初由 Sun 开发，现在由 Oracle 拥有。JVM 规范还有其他的实现，例如 JRockit 和 IBM J9 等等。">
@@ -446,7 +446,7 @@
 <blockquote>
 <p>其中，初始标记、重新标记这两个步骤仍然需要『Stop The World』。初始标记仅仅只是标记一下 GC Roots 能直接关联到的对象，速度很快；并发标记阶段就是进行 GC Roots Tracing 的过程；而重新标记阶段则是为了修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长，但远比并发标记的时间短。</p>
 </blockquote>
-<p>由于整个过程中耗时最长的并发标记和并发清除过程收集器线程都可以与用户线程一起工作，所以，从总体上来说，CMS 收集器的内存回收过程是与用户线程一起并发执行的</p>
+<p>由于整个过程中耗时最长的并发标记和并发清除过程收集器线程都可以与用户线程一起工作，所以，从总体上来说，CMS 收集器的内存回收过程是与用户线程一起并发执行的。</p>
 <p><code>CMS 收集器运行示意图</code><br><img cms-gc="" src="/img/hufei/201910/cms-gc.png" width="100%" height="100%"></p>
 <blockquote>
 <p>CMS 收集器无法处理浮动垃圾（Floating Garbage），可能出现『Concurrent ModeFailure』失败而导致另一次 Full GC 的产生。由于 CMS 并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生，这一部分垃圾出现在标记过程之后，CMS 无法在当次收集中处理掉它们，只好留待下一次 GC 时再清理掉。这一部分垃圾就称为『浮动垃圾』。也是由于在垃圾收集阶段用户线程还需要运行，那也就还需要预留有足够的内存空间给用户线程使用，因此 CMS 收集器不能像其他收集器那样等到老年代几乎完全被填满了再进行收集，需要预留一部分空间提供并发收集时的程序运作使用。</p>
@@ -472,21 +472,32 @@
 </li>
 </ul>
 <blockquote>
-<p>在 G1 之前的其他收集器进行收集的范围都是整个新生代或者老年代，而 G1 不再是这样。使用 G1 收集器时，Java 堆的内存布局就与其他收集器有很大差别，它将整个 Java 堆划分为多个大小相等的独立区域（Region），虽然还保留有新生代和老年代的概念，但新生代和老年代不再是物理隔离的了，它们都是一部分 Region（不需要连续）的集合。<br>G1 收集器之所以能建立可预测的停顿时间模型，是因为它可以有计划地避免在整个 Java 堆中进行全区域的垃圾收集。G1 跟踪各个 Region 里面的垃圾堆积的价值大小（回收所获得的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的 Region（这也就是 Garbage-First 名称的来由）。这种使用 Region 划分内存空间以及有优先级的区域回收方式，保证了 G1 收集器在有限的时间内可以获取尽可能高的收集效率。</p>
-<p>G1 把内存『化整为零』的思路，理解起来似乎很容易，但其中的实现细节却远远没有想象中那样简单，否则也不会从 2004 年 Sun 实验室发表第一篇 G1 的论文开始直到 2014 年才开发出 G1 的商用版。笔者以一个细节为例：把 Java 堆分为多个 Region 后，垃圾收集是否就真的能以 Region 为单位进行了？听起来顺理成章，再仔细想想就很容易发现问题所在：Region 不可能是孤立的。一个对象分配在某个 Region 中，它并非只能被本 Region 中的其他对象引用，而是可以与整个 Java 堆任意的对象发生引用关系。那在做可达性判定确定对象是否存活的时候，岂不是还得扫描整个 Java 堆才能保证准确性？这个问题其实并非在 G1 中才有，只是在 G1 中更加突出而已。在以前的分代收集中，新生代的规模一般都比老年代要小许多，新生代的收集也比老年代要频繁许多，那回收新生代中的对象时也面临相同的问题，如果回收新生代时也不得不同时扫描老年代的话，那么 Minor GC 的效率可能下降不少。<br>在 G1 收集器中，Region 之间的对象引用以及其他收集器中的新生代与老年代之间的对象引用，虚拟机都是使用 Remembered Set 来避免全堆扫描的。G1 中每个 Region 都有一个与之对应的 Remembered Set，虚拟机发现程序在对 Reference 类型的数据进行写操作时，会产生一个 Write Barrier 暂时中断写操作，检查 Reference 引用的对象是否处于不同的 Region 之中（在分代的例子中就是检查是否老年代中的对象引用了新生代中的对象），如果是，便通过 CardTable 把相关引用信息记录到被引用对象所属的 Region 的 Remembered Set 之中。当进行内存回收时，在 GC 根节点的枚举范围中加入 Remembered Set 即可保证不对全堆扫描也不会有遗漏。</p>
+<p>在 G1 之前的其他收集器进行收集的范围都是整个新生代或者老年代，而 G1 不再是这样。使用 G1 收集器时，Java 堆的内存布局就与其他收集器有很大差别，它将整个 Java 堆划分为多个大小相等的独立区域（Region），虽然还保留有新生代和老年代的概念，但新生代和老年代不再是物理隔离的了，它们都是一部分 Region（不需要连续）的集合。</p>
+<p>G1 收集器之所以能建立可预测的停顿时间模型，是因为它可以有计划地避免在整个 Java 堆中进行全区域的垃圾收集。G1 跟踪各个 Region 里面的垃圾堆积的价值大小（回收所获得的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的 Region（这也就是 Garbage-First 名称的来由）。这种使用 Region 划分内存空间以及有优先级的区域回收方式，保证了 G1 收集器在有限的时间内可以获取尽可能高的收集效率。</p>
+<p>G1 把内存『化整为零』的思路，理解起来似乎很容易，但其中的实现细节却远远没有想象中那样简单，否则也不会从 2004 年 Sun 实验室发表第一篇 G1 的论文开始直到 2014 年才开发出 G1 的商用版。笔者以一个细节为例：把 Java 堆分为多个 Region 后，垃圾收集是否就真的能以 Region 为单位进行了？听起来顺理成章，再仔细想想就很容易发现问题所在：Region 不可能是孤立的。一个对象分配在某个 Region 中，它并非只能被本 Region 中的其他对象引用，而是可以与整个 Java 堆任意的对象发生引用关系。那在做可达性判定确定对象是否存活的时候，岂不是还得扫描整个 Java 堆才能保证准确性？这个问题其实并非在 G1 中才有，只是在 G1 中更加突出而已。在以前的分代收集中，新生代的规模一般都比老年代要小许多，新生代的收集也比老年代要频繁许多，那回收新生代中的对象时也面临相同的问题，如果回收新生代时也不得不同时扫描老年代的话，那么 Minor GC 的效率可能下降不少。</p>
+<p>在 G1 收集器中，Region 之间的对象引用以及其他收集器中的新生代与老年代之间的对象引用，虚拟机都是使用 Remembered Set 来避免全堆扫描的。G1 中每个 Region 都有一个与之对应的 Remembered Set，虚拟机发现程序在对 Reference 类型的数据进行写操作时，会产生一个 Write Barrier 暂时中断写操作，检查 Reference 引用的对象是否处于不同的 Region 之中（在分代的例子中就是检查是否老年代中的对象引用了新生代中的对象），如果是，便通过 CardTable 把相关引用信息记录到被引用对象所属的 Region 的 Remembered Set 之中。当进行内存回收时，在 GC 根节点的枚举范围中加入 Remembered Set 即可保证不对全堆扫描也不会有遗漏。</p>
 </blockquote>
 <p>如果不计算维护 Remembered Set 的操作，G1 收集器的运作大致可划分为以下几个步骤：</p>
 <ul>
-<li>初始标记（Initial Marking）</li>
-<li>并发标记（Concurrent Marking）</li>
-<li>最终标记（Final Marking）</li>
-<li>筛选回收（Live Data Counting and Evacuation）</li>
+<li>初始标记（Initial Marking）<ul>
+<li>初始标记阶段仅仅只是标记一下 GC Roots 能直接关联到的对象，并且修改 TAMS（Next Top at Mark Start）的值，让下一阶段用户程序并发运行时，能在正确可用的 Region 中创建新对象，这阶段需要停顿线程，但耗时很短。</li>
 </ul>
-<blockquote>
-<p>对 CMS 收集器运作过程熟悉的读者，一定已经发现 G1 的前几个步骤的运作过程和 CMS 有很多相似之处。初始标记阶段仅仅只是标记一下 GC Roots 能直接关联到的对象，并且修改 TAMS（Next Top at Mark Start）的值，让下一阶段用户程序并发运行时，能在正确可用的 Region 中创建新对象，这阶段需要停顿线程，但耗时很短。并发标记阶段是从 GC Root 开始对堆中对象进行可达性分析，找出存活的对象，这阶段耗时较长，但可与用户程序并发执行。而最终标记阶段则是为了修正在并发标记期间因用户程序继续运作而导致标记产生变动的那一部分标记记录，虚拟机将这段时间对象变化记录在线程 Remembered Set Logs 里面，最终标记阶段需要把 Remembered Set Logs 的数据合并到 Remembered Set 中，这阶段需要停顿线程，但是可并行执行。最后在筛选回收阶段首先对各个 Region 的回收价值和成本进行排序，根据用户所期望的 GC 停顿时间来制定回收计划，从 Sun 公司透露出来的信息来看，这个阶段其实也可以做到与用户程序一起并发执行，但是因为只回收一部分 Region，时间是用户可控制的，而且停顿用户线程将大幅提高收集效率。</p>
-</blockquote>
+</li>
+<li>并发标记（Concurrent Marking）<ul>
+<li>并发标记阶段是从 GC Root 开始对堆中对象进行可达性分析，找出存活的对象，这阶段耗时较长，但可与用户程序并发执行。而最终标记阶段则是为了修正在并发标记期间因用户程序继续运作而导致标记产生变动的那一部分标记记录，虚拟机将这段时间对象变化记录在线程 Remembered Set Logs 里面。</li>
+</ul>
+</li>
+<li>最终标记（Final Marking）<ul>
+<li>最终标记阶段需要把 Remembered Set Logs 的数据合并到 Remembered Set 中，这阶段需要停顿线程，但是可并行执行。</li>
+</ul>
+</li>
+<li>筛选回收（Live Data Counting and Evacuation）<ul>
+<li>筛选回收阶段首先对各个 Region 的回收价值和成本进行排序，根据用户所期望的 GC 停顿时间来制定回收计划，从 Sun 公司透露出来的信息来看，这个阶段其实也可以做到与用户程序一起并发执行，但是因为只回收一部分 Region，时间是用户可控制的，而且停顿用户线程将大幅提高收集效率。</li>
+</ul>
+</li>
+</ul>
 <p><code>G1 收集器运行示意图</code><br><img g1-gc="" src="/img/hufei/201910/g1-gc.png" width="100%" height="100%"></p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>在介绍完这些收集器各自的特性之后，我们来明确一个观点：虽然我们是在对各个收集器进行比较，但并非为了挑选出一个最好的收集器。因为直到现在为止还没有最好的收集器出现，更加没有万能的收集器，所以我们选择的只是对具体应用最合适的收集器。这点不需要多加解释就能证明：如果有一种放之四海皆准、任何场景下都适用的完美收集器存在，那 HotSpot 虚拟机就没必要实现那么多不同的收集器了。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>没有任何场景都适用的 GC 收集器，所以我们需要了解各个 GC 收集器的特性，这样才能根据具体的应用场景选出合适的 GC 收集器。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
 <li><a href="https://mritd.me/2016/03/24/HotSpot-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" target="_blank" rel="noopener">HotSpot 虚拟机的算法实现</a></li>
