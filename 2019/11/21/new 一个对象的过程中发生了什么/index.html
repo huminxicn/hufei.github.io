@@ -88,7 +88,7 @@
 <meta property="og:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/class-life-cycle.png">
-<meta property="og:updated_time" content="2019-11-21T09:22:12.998Z">
+<meta property="og:updated_time" content="2019-11-21T10:01:29.209Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="new 一个对象的过程中发生了什么">
 <meta name="twitter:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。">
@@ -386,12 +386,24 @@
         <p>JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。</p>
 <a id="more"></a>
 <h2 id="加载类"><a href="#加载类" class="headerlink" title="加载类"></a>加载类</h2><p>虚拟机把描述类的数据从 class 文件（不一定存在于磁盘中，这里所说的 class 文件应当是一串二进制的字节流，无论以何种形式存在都可以）加载到内存，并对数据进行连接和初始化，最终形成可以被虚拟机直接使用的 class 对象。</p>
-<p><code>类的生命周期</code><br><img class-life-cycle="" src="/img/hufei/201911/class-life-cycle.png" width="100%" height="100%"></p>
 <p>与那些在编译时需要进行连接工作的语言不同，在 Java 语言里，class 的加载、连接和初始化都是在程序运行期间完成的，这种策略虽然令类加载时增加一些性能开销，但是会给 Java 应用程序带来高度的灵活性。</p>
 <blockquote>
 <p>例如，如果编写一个面向接口的应用程序，可以等到运行时再指定其具体的实现类；用户可以通过 Java 预定义的或自定义的类加载器，让一个本地的应用程序可以在运行时从网络或其他地方加载一个二进制流作为程序代码的一部分，这种组装应用程序的方式目前已广泛应用于 Java 程序之中。从最基础的 Applet、JSP 到相对复杂的 OSGi 技术，都使用了 Java 语言运行期类加载的特性。</p>
 </blockquote>
-<h3 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h3><h3 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h3><h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<h3 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h3><p>类从被加载到内存中开始，到卸载出内存，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用和卸载 7 个阶段。其中验证、准备、解析这 3 个阶段统称为连接。</p>
+<p><code>类的生命周期</code><br><img class-life-cycle="" src="/img/hufei/201911/class-life-cycle.png" width="100%" height="100%"></p>
+<blockquote>
+<p>加载、验证、准备、初始化和卸载这 5 个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持 Java 语言的运行时绑定。注意，这里笔者写的是按部就班地『开始』，而不是按部就班地『进行』或『完成』，强调这点是因为这些阶段通常都是互相交叉地混合式进行的，通常会在一个阶段执行的过程中调用、激活另外一个阶段。</p>
+</blockquote>
+<p>什么情况下需要开始类加载过程的第一个阶段（加载）？Java 虚拟机规范中并没有进行强制约束，这由具体的虚拟机实现把控。但是对于初始化阶段，虚拟机规范则是严格规定了以下 5 种情况必须立即对类进行『初始化』（加载、验证、准备自然需要在此之前开始）：</p>
+<ul>
+<li>遇到 new、getstatic、putstatic 或 invokestatic 这 4 条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。生成这 4 条指令的最常见的 Java 代码场景是：使用 new 关键字实例化对象的时候、读取或设置一个类的静态字段（被 final 修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候。</li>
+<li>使用 java.lang.reflect 包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</li>
+<li>当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</li>
+<li>当虚拟机启动时，用户需要指定一个要执行的主类（包含 main 方法的那个类），虚拟机会先初始化这个主类。</li>
+<li>当使用 JDK 1.7 的动态语言支持时，如果一个 java.lang.invoke.MethodHandle 实例最后的解析结果 REF_getStatic、REF_putStatic、REF_invokeStatic 的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
+</ul>
+<h3 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h3><h3 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h3><h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
 <li><a href="https://mp.weixin.qq.com/s/NGgMBE1M3i_nl5aqhYu5_g" target="_blank" rel="noopener">PDD面试题：new一个对象的过程中发生了什么？</a></li>
 </ul>
@@ -601,7 +613,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#加载类"><span class="nav-number">1.</span> <span class="nav-text">加载类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载的时机"><span class="nav-number">1.1.</span> <span class="nav-text">类加载的时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载的过程"><span class="nav-number">1.2.</span> <span class="nav-text">类加载的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载器"><span class="nav-number">1.3.</span> <span class="nav-text">类加载器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建对象"><span class="nav-number">2.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#加载类"><span class="nav-number">1.</span> <span class="nav-text">加载类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载的时机"><span class="nav-number">1.1.</span> <span class="nav-text">类加载的时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载的过程"><span class="nav-number">1.2.</span> <span class="nav-text">类加载的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载机制"><span class="nav-number">1.3.</span> <span class="nav-text">类加载机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建对象"><span class="nav-number">2.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
