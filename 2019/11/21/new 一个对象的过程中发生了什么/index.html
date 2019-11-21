@@ -88,7 +88,7 @@
 <meta property="og:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/class-life-cycle.png">
-<meta property="og:updated_time" content="2019-11-21T09:20:59.883Z">
+<meta property="og:updated_time" content="2019-11-21T09:22:12.998Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="new 一个对象的过程中发生了什么">
 <meta name="twitter:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。">
@@ -388,7 +388,9 @@
 <h2 id="加载类"><a href="#加载类" class="headerlink" title="加载类"></a>加载类</h2><p>虚拟机把描述类的数据从 class 文件（不一定存在于磁盘中，这里所说的 class 文件应当是一串二进制的字节流，无论以何种形式存在都可以）加载到内存，并对数据进行连接和初始化，最终形成可以被虚拟机直接使用的 class 对象。</p>
 <p><code>类的生命周期</code><br><img class-life-cycle="" src="/img/hufei/201911/class-life-cycle.png" width="100%" height="100%"></p>
 <p>与那些在编译时需要进行连接工作的语言不同，在 Java 语言里，class 的加载、连接和初始化都是在程序运行期间完成的，这种策略虽然令类加载时增加一些性能开销，但是会给 Java 应用程序带来高度的灵活性。</p>
+<blockquote>
 <p>例如，如果编写一个面向接口的应用程序，可以等到运行时再指定其具体的实现类；用户可以通过 Java 预定义的或自定义的类加载器，让一个本地的应用程序可以在运行时从网络或其他地方加载一个二进制流作为程序代码的一部分，这种组装应用程序的方式目前已广泛应用于 Java 程序之中。从最基础的 Applet、JSP 到相对复杂的 OSGi 技术，都使用了 Java 语言运行期类加载的特性。</p>
+</blockquote>
 <h3 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h3><h3 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h3><h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
 <li><a href="https://mp.weixin.qq.com/s/NGgMBE1M3i_nl5aqhYu5_g" target="_blank" rel="noopener">PDD面试题：new一个对象的过程中发生了什么？</a></li>
