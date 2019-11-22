@@ -92,7 +92,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/class-loader.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/classloader-delegation-model.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/load-class.png">
-<meta property="og:updated_time" content="2019-11-22T09:38:22.112Z">
+<meta property="og:updated_time" content="2019-11-22T09:51:47.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="new 一个对象的过程中发生了什么">
 <meta name="twitter:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再创建对象。总的来说， new 一个对象可以分为两个过程：类加载和创建对象。">
@@ -457,12 +457,12 @@
 <h5 id="符号引用验证"><a href="#符号引用验证" class="headerlink" title="符号引用验证"></a>符号引用验证</h5><p>最后一个阶段的校验发生在虚拟机将符号引用转化为直接引用的时候，这个转化动作将在解析阶段中发生。符号引用验证可以看做是对类自身以外（常量池中的各种符号引用）的信息进行匹配性校验，通常需要校验下列内容：</p>
 <ul>
 <li>符号引用中通过字符串描述的全限定名是否能找到对应的类。</li>
-<li>在指定类中是否存在符合方法的字段描述符以及简单名称所描述的方法和字段。</li>
+<li>在指定类中是否存在符合字段描述符所描述的方法和字段。</li>
 <li>符号引用中的类、字段、方法的访问性（private、protected、public、default）是否可被当前类访问。<br>…</li>
 </ul>
 <p>符号引用验证的目的是确保解析动作能正常执行，如果无法通过符号引用验证，那么将会抛出一个 java.lang.IncompatibleClassChangeError 异常的子类，如 java.lang.IllegalAccessError、java.lang.NoSuchFieldError、java.lang.NoSuchMethodError 等。</p>
 <blockquote>
-<p>对于虚拟机的类加载机制来说，验证阶段是一个非常重要的、但不是一定必要（因为对程序运行期没有影响）的阶段。如果所运行的全部代码（包括自己编写的及第三方包中的代码）都已经被反复使用和验证过，那么在实施阶段就可以考虑使用 -Xverify:none 参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。</p>
+<p>对于虚拟机的类加载机制来说，验证阶段是一个非常重要的、但不是一定必要（因为对程序运行期没有影响）的阶段。如果所运行的全部代码（包括自己编写的及第三方包中的代码）都已经被反复使用和验证过，就可以考虑使用 -Xverify:none 参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。</p>
 </blockquote>
 <h4 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h4><p>准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些类变量所使用的内存都将在方法区中进行分配。这里有两点需要强调一下：</p>
 <ul>
@@ -471,7 +471,7 @@
 </ul>
 <p>假设一个类变量的定义为：</p>
 <figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="keyword">value</span>=<span class="number">123</span>;</span><br></pre></td></tr></table></figure>
-<p>那变量 value 在准备阶段过后的初始值为 0 而不是 123，因为这时候尚未开始执行任何 Java 方法。把 value 赋值为 123 的 putstatic 指令存放于类构造器 <code>&lt;clinit&gt;()</code> 方法之中，所以把 value 赋值为 123 的动作将在初始化阶段才会执行。下表列出了 Java 中所有基本数据类型的零值。</p>
+<p>那变量 value 在准备阶段过后的初始值为 0 而不是 123，因为这时候尚未开始执行任何 Java 方法。把 value 赋值为 123 的 putstatic 指令存放于类构造器方法 <code>&lt;clinit&gt;()</code> 之中，所以把 value 赋值为 123 的动作将在初始化阶段执行。下表列出了 Java 中所有基本数据类型的零值。</p>
 <table>
 <thead>
 <tr>
@@ -512,11 +512,11 @@
 </tr>
 </tbody>
 </table>
-<p>上面提到，在『通常情况』下初始值是零值，那相对的会有一些『特殊情况』。假设将类变量 value 的定义改为：<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> value=<span class="number">123</span>;</span><br></pre></td></tr></table></figure></p>
+<p>上面提到，在『通常情况』下初始值是零值，那么也存在一些『特殊情况』。如果将类变量 value 的定义改为：<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> value=<span class="number">123</span>;</span><br></pre></td></tr></table></figure></p>
 <p>那么在准备阶段时，虚拟机会直接将 value 赋值为 123。</p>
 <h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><p>解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程。</p>
-<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>类初始化阶段是类加载过程的最后一步，前面的类加载过程中，除了在加载阶段用户应用程序可以通过自定义类加载器参与之外，其余动作完全由虚拟机主导和控制。到了初始化阶段，才真正开始执行类中定义的 Java 程序代码（或者说是字节码）。</p>
-<p>在准备阶段，变量已经赋过一次系统要求的初始值，而在初始化阶段，则根据程序员通过程序制定的主观计划去初始化类变量和其他资源，或者可以从另外一个角度来表达：初始化阶段是执行类构造器 <code>&lt;clinit&gt;()</code> 方法的过程。</p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>初始化阶段是类加载过程的最后一步，在前面的类加载过程中，除了加载阶段用户应用程序可以通过自定义的类加载器参与之外，其余动作完全由虚拟机主导和控制。到了初始化阶段，才真正开始执行类中定义的 Java 程序代码（或者说是字节码）。</p>
+<p><strong>在准备阶段，变量已经赋过一次系统要求的零值，而在初始化阶段，则根据程序员通过程序制定的主观计划去初始化类变量和其他资源。</strong> 或者可以从另外一个角度来表达：初始化阶段是执行类构造器方法 <code>&lt;clinit&gt;()</code> 的过程。</p>
 <p><code>&lt;clinit&gt;()</code> 方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块（static 块）中的语句合并产生的，编译器收集的顺序是由语句在源文件中出现的顺序所决定的，静态语句块中只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但是不能访问，如代码示例 1-2 所示。</p>
 <p><code>代码示例 1-2</code></p>
 <figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Test</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        i = <span class="number">0</span>; <span class="comment">//给变量赋值可以正常编译通过。</span></span><br><span class="line">        System.<span class="keyword">out</span>.println(i); <span class="comment">//这句编译器会提示 "illegal forward reference"。</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
