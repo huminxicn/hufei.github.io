@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。">
+<meta name="description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：类加载和创建对象。">
 <meta name="keywords" content="new,创建对象">
 <meta property="og:type" content="article">
 <meta property="og:title" content="new 一个对象的过程中发生了什么">
 <meta property="og:url" content="//huminxi.netlify.com/2019/11/21/new 一个对象的过程中发生了什么/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。">
+<meta property="og:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：类加载和创建对象。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/class-life-cycle.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/not-initialization.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/class-loader.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/classloader-delegation-model.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201911/load-class.png">
-<meta property="og:updated_time" content="2019-11-22T07:52:52.872Z">
+<meta property="og:updated_time" content="2019-11-22T08:19:36.941Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="new 一个对象的过程中发生了什么">
-<meta name="twitter:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。">
+<meta name="twitter:description" content="JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：类加载和创建对象。">
 <meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/201911/class-life-cycle.png">
 
 
@@ -387,14 +387,14 @@
       
 
       
-        <p>JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：加载类和创建对象。</p>
+        <p>JVM 在 new 一个对象的时候，会先查看对象所属的类有没有被加载到内存。如果没有的话，就通过类的全限定名来加载，等类加载完成之后，再来创建对象。总的来说， new 一个对象可以分为两个过程：类加载和创建对象。</p>
 <a id="more"></a>
-<h2 id="加载类"><a href="#加载类" class="headerlink" title="加载类"></a>加载类</h2><p>虚拟机把描述类的数据从 Class 文件（不一定存在于磁盘中，这里所说的 Class 文件应当是一串二进制的字节流，无论以何种形式存在都可以）加载到内存，并对数据进行连接和初始化，最终形成可以被虚拟机直接使用的 Class 对象。</p>
+<h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><p>虚拟机把描述类的数据从 Class 文件（不一定存在于磁盘中，这里所说的 Class 文件应当是一串二进制的字节流，无论以何种形式存在都可以）加载到内存，并对数据进行连接和初始化，最终形成可以被虚拟机直接使用的 Class 对象。</p>
 <p>与那些在编译时需要进行连接工作的语言不同，在 Java 语言里，Class 的加载、连接和初始化都是在程序运行期间完成的，这种策略虽然令类加载时增加一些性能开销，但是会给 Java 应用程序带来高度的灵活性。</p>
 <blockquote>
 <p>例如，如果编写一个面向接口的应用程序，可以等到运行时再指定其具体的实现类；用户可以通过 Java 预定义的或自定义的类加载器，让一个本地的应用程序可以在运行时从网络或其他地方加载一个二进制流作为程序代码的一部分，这种组装应用程序的方式目前已广泛应用于 Java 程序之中。从最基础的 Applet、JSP 到相对复杂的 OSGi 技术，都使用了 Java 语言运行期加载类的特性。</p>
-</blockquote>
 <h3 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h3><h4 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h4><p>类从被加载到内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用和卸载 7 个阶段。其中验证、准备、解析这 3 个阶段统称为连接。</p>
+</blockquote>
 <p><code>类的生命周期</code><br><img class-life-cycle="" src="/img/hufei/201911/class-life-cycle.png" width="100%" height="100%"></p>
 <blockquote>
 <p>加载、验证、准备、初始化和卸载这 5 个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持 Java 语言的运行时绑定。注意，这里笔者写的是按部就班地『开始』，而不是按部就班地『进行』或『完成』，强调这点是因为这些阶段通常都是互相交叉地进行的，通常会在一个阶段执行的过程中调用、激活另外一个阶段。</p>
@@ -579,10 +579,29 @@
 <p>Sun 公司所提出的 JSR-294、JSR-277 规范在与 JCP 组织的模块化规范之争中落败给 JSR-291（即 <a href="https://zh.wikipedia.org/wiki/OSGi" target="_blank" rel="noopener">OSGi</a> R4.2），虽然 Sun 不甘失去 Java 模块化的主导权，独立在发展 Jigsaw 项目，但目前 OSGi 已经成为了业界『事实上』的 Java 模块化标准，而 OSGi 实现模块化热部署的关键则是它自定义的类加载器机制的实现。每一个程序模块（OSGi 中称为 Bundle）都有一个自己的类加载器，当需要更换一个 Bundle 时，就把 Bundle 连同类加载器一起换掉以实现代码的热替换。在 OSGi 环境下，类加载器不再是双亲委派模型中的树状结构，而是进一步发展为更加复杂的网状结构。</p>
 </blockquote>
 <p><strong>虽然使用了『被破坏』这个词来形容上述不符合双亲委派模型原则的行为，但这里『被破坏』并不带有贬义的感情色彩。只要有足够意义和理由，突破已有的原则就可认为是一种创新。</strong> 正如 OSGi 中的类加载器并不符合传统的双亲委派的类加载器，并且业界对其为了实现热部署而带来的额外的高复杂度还存在不少争议，但在 Java 程序员中基本有一个共识：OSGi 中对类加载器的使用是很值得学习的，弄懂了 OSGi 的实现，就可以算是掌握了类加载器的精髓。</p>
-<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>创建对象可分为 3 个步骤：</p>
+<ul>
+<li>在堆区分配对象需要的内存<ul>
+<li>分配的内存包括本类和父类的所有实例变量，但不包括任何静态变量。</li>
+</ul>
+</li>
+<li>对所有实例变量赋默认值<ul>
+<li>将方法区内对实例变量的定义拷贝一份到堆区，然后赋默认值。</li>
+</ul>
+</li>
+<li>执行实例初始化代码<ul>
+<li>初始化顺序是先初始化父类再初始化子类，初始化时先执行实例代码块然后是构造方法。</li>
+<li>如果有类似于 Child c = new Child() 形式的 c 引用的话，在栈区定义 Child 类型引用变量 c，然后将堆区对象的地址赋值给它。</li>
+<li>需要注意的是，每个子类对象持有父类对象的引用，可在内部通过 super 关键字来调用父类对象，但在外部不可访问。</li>
+</ul>
+</li>
+</ul>
+<p>通过实例引用调用实例方法的时候，先从方法区中对象的实际类型信息找，找不到的话再去父类类型信息中找。如果继承的层次比较深，要调用的方法位于比较上层的父类，则调用的效率是比较低的，因为每次调用都要经过很多次查找。这时候大多系统会采用一种称为 <a href="https://mp.weixin.qq.com/s/TJEOZzrjQV4Ly3pwSfUhcg" target="_blank" rel="noopener">虚方法表</a> 的方法来优化调用的效率。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
 <li><a href="https://mp.weixin.qq.com/s/NGgMBE1M3i_nl5aqhYu5_g" target="_blank" rel="noopener">PDD面试题：new一个对象的过程中发生了什么？</a></li>
 <li><a href="https://blog.csdn.net/zhangjg_blog/article/details/21486985" target="_blank" rel="noopener">深入理解Java Class文件格式（一）</a></li>
+<li><a href="https://mp.weixin.qq.com/s/TJEOZzrjQV4Ly3pwSfUhcg" target="_blank" rel="noopener">这个世界根本没有什么面向对象！</a></li>
 </ul>
 
       
@@ -790,7 +809,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#加载类"><span class="nav-number">1.</span> <span class="nav-text">加载类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载的时机"><span class="nav-number">1.1.</span> <span class="nav-text">类加载的时机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类的生命周期"><span class="nav-number">1.1.1.</span> <span class="nav-text">类的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的初始化条件"><span class="nav-number">1.1.2.</span> <span class="nav-text">类的初始化条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载的过程"><span class="nav-number">1.2.</span> <span class="nav-text">类加载的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载"><span class="nav-number">1.2.1.</span> <span class="nav-text">加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证"><span class="nav-number">1.2.2.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#文件格式验证"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">文件格式验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#元数据验证"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">元数据验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#字节码验证"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">字节码验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#符号引用验证"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">符号引用验证</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备"><span class="nav-number">1.2.3.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解析"><span class="nav-number">1.2.4.</span> <span class="nav-text">解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化"><span class="nav-number">1.2.5.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载机制"><span class="nav-number">1.3.</span> <span class="nav-text">类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类与类加载器"><span class="nav-number">1.3.1.</span> <span class="nav-text">类与类加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双亲委派模型"><span class="nav-number">1.3.2.</span> <span class="nav-text">双亲委派模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#破坏双亲委派模型"><span class="nav-number">1.3.3.</span> <span class="nav-text">破坏双亲委派模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一次被破坏"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">第一次被破坏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二次被破坏"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">第二次被破坏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三次被破坏"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">第三次被破坏</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建对象"><span class="nav-number">2.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载"><span class="nav-number">1.</span> <span class="nav-text">类加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载的时机"><span class="nav-number">1.1.</span> <span class="nav-text">类加载的时机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类的生命周期"><span class="nav-number">1.1.1.</span> <span class="nav-text">类的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的初始化条件"><span class="nav-number">1.1.2.</span> <span class="nav-text">类的初始化条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载的过程"><span class="nav-number">1.2.</span> <span class="nav-text">类加载的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载"><span class="nav-number">1.2.1.</span> <span class="nav-text">加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证"><span class="nav-number">1.2.2.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#文件格式验证"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">文件格式验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#元数据验证"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">元数据验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#字节码验证"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">字节码验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#符号引用验证"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">符号引用验证</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备"><span class="nav-number">1.2.3.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解析"><span class="nav-number">1.2.4.</span> <span class="nav-text">解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化"><span class="nav-number">1.2.5.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载机制"><span class="nav-number">1.3.</span> <span class="nav-text">类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类与类加载器"><span class="nav-number">1.3.1.</span> <span class="nav-text">类与类加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双亲委派模型"><span class="nav-number">1.3.2.</span> <span class="nav-text">双亲委派模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#破坏双亲委派模型"><span class="nav-number">1.3.3.</span> <span class="nav-text">破坏双亲委派模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一次被破坏"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">第一次被破坏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二次被破坏"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">第二次被破坏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三次被破坏"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">第三次被破坏</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建对象"><span class="nav-number">2.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
