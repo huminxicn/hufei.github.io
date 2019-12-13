@@ -98,7 +98,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/javac-compilation-process.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/javac-compile.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/javac-compile2.png">
-<meta property="og:updated_time" content="2019-12-13T09:41:35.680Z">
+<meta property="og:updated_time" content="2019-12-13T09:49:48.100Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 程序编译与代码优化">
 <meta name="twitter:description" content="因为 Java 代码到机器码之间还存在着字节码，所以 Java 语言的『编译期』其实是一段不确定的过程。它可能是指一个前端编译器把 *.java 文件转变成 *.class 文件的过程；也可能是指虚拟机的运行期编译器（JIT 编译器，Just In Time Compiler）把字节码转变成机器码的过程；还可能是指使用提前编译器（AOT 编译器，Ahead Of Time Compiler）直接把">
@@ -402,7 +402,7 @@
 <li>AOT 编译器：GNU Compiler for the Java（GCJ）、Excelsior JET。</li>
 </ul>
 <blockquote>
-<p>这 3 类中最符合大家对 Java 程序编译认知的应该是第一类。限定了编译范围后，我们对于『代码优化』的定义就放宽一些，因为 Javac 这类编译器对代码的运行效率几乎没有任何优化措施。虚拟机设计团队把对性能的优化集中到了后端的即时编译器中，这样可以让那些不是由 Javac 产生的 Class 文件（如 JRuby、Groovy 等语言的 Class 文件）也同样能享受到编译器优化所带来的好处。但是 Javac 做了许多针对 Java 语言编码过程的优化措施来改善程序员的编码风格和提高编码效率。相当多新生的 Java 语法特性，都是靠编译器的『语法糖』来实现，而不是依赖虚拟机的底层改进来支持。<strong>可以说，Java 前端编译器在编译期的优化过程对于程序编码来说更重要，Java 即时编译器在运行期的优化过程对于程序运行来说更重要。</strong></p>
+<p>这 3 类中最符合大家对 Java 程序编译认知的应该是第一类。限定了编译范围后，我们对于『代码优化』的定义就放宽一些，因为 Javac 这类编译器对代码的运行效率几乎没有任何优化措施。虚拟机设计团队把对性能的优化集中到了后端的即时编译器中，这样可以让那些不是由 Javac 产生的 Class 文件（如 JRuby、Groovy 等语言的 Class 文件）也同样能享受到编译器优化所带来的好处。但是 Javac 也做了许多针对 Java 语言编码过程的优化措施来改善程序员的编码风格和提高编码效率。相当多新生的 Java 语法特性，都是靠编译器的『语法糖』来实现，而不是依赖虚拟机的底层改进来支持。<strong>可以说，Java 前端编译器在编译期的优化过程对于程序编码来说更重要，Java 即时编译器在运行期的优化过程对于程序运行来说更重要。</strong></p>
 </blockquote>
 <h2 id="编译期优化"><a href="#编译期优化" class="headerlink" title="编译期优化"></a>编译期优化</h2><h3 id="Javac-编译器"><a href="#Javac-编译器" class="headerlink" title="Javac 编译器"></a>Javac 编译器</h3><p>分析源码是了解一项技术的实现内幕最有效的手段，Javac 编译器不像 HotSpot 虚拟机那样使用 C++ 语言实现，它本身就是一个由 Java 语言编写的程序，这为纯 Java 的程序员了解它的编译过程带来了很大的便利。</p>
 <h4 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h4><p>去 <a href="http://hg.openjdk.java.net/jdk8/jdk8/langtools" target="_blank" rel="noopener">OpenJDK</a> 的官网下载源码。<br><img openjdk-8="" src="/img/hufei/201912/openjdk-8.png" width="100%" height="50%"></p>
