@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/interperter-and-jit.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/java-compile-mode.png">
-<meta property="og:updated_time" content="2019-12-24T06:45:43.747Z">
+<meta property="og:updated_time" content="2019-12-24T06:49:59.078Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 程序编译与代码优化续">
 <meta name="twitter:description" content="上一篇 我们主要是介绍编译期的代码优化，今天来介绍一下运行期的代码优化。在部分的商用虚拟机中（Sun HotSpot、IBM J9），Java 程序最初是通过解释器（Interpreter）进行解释执行的，当虚拟机发现某个方法或代码块运行的特别频繁时，就会把这些代码认定为『热点代码』（Hot Spot Code）。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器">
@@ -413,7 +413,7 @@
 <li>被多次执行的循环体。</li>
 </ul>
 <p>前者很好理解，一个方法被调用得多了，方法体内代码执行的次数自然就多，它成为『热点代码』是理所当然的。而后者则是为了解决一个方法只被调用过一次或少量的几次，但是方法体内部存在循环次数较多的循环体的问题，这样循环体的代码也被重复执行多次，因此这些代码也应该认为是『热点代码』。</p>
-<p>对于第一种情况，由于是由方法调用触发的编译，因此编译器理所当然地会以整个方法作为编译对象，这种编译也是虚拟机中标准的 JIT 编译方式。而对于后一种情况，尽管编译动作是由循环体所触发的，但编译器依然会以整个方法（而不是单独的循环体）作为编译对象。这种编译方式因为编译发生在方法执行过程之中，因此形象地称之为栈上替换（On Stack Replacement，简称为 OSR 编译，即方法栈帧还在栈上，整个方法就被替换了）。</p>
+<p>对于第一种情况，由于是由方法调用触发的编译，因此编译器理所当然地会以整个方法作为编译对象，这种编译也是虚拟机中标准的 JIT 编译方式。而对于后一种情况，尽管编译动作是由循环体所触发的，但编译器依然会以整个方法（而不是单独的循环体）作为编译对象。这种编译方式发生在方法执行过程之中，因此被形象地称之为栈上替换（On Stack Replacement，简称为 OSR 编译，即方法栈帧还在栈上，整个方法就被替换了）。</p>
 <h3 id="查看及分析即时编译结果"><a href="#查看及分析即时编译结果" class="headerlink" title="查看及分析即时编译结果"></a>查看及分析即时编译结果</h3><h2 id="编译优化技术"><a href="#编译优化技术" class="headerlink" title="编译优化技术"></a>编译优化技术</h2><h2 id="Java-与-C-C-的编译器对比"><a href="#Java-与-C-C-的编译器对比" class="headerlink" title="Java 与 C/C++ 的编译器对比"></a>Java 与 C/C++ 的编译器对比</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
 </ul>
