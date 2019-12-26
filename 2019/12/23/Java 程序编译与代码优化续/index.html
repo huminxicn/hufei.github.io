@@ -99,7 +99,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/after-parsing.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/phase-ideal-loop-1.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/final-code.png">
-<meta property="og:updated_time" content="2019-12-26T12:13:33.524Z">
+<meta property="og:updated_time" content="2019-12-26T12:15:27.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 程序编译与代码优化续">
 <meta name="twitter:description" content="上一篇 我们主要是介绍编译期的代码优化，今天来介绍一下运行期的代码优化。在部分的商用虚拟机中（Sun HotSpot、IBM J9），Java 程序最初是通过解释器（Interpreter）进行解释执行的，当虚拟机发现某个方法或代码块运行的特别频繁时，就会把这些代码认定为『热点代码』（Hot Spot Code）。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器">
@@ -465,6 +465,7 @@
 <p>要观察到这一点，可以在 Outline 面板上右键点击『Difference to current graph』，让软件自动分析指定阶段与当前打开的 Ideal 图之间的差异，如果基本块被消除了，将会以红色显示。对『After Parsing』和『PhaseIdealLoop 1』阶段的 Ideal 图进行差异分析，发现在『PhaseIdealLoop1』阶段循环操作被消除了，如图下图所示，这也就说明空循环实际上是不会被执行的。<br><code>PhaseIdealLoop 1</code><br><img phase-ideal-loop-1="" src="/img/hufei/201912/phase-ideal-loop-1.png" width="100%" height="50%"></p>
 <p>从『After Parsing』阶段开始，一直到最后的『Final Code』阶段，可以看到 doubleValue方法的 Ideal 图从繁到简的变迁过程，这也是 Java 虚拟机在尽力优化代码的过程。到了最后的『Final Code』阶段，不仅空循环的开销消除了，许多语言安全和 Safepoint 轮询的操作也一起消除了，因为编译器判断即使不做这些安全保障，虚拟机也不会受到威胁。</p>
 <p><code>final-code</code><br><img final-code="" src="/img/hufei/201912/final-code.png" width="100%" height="50%"></p>
+<p>最后提醒一下读者，要输出 CFG 或 IdealGraph 文件，需要一个 Debug 版或 FastDebug 版的虚拟机支持，Product 版的虚拟机无法输出这些文件。</p>
 <h2 id="编译优化技术"><a href="#编译优化技术" class="headerlink" title="编译优化技术"></a>编译优化技术</h2><h2 id="Java-与-C-C-的编译器对比"><a href="#Java-与-C-C-的编译器对比" class="headerlink" title="Java 与 C/C++ 的编译器对比"></a>Java 与 C/C++ 的编译器对比</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
 </ul>
