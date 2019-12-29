@@ -380,7 +380,7 @@
 
       
         
-          <p><a href="https://www.huminxi.com/2019/12/10/java%20%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E4%B8%8E%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/#more" target="_blank" rel="noopener">上一篇</a> 我们主要是介绍编译期的代码优化，今天来介绍一下运行期的代码优化。在部分的商用虚拟机中（Sun HotSpot、IBM J9），Java 程序最初是通过解释器（Interpreter）进行解释执行的，当虚拟机发现某个方法或代码块运行的特别频繁时，就会把这些代码认定为『热点代码』（Hot Spot Code）。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器码，并进行各种层次的优化，完成这个任务的编译器称为即时编译器（Just In Time Compiler，即 JIT 编译器）。</p>
+          <p><a href="https://www.huminxi.com/2019/12/10/java%20%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E4%B8%8E%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/#more" target="_blank" rel="noopener">上一篇</a> 我们主要是介绍编译期的代码优化，今天来介绍一下运行期的代码优化。在部分的商用虚拟机中（Sun HotSpot、IBM J9），Java 程序最初是通过解释器（Interpreter）进行解释执行的，当虚拟机发现某个方法或代码块运行的特别频繁时，就会把这些代码认定为『热点代码』（Hot Spot Code）。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器码并进行优化，完成这个任务的编译器称为即时编译器（Just In Time Compiler，JIT 编译器）。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/12/23/Java 程序编译与代码优化续/#more" rel="contents">
