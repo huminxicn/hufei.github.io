@@ -99,7 +99,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/javac-compile.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/javac-compile2.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/201912/javac-processor.png">
-<meta property="og:updated_time" content="2020-01-02T07:15:52.707Z">
+<meta property="og:updated_time" content="2020-01-02T07:22:15.255Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 程序编译与代码优化">
 <meta name="twitter:description" content="因为 Java 代码到机器码之间还存在着字节码，所以 Java 语言的『编译期』其实是一段不确定的过程。它可能是指一个前端编译器把 *.java 文件转变成 *.class 文件的过程；也可能是指虚拟机的运行期编译器（JIT 编译器，Just In Time Compiler）把字节码转变成机器码的过程；还可能是指使用提前编译器（AOT 编译器，Ahead Of Time Compiler）直接把">
@@ -419,15 +419,15 @@
 <h3 id="Javac-的编译过程"><a href="#Javac-的编译过程" class="headerlink" title="Javac 的编译过程"></a>Javac 的编译过程</h3><p>将一组源文件编译为一组相应的类文件的过程并不简单，但通常可以分为 <a href="http://openjdk.java.net/groups/compiler/doc/compilation-overview/index.html" target="_blank" rel="noopener">三个过程</a>：</p>
 <ul>
 <li>解析与填充符号表过程<ul>
-<li>读取命令行上指定的所有源文件，将其解析为语法树，然后将所有外部可见的定义输入到编译器的符号表中。</li>
+<li>读取命令行上指定的源文件，将其解析为语法树，然后输出到符号表中。</li>
 </ul>
 </li>
 <li>注解处理过程<ul>
-<li>调用所有适当的注解处理器。如果任何注解处理器生成任何新的源文件或类文件，则重新启动编译，直到没有新文件创建为止。</li>
+<li>调用注解处理器。如果注解处理器生成了新的源文件，则重新编译，直到没有新文件创建为止。</li>
 </ul>
 </li>
 <li>分析和字节码生成过程<ul>
-<li>最后，分析器创建的语法树将被分析并转换为类文件。在分析过程中，可能会找到对其他类的引用。</li>
+<li>最后，分析语法树并将其转换为类文件。</li>
 </ul>
 </li>
 </ul>
