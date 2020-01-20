@@ -92,7 +92,8 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202001/lwp-klt.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202001/ut-p.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202001/ut-lwp-klt.png">
-<meta property="og:updated_time" content="2020-01-20T08:10:56.573Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/202001/thread-status-exchange.png">
+<meta property="og:updated_time" content="2020-01-20T09:12:27.114Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 内存模型与线程">
 <meta name="twitter:description" content="并发处理的广泛应用是 Amdahl 定律代替摩尔定律成为计算机性能发展源动力的原因。Amdahl 定律描述了处理器并行运算之后运行效率提升的情况，而摩尔定律表明了处理器晶体管数量与运行效率之间存在正相关性。这两个定律的更替代表了近年来硬件从追求处理器频率到追求多核心并行处理的发展过程。">
@@ -410,7 +411,7 @@
 </blockquote>
 <p>Java 内存模型规定了所有的变量都存储在主内存（Main Memory）中（此处的主内存与介绍物理硬件时的主内存名字一样，两者也可以互相类比）。每条线程还有自己的工作内存（Working Memory，可与前面的高速缓存类比）。线程的工作内存中保存了被该线程使用到的变量的主内存副本，线程对变量的所有操作（读取、赋值等）都必须在工作内存中进行，而不能直接读写主内存中的变量。不同线程之间也无法直接访问对方工作内存中的变量，线程之间变量值的传递均需要通过主内存来完成，线程、主内存、工作内存三者的交互关系如下图所示。</p>
 <p><code>线程、主内存、工作内存间的交互关系</code><br><img java-memory-model="" src="/img/hufei/202001/java-memory-model.png" width="100%" height="50%"></p>
-<h2 id="Java-与线程"><a href="#Java-与线程" class="headerlink" title="Java 与线程"></a>Java 与线程</h2><p>并发不一定要依赖多线程（如 PHP 中很常见的多进程并发），但是在 Java 里面谈论并发，大多数都与线程脱不开关系。</p>
+<h2 id="Java-线程"><a href="#Java-线程" class="headerlink" title="Java 线程"></a>Java 线程</h2><p>并发不一定要依赖多线程（如 PHP 中很常见的多进程并发），但是在 Java 里面谈论并发，大多数都与线程脱不开关系。</p>
 <h3 id="线程的实现"><a href="#线程的实现" class="headerlink" title="线程的实现"></a>线程的实现</h3><p>我们知道，线程是比进程更轻量级的调度单位，线程的引入，可以把一个进程的资源分配和执行分开，各个线程既可以共享进程资源（内存地址、文件 I/O 等），又可以独立调度（线程是 CPU 调度的基本单位）。</p>
 <blockquote>
 <p>主流的操作系统都提供了线程实现，Java 语言也提供了在不同硬件和操作系统平台下对线程操作的统一处理，每个已经执行 start 方法且还未结束的 java.lang.Thread 类的实例就代表了一个线程。我们注意到 Thread 类与大部分的 Java API 有显著的差别，它的所有关键方法都是声明为 Native 的。在 Java API 中，一个 Native 方法往往意味着这个方法没有使用或无法使用平台无关的手段来实现（当然也可能是为了执行效率而使用 Native 方法，不过，通常最高效率的手段也就是平台相关的手段）。</p>
@@ -435,7 +436,91 @@
 <blockquote>
 <p>Java 线程在 JDK 1.2 之前，是基于称为绿色线程（Green Threads）的用户线程实现的，<strong>而在 JDK 1.2 中，线程模型替换为基于操作系统原生线程模型来实现。</strong>因此，在目前的 JDK 版本中，操作系统支持怎样的线程模型，在很大程度上决定了 Java 虚拟机的线程是怎样映射的，这点在不同的平台上没有办法达成一致，因此在虚拟机规范中未限定 Java 线程需要使用哪种线程模型来实现。线程模型只对线程的并发规模和操作成本产生影响，对 Java 程序的编码和运行过程来说，这些差异都是透明的。</p>
 </blockquote>
-<h3 id="Java-线程调度"><a href="#Java-线程调度" class="headerlink" title="Java 线程调度"></a>Java 线程调度</h3><h3 id="状态转化"><a href="#状态转化" class="headerlink" title="状态转化"></a>状态转化</h3><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<h3 id="Java-线程调度"><a href="#Java-线程调度" class="headerlink" title="Java 线程调度"></a>Java 线程调度</h3><p>线程调度是指系统为线程分配处理器使用权的过程，主要调度方式有两种，分别是协同式线程调度（Cooperative Threads-Scheduling）和抢占式线程调度（Preemptive Threads-Scheduling）。</p>
+<blockquote>
+<p>如果使用协同式调度的多线程系统，线程的执行时间由线程本身来控制，线程把自己的工作执行完了之后，要主动通知系统切换到另外一个线程上。协同式多线程的最大好处是实现简单，而且由于线程要把自己的事情干完后才会进行线程切换，切换操作对线程自己是可知的，所以没有什么线程同步的问题。Lua 语言中的『协同例程』就是这类实现。它的坏处也很明显：线程执行时间不可控制，甚至如果一个线程编写有问题，一直不告知系统进行线程切换，那么程序就会一直阻塞在那里。很久以前的 Windows 3.x 系统就是使用协同式来实现多进程多任务的，相当不稳定，一个进程坚持不让出 CPU 执行时间就可能会导致整个系统崩溃。</p>
+<p>如果使用抢占式调度的多线程系统，那么每个线程将由系统来分配执行时间，线程的切换不由线程本身来决定（在 Java中，Thread.yield 可以让出执行时间，但是要获取执行时间的话，线程本身是没有什么办法的）。在这种实现线程调度的方式下，线程的执行时间是系统可控的，也不会有一个线程导致整个进程阻塞的问题，Java 使用的线程调度方式就是抢占式调度。与前面所说的 Windows 3.x 的例子相对，在 Windows 9x/NT 内核中就是使用抢占式来实现多进程的，当一个进程出了问题，我们还可以使用任务管理器把这个进程『杀掉』，而不至于导致系统崩溃。</p>
+</blockquote>
+<p>虽然 Java 线程调度是系统自动完成的，但是我们还是可以『建议』系统给某些线程多分配一点执行时间，另外的一些线程则可以少分配一点——这项操作可以通过设置线程优先级来完成。Java 语言一共设置了 10 个级别的线程优先级（Thread.MIN_PRIORITY 至 Thread.MAX_PRIORITY），在两个线程同时处于 Ready 状态时，优先级越高的线程越容易被系统选择执行。</p>
+<blockquote>
+<p>不过，线程优先级并不是太靠谱，原因是 Java 的线程是通过映射到系统的原生线程上来实现的，所以线程调度最终还是取决于操作系统，虽然现在很多操作系统都提供线程优先级的概念，但是并不见得能与 Java 线程的优先级一一对应，如 Solaris 中有 2147483648（2³²）种优先级，但 Windows 中就只有 7 种，比 Java 线程优先级多的系统还好说，中间留下一点空位就可以了，但比 Java 线程优先级少的系统，就不得不出现几个优先级相同的情况了。下表显示了 Java 线程优先级与 Windows 线程优先级之间的对应关系，Windows 平台的 JDK 中使用了除 THREAD_PRIORITY_IDLE 之外的其余 6 种线程优先级。</p>
+</blockquote>
+<p><code>Java 线程优先级与 Windows 线程优先级之间的对应关系</code></p>
+<table>
+<thead>
+<tr>
+<th>Java 线程优先级</th>
+<th>Windows 线程优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1（Thread.MIN_PRIORITY）</td>
+<td>THREAD_PRIORITY_LOWEST</td>
+</tr>
+<tr>
+<td>2</td>
+<td>THREAD_PRIORITY_LOWEST</td>
+</tr>
+<tr>
+<td>3</td>
+<td>THREAD_PRIORITY_BELOW_NORMAL</td>
+</tr>
+<tr>
+<td>4</td>
+<td>THREAD_PRIORITY_BELOW_NORMAL</td>
+</tr>
+<tr>
+<td>5（Thread.NORM_PRIORITY）</td>
+<td>THREAD_PRIORITY_NORMAL</td>
+</tr>
+<tr>
+<td>6</td>
+<td>THREAD_PRIORITY_ABOVE_NORMAL</td>
+</tr>
+<tr>
+<td>7</td>
+<td>THREAD_PRIORITY_ABOVE_NORMAL</td>
+</tr>
+<tr>
+<td>8</td>
+<td>THREAD_PRIORITY_HIGHEST</td>
+</tr>
+<tr>
+<td>9</td>
+<td>THREAD_PRIORITY_HIGHEST</td>
+</tr>
+<tr>
+<td>10（Thread.MAX_PRIORITY）</td>
+<td>THREAD_PRIORITY_CRITICAL</td>
+</tr>
+</tbody>
+</table>
+<p>上文说到『线程优先级并不是太靠谱』，<strong>不仅仅是说在一些平台上不同的优先级实际会变得相同这一点，还有其他情况让我们不能太依赖优先级：优先级可能会被系统自行改变。</strong> 例如，在 Windows 系统中存在一个称为『优先级推进器』（Priority Boosting，当然它可以被关闭掉）的功能，它的大致作用就是当系统发现一个线程执行得特别『勤奋努力』的话，可能会越过线程优先级去为它分配执行时间。因此，我们不能在程序中通过优先级来完全准确地判断一组状态都为 Ready 的线程将会先执行哪一个。</p>
+<h3 id="状态转化"><a href="#状态转化" class="headerlink" title="状态转化"></a>状态转化</h3><p>Java 语言定义了 6 种线程状态（由 Thread 类内部枚举 State 定义），在任意一个时间点，一个线程只能有且只有其中的一种状态，这 6 种状态分别如下。</p>
+<ul>
+<li>New：创建后尚未启动的线程处于这种状态。</li>
+<li>RUNNABLE：包括了操作系统线程状态中的 Running 和 Ready，也就是处于此状态的线程有可能正在执行，也有可能正在等待着 CPU 为它分配执行时间。</li>
+<li>WAITING：处于这种状态的线程不会被分配 CPU 执行时间，它们要等待被其他线程显式地唤醒。以下方法会让线程陷入无限期的等待状态：<ul>
+<li>没有设置 Timeout 参数的 <code>Object.wait()</code> 方法。</li>
+<li>没有设置 Timeout 参数的 <code>Thread.join()</code> 方法。</li>
+<li><code>LockSupport.park()</code> 方法。</li>
+</ul>
+</li>
+<li>TIMED_WAITING：处于这种状态的线程也不会被分配 CPU 执行时间，不过无须等待被其他线程显式地唤醒，在一定时间之后它们会由系统自动唤醒。以下方法会让线程进入限期等待状态：<ul>
+<li><code>Thread.sleep()</code>方法。</li>
+<li>设置了 Timeout参数的 <code>Object.wait()</code> 方法。</li>
+<li>设置了 Timeout参数的 <code>Thread.join()</code> 方法。</li>
+<li><code>LockSupport.parkNanos()</code> 方法。</li>
+<li><code>LockSupport.parkUntil()</code> 方法。</li>
+</ul>
+</li>
+<li>BLOCKED：线程被阻塞了，『阻塞状态』与『等待状态』的区别是：『阻塞状态』在等待着获取到一个排他锁，这个事件将在另外一个线程放弃这个锁的时候发生；而『等待状态』则是在等待一段时间，或者唤醒动作的发生。在程序等待进入同步区域的时候，线程将进入这种状态。</li>
+<li>TERMINATED：已终止线程的线程状态，线程已经结束执行。</li>
+</ul>
+<p>上述 6 种状态在遇到特定事件发生的时候将会互相转换，它们的转换关系如下图所示。</p>
+<p><code>线程状态转换关系</code><br><img thread-status-exchange="" src="/img/hufei/202001/thread-status-exchange.png" width="100%" height="50%"></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://book.douban.com/subject/24722612/" target="_blank" rel="noopener">《深入理解 Java 虚拟机》</a></li>
 </ul>
 
@@ -646,7 +731,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件的效率与一致性"><span class="nav-number">2.</span> <span class="nav-text">硬件的效率与一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存的作用"><span class="nav-number">2.1.</span> <span class="nav-text">缓存的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指令重排序"><span class="nav-number">2.2.</span> <span class="nav-text">指令重排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-内存模型"><span class="nav-number">3.</span> <span class="nav-text">Java 内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主内存与工作内存"><span class="nav-number">3.1.</span> <span class="nav-text">主内存与工作内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-与线程"><span class="nav-number">4.</span> <span class="nav-text">Java 与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的实现"><span class="nav-number">4.1.</span> <span class="nav-text">线程的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用内核线程实现"><span class="nav-number">4.1.1.</span> <span class="nav-text">使用内核线程实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用用户线程实现"><span class="nav-number">4.1.2.</span> <span class="nav-text">使用用户线程实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#混合实现"><span class="nav-number">4.1.3.</span> <span class="nav-text">混合实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-线程实现"><span class="nav-number">4.1.4.</span> <span class="nav-text">Java 线程实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-线程调度"><span class="nav-number">4.2.</span> <span class="nav-text">Java 线程调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态转化"><span class="nav-number">4.3.</span> <span class="nav-text">状态转化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件的效率与一致性"><span class="nav-number">2.</span> <span class="nav-text">硬件的效率与一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存的作用"><span class="nav-number">2.1.</span> <span class="nav-text">缓存的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指令重排序"><span class="nav-number">2.2.</span> <span class="nav-text">指令重排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-内存模型"><span class="nav-number">3.</span> <span class="nav-text">Java 内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主内存与工作内存"><span class="nav-number">3.1.</span> <span class="nav-text">主内存与工作内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-线程"><span class="nav-number">4.</span> <span class="nav-text">Java 线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的实现"><span class="nav-number">4.1.</span> <span class="nav-text">线程的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用内核线程实现"><span class="nav-number">4.1.1.</span> <span class="nav-text">使用内核线程实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用用户线程实现"><span class="nav-number">4.1.2.</span> <span class="nav-text">使用用户线程实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#混合实现"><span class="nav-number">4.1.3.</span> <span class="nav-text">混合实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-线程实现"><span class="nav-number">4.1.4.</span> <span class="nav-text">Java 线程实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-线程调度"><span class="nav-number">4.2.</span> <span class="nav-text">Java 线程调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态转化"><span class="nav-number">4.3.</span> <span class="nav-text">状态转化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
