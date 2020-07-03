@@ -97,7 +97,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/slow-log-table.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/slow-log.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/slow-log-output.png">
-<meta property="og:updated_time" content="2020-07-02T12:05:47.323Z">
+<meta property="og:updated_time" content="2020-07-03T02:48:31.317Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一条 SQL 查询语句是如何执行的">
 <meta name="twitter:description" content="假设你有个最简单的表 test，表里只有一个 id 字段，在执行 select * from test where id=3 这个查询语句时。我们只看到『输入一条语句，返回了一个结果』，却不知道这条语句在 MySQL 内部的执行过程。所以今天我想和你一起把 MySQL 拆解一下，看看里面都有哪些『零件』。">
@@ -470,7 +470,7 @@
 <p>在某些场景下，执行器只调用了一次，引擎内部却扫描了多行，因此引擎扫描行数跟 rows_examined 并不是完全相同的。</p>
 <p><code>开启慢查询日志</code><br><img slow-log="" src="/img/hufei/202007/slow-log.png" width="100%" height="100%"></p>
 <p><code>调整慢查询日志的输出形式</code><br><img slow-log-output="" src="/img/hufei/202007/slow-log-output.png" width="100%" height="100%"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文着重介绍了 MySQL 的逻辑架构，并且分析了一个 SQL 查询语句的完整执行流程。下一篇我们来介绍 SQL 更新语句是如何执行的。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>我们经常说，看一个事儿千万不要直接陷入细节里，你应该先鸟瞰其全貌，这样能够帮助你从高维度理解问题。同样，对于 MySQL 的学习也是这样。本文着重介绍了 MySQL 的逻辑架构，并且带你剖析了一个 SQL 查询语句的完整执行流程。相信看完这篇文章，你应该对 MySQL 有了一个大概的印象了。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://time.geekbang.org/column/article/68319" target="_blank" rel="noopener">基础架构：一条SQL查询语句是如何执行的？</a></li>
 <li><a href="https://blog.csdn.net/timchen525/article/details/75268151#:~:text=MySQL%E7%9A%84%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97,%E7%9A%84%E8%AF%9D%EF%BC%8C%E5%BB%BA%E8%AE%AE%E5%86%99%E6%96%87%E4%BB%B6%EF%BC%89%E3%80%82" target="_blank" rel="noopener">关于MySQL 通用查询日志和慢查询日志分析</a></li>
