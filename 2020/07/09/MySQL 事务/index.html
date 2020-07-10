@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="MySQL,事务," />
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="黄枫谷">
-<meta property="og:url" content="//huminxi.netlify.com/tags/OOP/index.html">
+<meta name="description" content="简单来说，事务就是要保证一组数据库操作，要么全部成功，要么全部失败。在 MySQL 中，事务支持是在引擎层实现的。虽然 MySQL 是一个支持多引擎的数据库管理系统，但不是所有的引擎都支持事务。比如 MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。">
+<meta name="keywords" content="MySQL,事务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 事务">
+<meta property="og:url" content="//huminxi.netlify.com/2020/07/09/MySQL 事务/index.html">
 <meta property="og:site_name" content="黄枫谷">
+<meta property="og:description" content="简单来说，事务就是要保证一组数据库操作，要么全部成功，要么全部失败。在 MySQL 中，事务支持是在引擎层实现的。虽然 MySQL 是一个支持多引擎的数据库管理系统，但不是所有的引擎都支持事务。比如 MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-10T03:40:06.149Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黄枫谷">
+<meta name="twitter:title" content="MySQL 事务">
+<meta name="twitter:description" content="简单来说，事务就是要保证一组数据库操作，要么全部成功，要么全部失败。在 MySQL 中，事务支持是在引擎层实现的。虽然 MySQL 是一个支持多引擎的数据库管理系统，但不是所有的引擎都支持事务。比如 MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="//huminxi.netlify.com/tags/OOP/"/>
+  <link rel="canonical" href="//huminxi.netlify.com/2020/07/09/MySQL 事务/"/>
 
 
 
 
 
-  <title>标签: OOP | 黄枫谷</title>
+  <title>MySQL 事务 | 黄枫谷</title>
   
 
 
@@ -140,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -268,54 +273,191 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h2>OOP<small>标签</small>
-        </h2>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//huminxi.netlify.com/2020/07/09/MySQL 事务/">
 
-      <h3 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡匪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/huangfenggu.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黄枫谷">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/01/08/POP OOP and AOP/" itemprop="url">
-              
-                <span itemprop="name">POP OOP and AOP</span>
-              
-            </a>
         
-      </h3>
+          <h2 class="post-title" itemprop="name headline">MySQL 事务</h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-01-08T10:05:10+08:00"
-              content="2019-01-08" >
-          01-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-09T20:01:00+08:00">
+                2020-07-09
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/07/09/MySQL 事务/" class="leancloud_visitors" data-flag-title="MySQL 事务">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>简单来说，事务就是要保证一组数据库操作，要么全部成功，要么全部失败。在 MySQL 中，事务支持是在引擎层实现的。虽然 MySQL 是一个支持多引擎的数据库管理系统，但不是所有的引擎都支持事务。比如 MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。</p>
+<a id="more"></a>
+<h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h2><h3 id="事务的-ACID-特性"><a href="#事务的-ACID-特性" class="headerlink" title="事务的 ACID 特性"></a>事务的 ACID 特性</h3><p>事务是由一组 SQL 语句组成的逻辑处理单元，事务具有以下 4 个属性，通常简称为事务的 ACID 属性：</p>
+<ul>
+<li>原子性（Atomicity）<ul>
+<li>事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行。</li>
+</ul>
+</li>
+<li>一致性（Consistent）<ul>
+<li>如果一个事务原子地在一个一致地数据库中独立运行，那么在它执行之后，数据库的状态一定是一致的。对于这个概念，它的第一层意思就是对于数据完整性的约束，包括主键约束、引用约束以及一些约束检查等等，在事务的执行的前后以及过程中不会违背对数据完整性的约束，所有对数据库写入的操作都应该是合法的，并不能产生不合法的数据状态。</li>
+</ul>
+</li>
+</ul>
+<h2 id="隔离级别的具体实现"><a href="#隔离级别的具体实现" class="headerlink" title="隔离级别的具体实现"></a>隔离级别的具体实现</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://time.geekbang.org/column/article/68963" target="_blank" rel="noopener">事务隔离：为什么你改了我还看不见？</a></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+            <a href="/tags/事务/" rel="tag"># 事务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/01/一条 SQL 查询语句是如何执行的/" rel="next" title="一条 SQL 查询语句是如何执行的">
+                <i class="fa fa-chevron-left"></i> 一条 SQL 查询语句是如何执行的
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -323,6 +465,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -343,8 +489,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -442,6 +597,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是事务"><span class="nav-number">1.</span> <span class="nav-text">什么是事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务的-ACID-特性"><span class="nav-number">1.1.</span> <span class="nav-text">事务的 ACID 特性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离级别的具体实现"><span class="nav-number">2.</span> <span class="nav-text">隔离级别的具体实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -596,6 +767,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
