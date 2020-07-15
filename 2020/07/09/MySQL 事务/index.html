@@ -89,7 +89,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/concurrent-transaction.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/mysql-default-isolation.png">
-<meta property="og:updated_time" content="2020-07-10T10:52:50.088Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/rollback-log.png">
+<meta property="og:updated_time" content="2020-07-15T08:44:29.815Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 事务">
 <meta name="twitter:description" content="简单来说，事务就是要保证一组数据库操作，要么全部成功，要么全部失败。在 MySQL 中，事务是在引擎层实现的。虽然 MySQL 是支持多引擎的系统，但不是所有的引擎都支持事务。比如 MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。">
@@ -386,7 +387,7 @@
       
         <p>简单来说，事务就是要保证一组数据库操作，要么全部成功，要么全部失败。在 MySQL 中，事务是在引擎层实现的。虽然 MySQL 是支持多引擎的系统，但不是所有的引擎都支持事务。比如 MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。</p>
 <a id="more"></a>
-<h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h2><h3 id="事务的-ACID-特性"><a href="#事务的-ACID-特性" class="headerlink" title="事务的 ACID 特性"></a>事务的 ACID 特性</h3><p>事务是由一组 SQL 语句组成的逻辑处理单元，事务具有以下 4 个属性，通常简称为事务的 ACID 属性：</p>
+<h2 id="事务的属性"><a href="#事务的属性" class="headerlink" title="事务的属性"></a>事务的属性</h2><p>事务是由一组 SQL 语句组成的逻辑处理单元，事务具有以下 4 个属性，通常简称为事务的 ACID 属性：</p>
 <ul>
 <li>原子性（Atomicity）<ul>
 <li>事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行。</li>
@@ -406,7 +407,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="并发执行事务带来的问题"><a href="#并发执行事务带来的问题" class="headerlink" title="并发执行事务带来的问题"></a>并发执行事务带来的问题</h3><ul>
+<h2 id="并发执行事务带来的问题"><a href="#并发执行事务带来的问题" class="headerlink" title="并发执行事务带来的问题"></a>并发执行事务带来的问题</h2><ul>
 <li>脏读（Dirty Reads）<ul>
 <li>一个事务正在对一条记录做修改，在这个事务完成并提交前，这条记录的数据就处于不一致状态；这时，另一个事务也来读取同一条记录，如果不加控制，第二个事务读取了这些『脏数据』，并据此做进一步的处理，就会与未提交的数据产生依赖关系。这种现象被形象地叫做『脏读』。</li>
 </ul>
@@ -420,8 +421,8 @@
 </ul>
 </li>
 </ul>
-<p>为了解决上述问题，就有了『隔离级别』这个概念。在谈隔离级别之前，你首先要知道，<strong>你隔离得越严实，效率就会越低。因此很多时候，我们都要在二者之间寻找一个平衡点。</strong> </p>
-<h3 id="数据库的隔离级别"><a href="#数据库的隔离级别" class="headerlink" title="数据库的隔离级别"></a>数据库的隔离级别</h3><p>SQL 标准的事务隔离级别包括：读未提交（read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（serializable ）。下面逐一解释：</p>
+<p>为了解决这些问题，就有了『隔离级别』这个概念。在谈隔离级别之前，你首先要知道，<strong>你隔离得越严实，效率就会越低。因此很多时候，我们都要在二者之间寻找一个平衡点。</strong> </p>
+<h2 id="数据库的隔离级别"><a href="#数据库的隔离级别" class="headerlink" title="数据库的隔离级别"></a>数据库的隔离级别</h2><p>SQL 标准的事务隔离级别包括：读未提交（read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（serializable ）。下面逐一解释：</p>
 <ul>
 <li>读未提交是指，一个事务还没提交时，它做的变更就能被别的事务看到。</li>
 <li>读提交是指，一个事务提交之后，它做的变更才会被其他事务看到。</li>
@@ -474,11 +475,16 @@
 <li>若隔离级别是『可重复读』，则 V1、V2 是 1，V3 是 2。V2 之所以还是 1，遵循的就是这个要求：事务在执行期间看到的数据前后必须是一致的。</li>
 <li>若隔离级别是『串行化』，则在事务 B 执行『将 1 改成 2』的时候，会被锁住。直到事务 A 提交后，事务 B 才可以继续执行。所以从 A 的角度看， V1、V2 值是 1，V3 的值是 2。</li>
 </ul>
-<p>在实现上，数据库里面会创建一个视图，访问的时候以视图的逻辑结果为准。 在『可重复读』隔离级别下，这个视图是在事务启动时创建的，整个事务存在期间都用这个视图。在『读提交』隔离级别下，这个视图是在每个 SQL 语句开始执行的时候创建的。这里需要注意的是，『读未提交』隔离级别下直接返回记录上的最新值，没有视图概念；而『串行化』隔离级别下直接用加锁的方式来避免并行访问。</p>
-<blockquote>
 <p>我们可以看到在不同的隔离级别下，数据库行为是有所不同的。Oracle 数据库的默认隔离级别是『读提交』，而 MySQL 数据库的默认却是『可重复读』。因此对于一些从 Oracle 迁移到 MySQL 的应用，为保证数据库隔离级别的一致，你一定要记得将 MySQL 的隔离级别设置为『读提交』。</p>
-</blockquote>
 <p><img mysql-default-isolation="" src="/img/hufei/202007/mysql-default-isolation.png" width="100%" height="50%"></p>
+<h2 id="事务隔离的实现"><a href="#事务隔离的实现" class="headerlink" title="事务隔离的实现"></a>事务隔离的实现</h2><p>在实现上，数据库里面会创建一个视图，访问的时候以视图的逻辑结果为准。 在『可重复读』隔离级别下，这个视图是在事务启动时创建的，整个事务存在期间都用这个视图。在『读提交』隔离级别下，这个视图是在每个 SQL 语句开始执行的时候创建的。这里需要注意的是，『读未提交』隔离级别下直接返回记录上的最新值，没有视图概念；而『串行化』隔离级别下直接用加锁的方式来避免并行访问。</p>
+<h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>在 MySQL 中，实际上每条记录在更新的时候都会同时记录一条回滚操作。记录上的最新值，通过回滚操作，都可以得到前一个状态的值。假设一个值从 1 被按顺序改成了 2、3、4，在回滚日志里面就会有类似下面的记录。</p>
+<p><img rollback-log="" src="/img/hufei/202007/rollback-log.png" width="100%" height="50%"></p>
+<p>当前值是 4，但是在查询这条记录的时候，不同时刻启动的事务会有不同的 read-view。如上图所示，在视图 A、B、C 里面，这一个记录的值分别是 1、2、4，同一条记录在系统中可以存在多个版本，就是数据库的多版本并发控制（<a href="https://zhuanlan.zhihu.com/p/64576887" target="_blank" rel="noopener">MVCC</a>）。对于 read-view A，要得到 1，就必须将当前值依次执行图中所有的回滚操作。同时你会发现，即使现在有另外一个事务正在将 4 改成 5，这个事务跟 read-view A、B、C 对应的事务是不会冲突的。</p>
+<p>你一定会问，回滚日志总不能一直保留吧，什么时候删除呢？答案是，在不需要的时候删除。那什么时候才不需要了呢？就是当系统里没有比这个回滚日志更早的 read-view 的时候。因此，建议你尽量不要使用长事务。长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以在这个事务提交之前，数据库里面它可能用到的回滚日志都必须保留，这就会占用大量的存储空间。</p>
+<blockquote>
+<p>在 MySQL 5.5 及以前的版本，回滚日志是跟数据字典一起放在 ibdata 文件里的，即使长事务最终提交，回滚段被清理，文件也不会变小。我见过数据只有 20GB，而回滚段有 200GB 的库。最终只好为了清理回滚段，重建整个库。</p>
+</blockquote>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://time.geekbang.org/column/article/68963" target="_blank" rel="noopener">事务隔离：为什么你改了我还看不见？</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/64576887" target="_blank" rel="noopener">MySQL InnoDB MVCC 机制的原理及实现</a></li>
@@ -626,7 +632,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -689,7 +695,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是事务"><span class="nav-number">1.</span> <span class="nav-text">什么是事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务的-ACID-特性"><span class="nav-number">1.1.</span> <span class="nav-text">事务的 ACID 特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发执行事务带来的问题"><span class="nav-number">1.2.</span> <span class="nav-text">并发执行事务带来的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库的隔离级别"><span class="nav-number">1.3.</span> <span class="nav-text">数据库的隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">2.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事务的属性"><span class="nav-number">1.</span> <span class="nav-text">事务的属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发执行事务带来的问题"><span class="nav-number">2.</span> <span class="nav-text">并发执行事务带来的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的隔离级别"><span class="nav-number">3.</span> <span class="nav-text">数据库的隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务隔离的实现"><span class="nav-number">4.</span> <span class="nav-text">事务隔离的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVCC"><span class="nav-number">4.1.</span> <span class="nav-text">MVCC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
