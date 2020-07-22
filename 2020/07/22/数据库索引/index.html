@@ -90,7 +90,8 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/mysql-index-hash.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/mysql-index-array.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/mysql-index-b-tree.png">
-<meta property="og:updated_time" content="2020-07-22T09:47:12.726Z">
+<meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/innodb-index.png">
+<meta property="og:updated_time" content="2020-07-22T13:59:47.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库索引">
 <meta name="twitter:description" content="提到数据库索引，我想你并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，你可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就让我们一起来聊聊这个话题吧。">
@@ -388,7 +389,7 @@
         <p>提到数据库索引，我想你并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，你可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就让我们一起来聊聊这个话题吧。</p>
 <a id="more"></a>
 <h2 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h2><p>简单来说，索引的出现其实是为了提高数据查询的效率，就像书的目录一样。一本 500 页的书，如果你想快速找到其中的某一个知识点，在不借助目录的情况下，我估计你可得找一会儿。同样，对于数据库的表而言，索引就是它的『目录』。</p>
-<h3 id="索引的数据模型"><a href="#索引的数据模型" class="headerlink" title="索引的数据模型"></a>索引的数据模型</h3><p>理论上来说，只要能提高读写效率的数据结构都可以作为索引的数据模型。这里只介绍三种常见的、简单的数据结构，它们分别是哈希表、有序数组和搜索树。</p>
+<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>理论上来说，只要能提高读写效率的数据结构都可以作为索引模型。这里只介绍三种常见的、简单的数据结构，它们分别是哈希表、有序数组和搜索树。</p>
 <h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>哈希表是一种以键-值（key-value）形式存储数据的结构，我们只要输入待查找的键即 key，就可以找到其对应的值即 Value。哈希的思路很简单，把值放在数组里，用一个哈希函数把 key 换算成一个确定的位置，然后把 value 放在数组的这个位置。</p>
 <p>不可避免地，多个 key 经过哈希函数的换算，会出现同一个位置的情况。处理这种情况的一种方法是，在这个位置生成一个链表。</p>
 <p>假设，你现在维护着一个身份证信息和姓名的表，需要根据身份证号查找对应的名字，这时对应的哈希索引的示意图如下所示：</p>
@@ -405,15 +406,51 @@
 <p><code>二叉搜索树索引示意图</code><br><img mysql-index-b-tree="" src="/img/hufei/202007/mysql-index-b-tree.png" width="100%" height="50%"></p>
 <p>二叉搜索树的特点是：每个节点的左儿子小于父节点，父节点又小于右儿子。这样如果你要查 id_4 的话，按照图中的搜索顺序就是按照 UserA -&gt; UserC -&gt; UserG -&gt; User4 这个路径得到。这个时间复杂度是 \(O(\log n)\)。</p>
 <p>当然为了维持 \(O(\log n)\) 的查询复杂度，你就需要保持这棵树是平衡二叉树。为了做这个保证，更新的时间复杂度也是 \(O(\log n)\)。</p>
-<p>树可以有二叉，也可以有多叉。多叉树就是每个节点有多个儿子，儿子之间的大小保证从左到右递增。二叉树是搜索效率最高的，但是实际上大多数的数据库存储却并不使用二叉树。其原因是，索引不止存在内存中，还要写到磁盘上。</p>
-<p>你可以想象一下一棵 100 万节点的平衡二叉树，树高 20。一次查询可能需要访问 20 个数据块。在机械硬盘时代，从磁盘随机读一个数据块需要 10 ms 左右的寻址时间。也就是说，对于一个 100 万行的表，如果使用二叉树来存储，单独访问一个行可能需要 20 个 10 ms 的时间，这个查询可真够慢的。</p>
+<p>树可以有二叉，也可以有多叉。多叉树就是每个节点有多个儿子，儿子之间的大小保证从左到右递增。二叉树是搜索效率最高的，但是实际上大多数的数据库存储却并不使用二叉树。其原因是，<strong>索引不止存在内存中，还要写到磁盘上</strong>。</p>
+<p>你可以想象一下一棵 100 万节点的平衡二叉树，树高 20。一次查询可能需要访问 20 个数据块。在机械硬盘时代，从磁盘随机读一个数据块需要 <a href="https://www.huminxi.com/2019/04/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%AD%98%E5%82%A8%E5%99%A8%E7%B3%BB%E7%BB%9F/" target="_blank" rel="noopener">10 ms</a> 左右的寻址时间。也就是说，对于一个 100 万行的表，如果使用二叉树来存储，单独访问一个行可能需要 20 个 10 ms 的时间，这个查询可真够慢的。</p>
 <p>为了让一个查询尽量少地读磁盘，就必须让查询过程访问尽量少的数据块。那么，我们就不应该使用二叉树，而是要使用 N 叉树。这里，N 叉树中的 N 取决于数据块的大小。N 叉树由于在读写上的性能优点，以及适配磁盘的访问模式，已经被广泛应用在数据库引擎中了。</p>
 <blockquote>
-<p>以 InnoDB 的一个整数字段索引为例，这个 N 差不多是 1200。这棵树高是 4 的时候，就可以存 1200 的 3 次方个值，这已经 17 亿了。考虑到树根的数据块总是在内存中的，一个 10 亿行的表上一个整数字段的索引，查找一个值最多只需要访问 3 次磁盘。其实，树的第二层也有很大概率在内存中，那么访问磁盘的平均次数就更少了。<br>不管是哈希还是有序数组，或者 N 叉树，它们都是不断迭代、不断优化的产物或者解决方案。数据库技术发展到今天，跳表、LSM 树等数据结构也被用于引擎设计中，这里我就不再一一展开了。</p>
+<p>以 InnoDB 的一个整数字段索引为例，这个 N 差不多是 1200。这棵树高是 4 的时候，就可以存 1200 的 3 次方个值，这已经 17 亿了。考虑到树根的数据块总是在内存中的，一个 10 亿行的表上一个整数字段的索引，查找一个值最多只需要访问 3 次磁盘。其实，树的第二层也有很大概率在内存中，那么访问磁盘的平均次数就更少了。</p>
+<p>不管是哈希还是有序数组，或者 N 叉树，它们都是不断迭代、不断优化的产物或者解决方案。数据库技术发展到今天，跳表、LSM 树等数据结构也被用于引擎设计中，这里就不再一一展开了。</p>
 </blockquote>
-<p>你心里要有个概念，数据库底层存储的核心就是基于这些数据模型的。每碰到一个新数据库，我们需要先关注它的数据模型，这样才能从理论上分析出这个数据库的适用场景。</p>
-<h2 id="InnoDB-的索引模型"><a href="#InnoDB-的索引模型" class="headerlink" title="InnoDB 的索引模型"></a>InnoDB 的索引模型</h2><h2 id="索引维护"><a href="#索引维护" class="headerlink" title="索引维护"></a>索引维护</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<p><strong>你心里要有个概念，数据库底层存储的核心就是基于这些数据模型的</strong>。每碰到一个新数据库，我们需要先关注它的数据模型，这样才能从理论上分析出这个数据库的适用场景。</p>
+<h2 id="InnoDB-的索引模型"><a href="#InnoDB-的索引模型" class="headerlink" title="InnoDB 的索引模型"></a>InnoDB 的索引模型</h2><p>在 MySQL 中，索引是在存储引擎层实现的，所以并没有统一的索引标准，即不同存储引擎的索引的工作方式并不一样。在 InnoDB 中，表都是根据主键顺序以索引的形式存放的，这种存储方式的表称为索引组织表。<strong>InnoDB 使用了 B+ 树索引模型，所以数据都是存储在 B+ 树中的。</strong></p>
+<p>假设，我们有一个主键列为 ID 的表，表中有字段 k，并且在 k 上有索引。</p>
+<p><code>建表语句</code><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> T( <span class="keyword">id</span> <span class="built_in">int</span> primary <span class="keyword">key</span>, k <span class="built_in">int</span> <span class="keyword">not</span> <span class="literal">null</span>, <span class="keyword">index</span> (k))<span class="keyword">engine</span>=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure></p>
+<p>表中 R1~R5 的 (ID,k) 值分别为 (100,1)、(200,2)、(300,3)、(500,5) 和 (600,6)，两棵树的示例示意图如下。</p>
+<p><code>InnoDB 的索引组织结构</code><br><img innodb-index="" src="/img/hufei/202007/innodb-index.png" width="100%" height="50%"></p>
+<p>从图中不难看出，根据叶子节点的内容，索引类型分为主键索引和非主键索引。<strong>主键索引的叶子节点存的是整行数据。</strong> 在 InnoDB 里，主键索引也被称为聚簇索引（clustered index）。<strong>非主键索引的叶子节点内容是主键的值。</strong> 在 InnoDB 里，非主键索引也被称为二级索引（secondary index）。</p>
+<p>根据上面的索引结构说明，我们来讨论一个问题：<strong>基于主键索引和普通索引的查询有什么区别？</strong></p>
+<ul>
+<li>如果语句是 select * from T where ID=500，即主键查询方式，则只需要搜索 ID 这棵 B+ 树；</li>
+<li>如果语句是 select * from T where k=5，即普通索引查询方式，则需要先搜索 k 索引树，得到 ID 的值为 500，再到 ID 索引树搜索一次。这个过程称为回表。</li>
+</ul>
+<p><strong>也就是说，基于非主键索引的查询需要多扫描一棵索引树。因此，我们在应用中应该尽量使用主键查询。</strong></p>
+<h2 id="索引维护"><a href="#索引维护" class="headerlink" title="索引维护"></a>索引维护</h2><p>B+ 树为了维护索引有序性，在插入新值的时候需要做必要的维护。</p>
+<blockquote>
+<p>以上面这个图为例，如果插入新的行 ID 值为 700，则只需要在 R5 的记录后面插入一个新记录。如果新插入的 ID 值为 400，就相对麻烦了，需要逻辑上挪动后面的数据，空出位置。</p>
+<p>而更糟的情况是，如果 R5 所在的数据页已经满了，根据 B+ 树的算法，这时候需要申请一个新的数据页，然后挪动部分数据过去。这个过程称为页分裂。在这种情况下，性能自然会受影响。除了性能外，页分裂操作还影响数据页的利用率。原本放在一个页的数据，现在分到两个页中，整体空间利用率降低大约 50%。</p>
+<p>当然有分裂就有合并。当相邻两个页由于删除了数据，利用率很低之后，会将数据页做合并。合并的过程，可以认为是分裂过程的逆过程。</p>
+</blockquote>
+<p>基于上面的索引维护过程说明，我们来讨论一个案例：</p>
+<blockquote>
+<p>你可能在一些建表规范里面见到过类似的描述，要求建表语句里一定要有自增主键。当然事无绝对，我们来分析一下哪些场景下应该使用自增主键，而哪些场景下不应该。</p>
+</blockquote>
+<p>自增主键是指自增列上定义的主键，在建表语句中一般是这么定义的：<code>NOT NULL PRIMARY KEY AUTO_INCREMENT</code>。插入新记录的时候可以不指定 ID 的值，系统会获取当前 ID 最大值加 1 作为下一条记录的 ID 值。</p>
+<p><strong>也就是说，自增主键的插入数据模式，正符合了我们前面提到的递增插入的场景。</strong> 每次插入一条新记录，都是追加操作，都不涉及到挪动其他记录，也不会触发叶子节点的分裂。<strong>而有业务逻辑的字段做主键，则往往不容易保证有序插入，这样写数据成本相对较高。</strong></p>
+<p>除了考虑性能外，我们还可以从存储空间的角度来看。假设你的表中确实有一个唯一字段，比如字符串类型的身份证号，那应该用身份证号做主键，还是用自增字段做主键呢？</p>
+<p>由于每个非主键索引的叶子节点上都是主键的值。如果用身份证号做主键，那么每个二级索引的叶子节点占用约 20 个字节，而如果用整型做主键，则只要 4 个字节，如果是长整型（bigint）则是 8 个字节。<strong>显然，主键长度越小，普通索引的叶子节点就越小，普通索引占用的空间也就越小。</strong> 所以，从性能和存储空间方面考量，自增主键往往是更合理的选择。</p>
+<p>有没有什么场景适合用业务字段直接做主键的呢？还是有的。比如，有些业务的场景需求是这样的：</p>
+<ul>
+<li>只有一个索引。</li>
+<li>该索引必须是唯一索引。</li>
+</ul>
+<p>你一定看出来了，这就是典型的 KV 场景。由于没有其他索引，所以也就不用考虑其他索引的叶子节点大小的问题。这时候我们就要优先考虑上一段提到的『尽量使用主键查询』原则，直接将这个索引设置为主键，可以避免每次查询需要搜索两棵树。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>今天，我们分析了数据库引擎可用的数据结构，介绍了 InnoDB 采用的 B+ 树结构，以及为什么 InnoDB 要这么选择。B+ 树能够很好地配合磁盘的读写特性，减少单次查询的磁盘访问次数。由于 InnoDB 是索引组织表，一般情况下我会建议你创建一个自增主键，这样非主键索引占用的空间最小。但事无绝对，也存在使用业务逻辑字段做主键的应用场景。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://time.geekbang.org/column/article/69236" target="_blank" rel="noopener">深入浅出索引（上）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/110178282" target="_blank" rel="noopener">MySQL InnoDB索引的存储结构
+</a></li>
 </ul>
 
       
@@ -621,7 +658,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是索引"><span class="nav-number">1.</span> <span class="nav-text">什么是索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的数据模型"><span class="nav-number">1.1.</span> <span class="nav-text">索引的数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哈希表"><span class="nav-number">1.2.</span> <span class="nav-text">哈希表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有序数组"><span class="nav-number">1.3.</span> <span class="nav-text">有序数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉搜索树"><span class="nav-number">1.4.</span> <span class="nav-text">二叉搜索树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB-的索引模型"><span class="nav-number">2.</span> <span class="nav-text">InnoDB 的索引模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引维护"><span class="nav-number">3.</span> <span class="nav-text">索引维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是索引"><span class="nav-number">1.</span> <span class="nav-text">什么是索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">1.1.</span> <span class="nav-text">索引模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哈希表"><span class="nav-number">1.2.</span> <span class="nav-text">哈希表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有序数组"><span class="nav-number">1.3.</span> <span class="nav-text">有序数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉搜索树"><span class="nav-number">1.4.</span> <span class="nav-text">二叉搜索树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB-的索引模型"><span class="nav-number">2.</span> <span class="nav-text">InnoDB 的索引模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引维护"><span class="nav-number">3.</span> <span class="nav-text">索引维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
