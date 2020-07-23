@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="提到数据库索引，我想你并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，你可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就让我们一起来聊聊这个话题吧。">
+<meta name="description" content="提到数据库索引，我们并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，我们可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就一起来聊聊这个话题吧。">
 <meta name="keywords" content="MySQL,索引">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库索引">
 <meta property="og:url" content="//huminxi.netlify.com/2020/07/22/数据库索引/index.html">
 <meta property="og:site_name" content="黄枫谷">
-<meta property="og:description" content="提到数据库索引，我想你并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，你可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就让我们一起来聊聊这个话题吧。">
+<meta property="og:description" content="提到数据库索引，我们并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，我们可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就一起来聊聊这个话题吧。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/mysql-index-hash.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/mysql-index-array.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/mysql-index-b-tree.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202007/innodb-index.png">
-<meta property="og:updated_time" content="2020-07-22T13:59:47.267Z">
+<meta property="og:updated_time" content="2020-07-23T07:09:22.296Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库索引">
-<meta name="twitter:description" content="提到数据库索引，我想你并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，你可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就让我们一起来聊聊这个话题吧。">
+<meta name="twitter:description" content="提到数据库索引，我们并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，我们可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就一起来聊聊这个话题吧。">
 <meta name="twitter:image" content="//huminxi.netlify.com/img/hufei/202007/mysql-index-hash.png">
 
 
@@ -386,18 +386,18 @@
       
 
       
-        <p>提到数据库索引，我想你并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，你可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就让我们一起来聊聊这个话题吧。</p>
+        <p>提到数据库索引，我们并不陌生，在日常工作中会经常接触到。比如某一个 SQL 查询比较慢，分析完原因之后，我们可能就会说『给某个字段加个索引吧』之类的解决方案。但到底什么是索引，索引又是如何工作的呢？今天就一起来聊聊这个话题吧。</p>
 <a id="more"></a>
-<h2 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h2><p>简单来说，索引的出现其实是为了提高数据查询的效率，就像书的目录一样。一本 500 页的书，如果你想快速找到其中的某一个知识点，在不借助目录的情况下，我估计你可得找一会儿。同样，对于数据库的表而言，索引就是它的『目录』。</p>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>理论上来说，只要能提高读写效率的数据结构都可以作为索引模型。这里只介绍三种常见的、简单的数据结构，它们分别是哈希表、有序数组和搜索树。</p>
-<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>哈希表是一种以键-值（key-value）形式存储数据的结构，我们只要输入待查找的键即 key，就可以找到其对应的值即 Value。哈希的思路很简单，把值放在数组里，用一个哈希函数把 key 换算成一个确定的位置，然后把 value 放在数组的这个位置。</p>
-<p>不可避免地，多个 key 经过哈希函数的换算，会出现同一个位置的情况。处理这种情况的一种方法是，在这个位置生成一个链表。</p>
+<h2 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h2><p>简单来说，索引的出现是为了提高数据查询的效率，就像书的目录一样。一本 500 页的书，如果你想快速找到其中的某一个知识点，在不借助目录的情况下，估计你可得找一会儿。同样，对于数据库的表而言，索引就是它的『目录』。</p>
+<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>理论上来说，只要能提高读写效率的数据结构都可以作为索引模型。这里只介绍三种常见的数据结构，它们分别是哈希表、有序数组和搜索树。</p>
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>哈希表是一种以键-值（key-value）形式来存储数据的结构，我们只要输入待查找的键（key），就可以找到其对应的值（Value）。哈希表的思路很简单，把值放在数组里，用一个哈希函数把 key 换算成一个确定的位置，然后把 value 放在数组的这个位置上。</p>
+<p>我们知道，多个 key 经过哈希函数的换算，可能会映射到同一个位置（<a href="https://zhuanlan.zhihu.com/p/29520044" target="_blank" rel="noopener">哈希冲突</a>）。处理这种情况的一种方法是，在这个位置上生成一个链表。</p>
 <p>假设，你现在维护着一个身份证信息和姓名的表，需要根据身份证号查找对应的名字，这时对应的哈希索引的示意图如下所示：</p>
 <p><code>哈希索引示意图</code><br><img mysql-index-hash="" src="/img/hufei/202007/mysql-index-hash.png" width="100%" height="50%"></p>
-<p>图中，User2 和 User4 根据身份证号算出来的值都是 N，但没关系，后面还跟了一个链表。假设，这时候你要查 id_4 对应的名字是什么，处理步骤就是：首先，将 id_4 通过哈希函数算出 N；然后，按顺序遍历，找到 User4。</p>
-<p>需要注意的是，图中四个 id_n 的值并不是递增的，这样做的好处是增加新的 User 时速度会很快，只需要往后追加。但缺点是，<strong>因为不是有序的，所以哈希索引做区间查询的速度是很慢的。</strong>你可以设想下，如果你现在要找身份证号在 [id_x, id_y] 这个区间的所有用户，就必须全部扫描一遍了。</p>
+<p>图中，User2 和 User4 根据身份证号算出来的值都是 N，但没关系，后面跟了一个链表。假设，这时候你要查 id_4 对应的名字是什么，处理步骤就是：首先，将 id_4 通过哈希函数算出 N；然后，按顺序遍历，找到 User4。</p>
+<p>需要注意的是，图中四个 id_n 对应的值并不是递增的，这样做的好处是增加新的 User 时速度会很快，只需要做一次哈希计算。但缺点是，<strong>因为不是有序的，所以哈希索引做区间查询的速度是很慢的。</strong>你可以设想下，如果你现在要找身份证号在 [id_x, id_y] 这个区间的所有用户，就必须全部扫描一遍了。</p>
 <p>所以，<strong>哈希表这种结构适用于只有等值查询的场景</strong>，比如 Memcached 及其他一些 NoSQL 引擎。</p>
-<h3 id="有序数组"><a href="#有序数组" class="headerlink" title="有序数组"></a>有序数组</h3><p><strong>而有序数组在等值查询和范围查询场景中的性能都非常优秀</strong>。还是上面这个根据身份证号查名字的例子，如果我们使用有序数组来实现的话，示意图如下所示：</p>
+<h3 id="有序数组"><a href="#有序数组" class="headerlink" title="有序数组"></a>有序数组</h3><p><strong>有序数组在等值查询和范围查询场景中的性能都非常优秀</strong>。还是上面这个根据身份证号查名字的例子，如果我们使用有序数组来实现的话，示意图如下所示：</p>
 <p><code>有序数组索引示意图</code><br><img mysql-index-array="" src="/img/hufei/202007/mysql-index-array.png" width="100%" height="50%"></p>
 <p>我们假设身份证号没有重复，这个数组就是按照身份证号递增的顺序保存的。这时候如果你要查 id_4 对应的名字，用二分法就可以快速查到，这个时间复杂度是 \(O(\log n)\)。</p>
 <p>很显然，这个索引结构支持范围查询。你要查身份证号在 [id_x, id_y] 区间的 User，可以先用二分法找到 id_x（如果不存在 id_x，就找到大于 id_x 的第一个 User），然后向右遍历，直到查到第一个大于 id_y 的身份证号，退出循环。</p>
