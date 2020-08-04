@@ -90,7 +90,7 @@
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202008/mysql-index-tree.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202008/name-age-index.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202008/index-condition-pushdown.png">
-<meta property="og:updated_time" content="2020-08-04T10:24:29.709Z">
+<meta property="og:updated_time" content="2020-08-04T10:38:47.932Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库索引续">
 <meta name="twitter:description" content="在 上一篇 文章中，我们介绍了几种可以作为索引的数据结构，并指出了它们的适用场景，随后又分析了 InnoDB 索引的数据结构模型。今天我们继续来聊聊跟 MySQL 索引相关的概念。">
@@ -440,8 +440,8 @@
 </blockquote>
 <p><code>无索引下推和有索引下推执行流程图。注：每一个虚线箭头表示回表一次。</code><br><img index-condition-pushdown="" src="/img/hufei/202008/index-condition-pushdown.png" width="100%" height="50%"></p>
 <p>在图 1 中，我特意去掉了 (name,age) 索引里面 age 的值，因为这时的 InnoDB 并不会去看 age 的值，只是按顺序把『name 第一个字是’张’』的记录一条条取出来回表。因此，需要回表 4 次。</p>
-<p>图 1 跟图 2 的区别是，图 2 中的 InnoDB 在 (name,age) 索引内部就判断了 age 是否等于 10，对于不等于 10 的记录就直接跳过。在我们的这个例子中，只需要对 ID 4、ID 5 这两条记录回表取数据判断，就只需要回表 2 次。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>今天这篇文章，我们继续讨论了数据库索引的概念，包括了覆盖索引、前缀索引、索引下推。你可以看到，在满足语句需求的情况下， 尽量少地访问资源是数据库设计的重要原则之一。我们在使用数据库的时候，尤其是在设计表结构时，也要以减少资源消耗作为目标。</p>
+<p>图 1 跟图 2 的区别是，图 2 中的 InnoDB 在 (name,age) 索引内部就判断了 age 是否等于 10，对于不等于 10 的记录就直接跳过。在我们的这个例子中，只需要对 ID 4、ID 5 这两条记录进行后续判断，需要回表 2 次。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>今天这篇文章，我们继续讨论了数据库索引的概念，包括覆盖索引、前缀索引和索引下推。你可以看到，<strong>在满足语句需求的情况下，尽量少地访问资源是数据库设计的重要原则之一</strong>。我们在使用数据库的时候，尤其是在设计表结构时，也要以减少资源消耗作为目标。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://time.geekbang.org/column/article/69636" target="_blank" rel="noopener"> 深入浅出索引（下）</a></li>
 </ul>
