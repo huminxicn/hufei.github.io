@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Huffman Coding,数据压缩,霍夫曼编码," />
+  <meta name="keywords" content="哈夫曼编码,Huffman Coding,数据压缩,霍夫曼编码," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="数据压缩能够实现是因为多数现实世界的数据都有冗余。无损数据压缩通常利用了统计冗余，这样就能更加简练地、但仍然是完整地表示发送方的数据，如行程长度编码(Run-length encoding)、霍夫曼编码(Huffman coding)。而在很多情况下，数据会包含比必要的还多的信息。例如，一张分辨率过高的照片，其中的细节">
-<meta name="keywords" content="Huffman Coding,数据压缩,霍夫曼编码">
+<meta name="keywords" content="哈夫曼编码,Huffman Coding,数据压缩,霍夫曼编码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据压缩与霍夫曼编码">
 <meta property="og:url" content="//huminxi.netlify.com/2020/09/04/数据压缩与霍夫曼编码/index.html">
@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202009/zip-jar-pk.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202009/huffman-coding.png">
-<meta property="og:updated_time" content="2020-09-04T13:53:37.383Z">
+<meta property="og:updated_time" content="2020-09-04T14:48:41.157Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据压缩与霍夫曼编码">
 <meta name="twitter:description" content="数据压缩能够实现是因为多数现实世界的数据都有冗余。无损数据压缩通常利用了统计冗余，这样就能更加简练地、但仍然是完整地表示发送方的数据，如行程长度编码(Run-length encoding)、霍夫曼编码(Huffman coding)。而在很多情况下，数据会包含比必要的还多的信息。例如，一张分辨率过高的照片，其中的细节肉眼可能已无法识别。若舍弃这些人类无法察觉的细节，就可以用更小的数据量来提供与原">
@@ -403,15 +403,17 @@
 <h3 id="前缀编码"><a href="#前缀编码" class="headerlink" title="前缀编码"></a>前缀编码</h3><p>假设我们要传送的字符为：ABACCDA<br>若编码为：A-0 B-00 C-1 D-01<br>则编码后为：000011010</p>
 <p>当我们对它进行解码的时候，会发现 0000 可能对应多种解码方式。如 AAAA、AAB、ABA、BB。所以我们在设计长度不等的编码时，一定注意不能有重码的情况，即<strong>任意字符的编码不能是其它字符编码的前缀</strong>。这种编码方式就叫做前缀编码。</p>
 <h3 id="霍夫曼树"><a href="#霍夫曼树" class="headerlink" title="霍夫曼树"></a>霍夫曼树</h3><h4 id="构建霍夫曼树的口诀"><a href="#构建霍夫曼树的口诀" class="headerlink" title="构建霍夫曼树的口诀"></a>构建霍夫曼树的口诀</h4><ol>
+<li>构造森林全是根</li>
 <li>选用两小造新树</li>
 <li>删除两小添新人</li>
-<li>重复 1、2 剩单根</li>
+<li>重复 2、3 剩单根</li>
 </ol>
 <h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例 1"></a>示例 1</h4><p><code>侯夫曼编码</code><br><img huffman-coding="" src="/img/hufei/202009/huffman-coding.png" width="100%" height="50%"></p>
 <p>电文的霍夫曼编码为：11010111011101000011111000011000。这个编码有且只有一种解码方式，即 {CAS;CAT;SAT;AT}。<strong>霍夫曼编码是最优前缀编码，即字符编码的总长度最短。</strong></p>
-<h3 id="QA"><a href="#QA" class="headerlink" title="QA"></a>QA</h3><h4 id="Q1-为什么说霍夫曼编码是前缀编码？"><a href="#Q1-为什么说霍夫曼编码是前缀编码？" class="headerlink" title="Q1: 为什么说霍夫曼编码是前缀编码？"></a>Q1: 为什么说霍夫曼编码是前缀编码？</h4><p>因为没有一个叶子节点是另一个叶子节点的祖先，所以每个叶子节点的编码就不能是其它叶子节点编码的前缀。</p>
-<h4 id="Q2-为什么霍夫曼编码是最优前缀编码？"><a href="#Q2-为什么霍夫曼编码是最优前缀编码？" class="headerlink" title="Q2: 为什么霍夫曼编码是最优前缀编码？"></a>Q2: 为什么霍夫曼编码是最优前缀编码？</h4><p>因为霍夫曼树的带权路径长度最短，故字符编码的总长度最短。</p>
-<h4 id="Q3-同一字符的霍夫曼编码只有一种吗？"><a href="#Q3-同一字符的霍夫曼编码只有一种吗？" class="headerlink" title="Q3: 同一字符的霍夫曼编码只有一种吗？"></a>Q3: 同一字符的霍夫曼编码只有一种吗？</h4><p>不是，如果存在相同权重的节点，则取决于具体 select 函数的实现。</p>
+<h2 id="QA"><a href="#QA" class="headerlink" title="QA"></a>QA</h2><h3 id="Q1-为什么说霍夫曼编码是前缀编码？"><a href="#Q1-为什么说霍夫曼编码是前缀编码？" class="headerlink" title="Q1: 为什么说霍夫曼编码是前缀编码？"></a>Q1: 为什么说霍夫曼编码是前缀编码？</h3><p>因为没有一个叶子节点是另一个叶子节点的祖先，所以每个叶子节点的编码就不能是其它叶子节点编码的前缀。</p>
+<h3 id="Q2-为什么霍夫曼编码是最优前缀编码？"><a href="#Q2-为什么霍夫曼编码是最优前缀编码？" class="headerlink" title="Q2: 为什么霍夫曼编码是最优前缀编码？"></a>Q2: 为什么霍夫曼编码是最优前缀编码？</h3><p>因为霍夫曼树的带权路径长度最短，故字符编码的总长度最短。</p>
+<h3 id="Q3-同一字符的霍夫曼编码只有一种吗？"><a href="#Q3-同一字符的霍夫曼编码只有一种吗？" class="headerlink" title="Q3: 同一字符的霍夫曼编码只有一种吗？"></a>Q3: 同一字符的霍夫曼编码只有一种吗？</h3><p>不是，如果存在相同权重的节点，则取决于具体 select 函数的实现。</p>
+<h3 id="Q4-无损压缩算法存在极限吗？"><a href="#Q4-无损压缩算法存在极限吗？" class="headerlink" title="Q4: 无损压缩算法存在极限吗？"></a>Q4: 无损压缩算法存在极限吗？</h3><p><a href="https://zh.wikipedia.org/zh-hans/%E7%86%B5_(%E4%BF%A1%E6%81%AF%E8%AE%BA" target="_blank" rel="noopener">信息论</a> 中说明了，无论使用什么压缩方法，文件大小都无法低于一个下界。一个直观的例子：压缩后得到的 zip 文件会比源文件更小，但一直重复压缩同一个文件并不会让文件大小变成 0，因为源文件终究含有一定量的信息。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
 <li><a href="https://zh.wikipedia.org/wiki/ZIP%E6%A0%BC%E5%BC%8F" target="_blank" rel="noopener">ZIP格式</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/88511344" target="_blank" rel="noopener">ZIP压缩算法详细分析及解压实例解释</a></li>
@@ -434,6 +436,8 @@
     <footer class="post-footer">
       
         <div class="post-tags">
+          
+            <a href="/tags/哈夫曼编码/" rel="tag"># 哈夫曼编码</a>
           
             <a href="/tags/Huffman-Coding/" rel="tag"># Huffman Coding</a>
           
@@ -626,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据压缩"><span class="nav-number">1.</span> <span class="nav-text">数据压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无损和有损"><span class="nav-number">1.1.</span> <span class="nav-text">无损和有损</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZIP-格式"><span class="nav-number">1.2.</span> <span class="nav-text">ZIP 格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件头"><span class="nav-number">1.2.2.</span> <span class="nav-text">文件头</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#霍夫曼编码"><span class="nav-number">2.</span> <span class="nav-text">霍夫曼编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前缀编码"><span class="nav-number">2.1.</span> <span class="nav-text">前缀编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#霍夫曼树"><span class="nav-number">2.2.</span> <span class="nav-text">霍夫曼树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#构建霍夫曼树的口诀"><span class="nav-number">2.2.1.</span> <span class="nav-text">构建霍夫曼树的口诀</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">示例 1</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QA"><span class="nav-number">2.3.</span> <span class="nav-text">QA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q1-为什么说霍夫曼编码是前缀编码？"><span class="nav-number">2.3.1.</span> <span class="nav-text">Q1: 为什么说霍夫曼编码是前缀编码？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q2-为什么霍夫曼编码是最优前缀编码？"><span class="nav-number">2.3.2.</span> <span class="nav-text">Q2: 为什么霍夫曼编码是最优前缀编码？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q3-同一字符的霍夫曼编码只有一种吗？"><span class="nav-number">2.3.3.</span> <span class="nav-text">Q3: 同一字符的霍夫曼编码只有一种吗？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据压缩"><span class="nav-number">1.</span> <span class="nav-text">数据压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无损和有损"><span class="nav-number">1.1.</span> <span class="nav-text">无损和有损</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZIP-格式"><span class="nav-number">1.2.</span> <span class="nav-text">ZIP 格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件头"><span class="nav-number">1.2.2.</span> <span class="nav-text">文件头</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#霍夫曼编码"><span class="nav-number">2.</span> <span class="nav-text">霍夫曼编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前缀编码"><span class="nav-number">2.1.</span> <span class="nav-text">前缀编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#霍夫曼树"><span class="nav-number">2.2.</span> <span class="nav-text">霍夫曼树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#构建霍夫曼树的口诀"><span class="nav-number">2.2.1.</span> <span class="nav-text">构建霍夫曼树的口诀</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">示例 1</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QA"><span class="nav-number">3.</span> <span class="nav-text">QA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1-为什么说霍夫曼编码是前缀编码？"><span class="nav-number">3.1.</span> <span class="nav-text">Q1: 为什么说霍夫曼编码是前缀编码？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2-为什么霍夫曼编码是最优前缀编码？"><span class="nav-number">3.2.</span> <span class="nav-text">Q2: 为什么霍夫曼编码是最优前缀编码？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3-同一字符的霍夫曼编码只有一种吗？"><span class="nav-number">3.3.</span> <span class="nav-text">Q3: 同一字符的霍夫曼编码只有一种吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4-无损压缩算法存在极限吗？"><span class="nav-number">3.4.</span> <span class="nav-text">Q4: 无损压缩算法存在极限吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
 
           </div>
