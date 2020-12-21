@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202012/editors-learning-curves.png">
 <meta property="og:image" content="//huminxi.netlify.com/img/hufei/202012/vim.png">
-<meta property="og:updated_time" content="2020-12-20T14:29:40.203Z">
+<meta property="og:updated_time" content="2020-12-21T08:07:42.657Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vim 使用小结">
 <meta name="twitter:description" content="我从毕业就开始使用 Vim 编写代码，至今已 4 年有余。从最开始的各种不适应，到慢慢适应，再到现在已经离不开它了。这里要特别感谢一下黑牛，是他的坚持，才让我和 Vim 结缘。下面给大家分享一些使用 Vim 的心得。">
@@ -391,7 +391,12 @@
 <p><a href="https://zh.wikipedia.org/wiki/Vi" target="_blank" rel="noopener">vi</a> 是一种计算机文本编辑器，由美国计算机科学家比尔·乔伊（Bill Joy）完成编写，并于 1976 年以 BSD 协议授权发布。</p>
 </blockquote>
 <h3 id="vim-的学习曲线"><a href="#vim-的学习曲线" class="headerlink" title="vim 的学习曲线"></a><a href="https://coolshell.cn/articles/3125.html" target="_blank" rel="noopener">vim 的学习曲线</a></h3><p><code>几种主流编辑器的学习曲线</code><br><img editors-learning-curves="" src="/img/hufei/202012/editors-learning-curves.png" width="100%" height="50%"></p>
-<p>X 轴是熟练程度，Y 轴是技能。对于 Notepad 来说，技能和熟练程度呈正比。对于 VS 来说，熟练程度越大，所需要技能先是越来越多，而随着熟练程度的增长，需要的技能也越少。而对于 Vi 来说，一开始就需要相当大的技能，一旦掌握这些技能，将会越来越熟练。</p>
+<p>X 轴是熟练程度，Y 轴是技能。</p>
+<ul>
+<li>对于 Notepad 来说，技能和熟练程度呈正比。</li>
+<li>对于 VS 来说，熟练程度越大，所需要技能先是越来越多，而随着熟练程度的增长，需要的技能也越少。</li>
+<li>对于 Vi 来说，一开始就需要相当大的技能，一旦掌握这些技能，将会越来越熟练。</li>
+</ul>
 <h3 id="和其它编辑器的区别"><a href="#和其它编辑器的区别" class="headerlink" title="和其它编辑器的区别"></a>和其它编辑器的区别</h3><ul>
 <li>外在<ul>
 <li>不需要传统的上下左右键</li>
@@ -407,11 +412,12 @@
 </ul>
 </li>
 </ul>
-<h2 id="vim-怎么用"><a href="#vim-怎么用" class="headerlink" title="vim 怎么用"></a>vim 怎么用</h2><ul>
+<h2 id="vim-怎么用"><a href="#vim-怎么用" class="headerlink" title="vim 怎么用"></a>vim 怎么用</h2><p><code>vi/vim 命令</code><br><img vim="" src="/img/hufei/202012/vim.png" width="100%" height="50%"></p>
+<ul>
 <li>命令模式：可以使用快捷键命令，或按 : 输入命令行。</li>
 <li>插入模式：可以输入文本，在正常模式下，按 i（insert）、a（append） 等都可以进入插入模式。</li>
 <li>可视模式：正常模式下按 v 可以进入可视模式， 在可视模式下，移动光标可以选择文本。按 V 进入可视行模式，总是整行整行的选中。ctrl+v 进入可视块模式。</li>
-<li>宏录制：<strong>能将一系列命令暂存到寄存器中，它是 vim 编辑器的杀手锏。</strong><br><code>vi/vim 命令</code><br><img vim="" src="/img/hufei/202012/vim.png" width="100%" height="50%"></li>
+<li>宏录制：<strong>能将一系列命令暂存到寄存器中，它是 vim 编辑器的杀手锏。</strong></li>
 </ul>
 <h2 id="vim-的设计理念"><a href="#vim-的设计理念" class="headerlink" title="vim 的设计理念"></a>vim 的设计理念</h2><p>vim 的设计理念是：如果你的工作只需要做一次，那没问题，怎么搞都行。如果你的工作是要重复地完成某些工作，则 vim 总可以帮你找到更少的按键方式来实现相同的目标。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
